@@ -18,7 +18,7 @@ $i: 100;
 ============================================= */
 
 $i: 5;
-@while $i < 100 {
+@while $i <= 100 {
   $width: percentage($i/100);
   .w-#{$i} {
     width: $width;
@@ -39,7 +39,7 @@ $i: 5;
 ============================================= */
 
 $i: 5;
-@while $i < 100 {
+@while $i <= 100 {
   $height: percentage($i/100);
   .h-#{$i} {
     height: $height;
@@ -51,7 +51,7 @@ $i: 5;
 ============================================= */
 
 $i: 5;
-@while $i < 100 {
+@while $i <= 100 {
   .vh-#{$i} {
     height: #{$i}vh;
   }
@@ -60,7 +60,7 @@ $i: 5;
 
 // max-height
 $i: 5;
-@while $i < 100 {
+@while $i <= 100 {
   .max-vh-#{$i} {
     max-height: #{$i}vh;
   }
@@ -69,7 +69,7 @@ $i: 5;
 
 // min-height
 $i: 5;
-@while $i < 100 {
+@while $i <= 100 {
   .min-vh-#{$i} {
     min-height: #{$i}vh;
   }
