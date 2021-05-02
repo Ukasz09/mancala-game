@@ -22,7 +22,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private maxHoleNumber = 1;
   private holesQtyInRow = 6;
   private stonesInAHoleAtStartQty = 4;
-  private maxStoneNumber = 0;
+  private maxStoneNumber = 3;
   private stones: Map<number, Stone[]> = new Map();
 
   leftPlayerHoleNumbers: number[];
@@ -79,7 +79,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
         holeSize,
         this.getStoneSize(holeSize)
       );
-      const stone = new Stone(stoneImageUrl, translateX, translateY);
+      const rotation = Math.random() * 360;
+      const stone = new Stone(stoneImageUrl, translateX, translateY, rotation);
       stones.push(stone);
     }
     return stones;

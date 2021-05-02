@@ -16,7 +16,7 @@ export class HoleComponent implements OnInit {
   ngOnInit(): void {}
 
   getStoneTransformStyle(stone: Stone): string {
-    return `translateX(${stone.translatePositonX}px) translateY(${stone.translatePositonY}px)`;
+    return `translateX(${stone.translatePositonX}px) translateY(${stone.translatePositonY}px) rotate(${stone.rotation}deg)`;
   }
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
