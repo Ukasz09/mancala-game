@@ -1,0 +1,11 @@
+<!-- ------------------------------------------- Stones ------------------------------------------- -->
+<div
+  class="bg-image rounded-50"
+  style="position: absolute"
+  [ngStyle]="{
+    width: size + 'px',
+    height: size + 'px',
+    transform: getStoneTransformStyle(stone),
+    'background-image': stone.imageUrl
+  }"
+></div>

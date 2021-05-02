@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Stone } from './models/stone';
+import { StoreKind } from './models/store-kind';
 
 @Component({
   selector: 'app-board',
@@ -24,6 +25,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private stonesInAHoleAtStartQty = 4;
   private maxStoneNumber = 3;
   private stones: Map<number, Stone[]> = new Map();
+  private storeStones: Map<StoreKind, Stone[]> = new Map();
 
   leftPlayerHoleNumbers: number[];
   rightPlayerHoleNumbers: number[];
@@ -56,6 +58,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
   }
 
   private initStones(holeSize: number): void {
+    // init stores
+    this.storeStones.set(StoreKind.LEFT_PLAYER_STORE, []);
+    this.storeStones.set(StoreKind.LEFT_PLAYER_STORE, []);
+
+    // init holes
     for (const number of this.leftPlayerHoleNumbers) {
       const newStones = this.getStartedStones(holeSize);
       this.stones.set(number, newStones);
@@ -132,8 +139,12 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.holeNumber = ++this.holeNumber % (this.maxHoleNumber + 1);
   }
 
-  public getStones(holeNumber: number): Stone[] {
+  public getHoleStones(holeNumber: number): Stone[] {
     return this.stones.get(holeNumber);
+  }
+
+  private getStoreStones(storeKind: StoreKind): Stone[] {
+    return this.storeStones.get(storeKind);
   }
 
   public getHoleSize(holesContainerWidth: number) {
@@ -154,5 +165,13 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   get storeImageUrl(): string {
     return `url(/assets/images/store-001.png)`;
+  }
+
+  get leftPlayerStoreStones(): Stone[] {
+    return this.getStoreStones(StoreKind.LEFT_PLAYER_STORE);
+  }
+
+  get rightPlayerStoreStones(): Stone[] {
+    return this.getStoreStones(StoreKind.RIGHT_PLAYER_STORE);
   }
 }

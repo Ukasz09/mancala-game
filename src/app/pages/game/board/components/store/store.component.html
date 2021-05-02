@@ -1,6 +1,14 @@
+<!-- ------------------------------------------- Store ------------------------------------------- -->
 <div
   class="store rounded-75 h-100 w-100"
   [ngStyle]="{
     'background-image': imageUrl
   }"
 ></div>
+<!-- ------------------------------------------- Stones ------------------------------------------- -->
+<app-stone
+  class="bg-blue"
+  *ngFor="let stone of stones"
+  [size]="stoneSize"
+  [stone]="stone"
+></app-stone>

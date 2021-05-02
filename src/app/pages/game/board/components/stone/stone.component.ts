@@ -2,15 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Stone } from '../../models/stone';
 
 @Component({
-  selector: 'app-hole',
-  templateUrl: './hole.component.html',
-  styleUrls: ['./hole.component.scss'],
+  selector: 'app-stone',
+  templateUrl: './stone.component.html',
+  styleUrls: ['./stone.component.scss'],
 })
-export class HoleComponent implements OnInit {
+export class StoneComponent implements OnInit {
   @Input() size: number;
-  @Input() imageUrl: string;
-  @Input() stones: Stone[] = [];
-  @Input() stoneSize: number;
+  @Input() stone: Stone;
 
   constructor() {}
 

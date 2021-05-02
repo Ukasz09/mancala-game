@@ -9,14 +9,9 @@
   }"
 ></div>
 <!-- ------------------------------------------- Stones ------------------------------------------- -->
-<div
+<app-stone
+  class="bg-blue"
   *ngFor="let stone of stones"
-  class="bg-image rounded-50"
-  style="position: absolute"
-  [ngStyle]="{
-    width: stoneSize + 'px',
-    height: stoneSize + 'px',
-    transform: getStoneTransformStyle(stone),
-    'background-image': stone.imageUrl
-  }"
-></div>
+  [size]="stoneSize"
+  [stone]="stone"
+></app-stone>

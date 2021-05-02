@@ -5,7 +5,11 @@
 >
   <!-- ----------------------- Left player's store ---------------------- -->
   <div id="store-left" class="h-75 px-4 mt-4">
-    <app-store [imageUrl]="storeImageUrl"></app-store>
+    <app-store
+      [imageUrl]="storeImageUrl"
+      [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
+      [stones]="leftPlayerStoreStones"
+    ></app-store>
   </div>
   <div class="d-flex flex-column flex-fill h-100 py-4" #holesContainer>
     <!-- ----------------------- Left player's holes ---------------------- -->
@@ -16,8 +20,9 @@
       >
         <app-hole
           [size]="getHoleSize(holesContainer.offsetWidth)"
+          [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
           [imageUrl]="holeImageUrl"
-          [stones]="getStones(holeNumber)"
+          [stones]="getHoleStones(holeNumber)"
         ></app-hole>
       </div>
     </div>
@@ -30,8 +35,9 @@
         >
           <app-hole
             [size]="getHoleSize(holesContainer.offsetWidth)"
+            [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
             [imageUrl]="holeImageUrl"
-            [stones]="getStones(holeNumber)"
+            [stones]="getHoleStones(holeNumber)"
           ></app-hole>
         </div>
       </div>
@@ -43,7 +49,11 @@
     class="h-100 d-flex flex-column justify-content-end pb-4"
   >
     <div class="h-75 px-4">
-      <app-store [imageUrl]="storeImageUrl"></app-store>
+      <app-store
+        [imageUrl]="storeImageUrl"
+        [stones]="leftPlayerStoreStones"
+        [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
+      ></app-store>
     </div>
   </div>
 </div>

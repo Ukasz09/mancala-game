@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Stone } from '../../models/stone';
 
 @Component({
   selector: 'app-store',
@@ -7,6 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class StoreComponent implements OnInit {
   @Input() imageUrl: string;
+  @Input() stones: Stone[] = [];
+  @Input() stoneSize: number;
 
   constructor() {}
 

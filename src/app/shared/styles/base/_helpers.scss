@@ -46,6 +46,10 @@ $bg-colours: (
   }
 }
 
+.bg-image {
+  @include mixins.bg-fill();
+}
+
 /* Text colors
 ============================================= */
 .text-light {

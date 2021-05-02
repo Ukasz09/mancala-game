@@ -1,6 +1,1 @@
-@use "/src/app/shared/styles/utilities/mixins";
-@use "/src/app/shared/styles/utilities/functions";
 
-.bg-image {
-  @include mixins.bg-fill();
-}
