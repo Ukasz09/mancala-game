@@ -1,1 +1,13 @@
-<div id="board" class="rounded-25 w-100 h-100"></div>
+<div
+  id="board"
+  class="rounded-100 w-100 h-100"
+  [ngStyle]="{ 'background-image': boardImageUrl }"
+></div>
+<div class="d-flex flex-row">
+  <button class="btn-orange p-4 my-3" (click)="onNextHoleClick()">
+    Next hole
+  </button>
+  <button class="btn-orange p-4 my-3" (click)="onNextBoardClick()">
+    Next board
+  </button>
+</div>

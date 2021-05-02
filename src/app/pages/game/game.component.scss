@@ -1,0 +1,7 @@
+@use "/src/app/shared/styles/utilities/mixins";
+@use "/src/app/shared/styles/utilities/functions";
+
+#main-container {
+  @include mixins.bg-fill();
+  background-image: functions.image("bg-2.png");
+}

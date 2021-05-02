@@ -4,6 +4,7 @@
 
 @use "/src/app/shared/styles/utilities/variables";
 @use "/src/app/shared/styles/utilities/mixins";
+@use "/src/app/shared/styles/components/buttons";
 
 /* Sized
 ============================================= */
@@ -57,7 +58,7 @@ $bg-colours: (
 
 /* Rounded
 ============================================= */
-$round-sizes: 15, 25, 50;
+$round-sizes: 15, 25, 50, 75, 100;
 @each $size in $round-sizes {
   .rounded-#{$size} {
     border-radius: #{$size}px;
@@ -86,4 +87,17 @@ $round-sizes: 15, 25, 50;
   position: sticky;
   top: 0;
   z-index: variables.$zindex-sticky;
+}
+
+/* Button
+============================================= */
+.btn-orange {
+  @include buttons.btn(
+    variables.$bootstrap-orange,
+    variables.$bootstrap-light,
+    darken(variables.$bootstrap-orange, 25),
+    darken(variables.$bootstrap-light, 25),
+    variables.$bootstrap-gray-500,
+    variables.$bootstrap-gray-500
+  );
 }

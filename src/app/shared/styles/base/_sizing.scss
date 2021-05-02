@@ -26,6 +26,16 @@ $i: 5;
   $i: $i + 5;
 }
 
+// min-width
+$i: 5;
+@while $i <= 100 {
+  $width: percentage($i/100);
+  .min-w-#{$i} {
+    min-width: $width;
+  }
+  $i: $i + 5;
+}
+
 /* Fit width
 ============================================= */
 
