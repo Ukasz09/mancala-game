@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Stone } from '../../models/stone';
 
 @Component({
@@ -11,13 +11,19 @@ export class HoleComponent implements OnInit {
   @Input() imageUrl: string;
   @Input() stones: Stone[] = [];
   @Input() stoneSize: number;
-  @Input() holesHighlightClass: string = '';
+  @Input() playerMoveCss: string = '';
+
+  @Output() stoneClick: EventEmitter<void> = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  getStoneTransformStyle(stone: Stone): string {
+  public getStoneTransformStyle(stone: Stone): string {
     return `translateX(${stone.translatePositonX}px) translateY(${stone.translatePositonY}px) rotate(${stone.rotation}deg)`;
+  }
+
+  public onStoneClick(): void {
+    this.stoneClick.emit();
   }
 }

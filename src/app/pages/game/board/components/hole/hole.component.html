@@ -1,7 +1,7 @@
 <!-- ------------------------------------------- Hole ------------------------------------------- -->
 <div
-  [ngClass]="holesHighlightClass"
-  class="bg-image rounded-100"
+  [ngClass]="playerMoveCss"
+  class="bg-image rounded-100 hole"
   style="order: 1"
   [ngStyle]="{
     'background-image': imageUrl,
@@ -11,7 +11,9 @@
 ></div>
 <!-- ------------------------------------------- Stones ------------------------------------------- -->
 <app-stone
-  class="bg-blue"
+  [ngClass]="playerMoveCss"
+  class="bg-blue stone"
+  (click)="onStoneClick()"
   *ngFor="let stone of stones"
   [size]="stoneSize"
   [stone]="stone"

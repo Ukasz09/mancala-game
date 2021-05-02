@@ -30,7 +30,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private maxStoneNumber = 3;
   private stones: Map<number, Stone[]> = new Map();
   private storeStones: Map<StoreKind, Stone[]> = new Map();
-  private readonly holesHighlightClass = 'holes-highlight';
+  private readonly actualPlayerMoveClass = 'actual-player-move';
+  private readonly otherPlayerMoveClass = 'other-player-move';
 
   leftPlayerHoleNumbers: number[];
   rightPlayerHoleNumbers: number[];
@@ -155,12 +156,26 @@ export class BoardComponent implements OnInit, AfterViewInit {
     return holesContainerWidth / this.holesQtyInRow;
   }
 
-  getStoneSize(holeSize: number): number {
+  public getStoneSize(holeSize: number): number {
     return holeSize / 4;
   }
 
-  getHolesHighlightCss(player: Player): string {
-    return player === this.actualPlayerMove ? this.holesHighlightClass : '';
+  public getHolesHighlightCss(player: Player): string {
+    return player === this.actualPlayerMove
+      ? this.actualPlayerMoveClass
+      : this.otherPlayerMoveClass;
+  }
+
+  public onHoleClick(holeNumber: number) {
+    if (this.leftPlayerHoleNumbers.includes(holeNumber)) {
+      if (this.actualPlayerMove === Player.LEFT_PLAYER) {
+        console.log('LEFT player click hole ' + holeNumber);
+      }
+    } else if (this.rightPlayerHoleNumbers.includes(holeNumber)) {
+      if (this.actualPlayerMove === Player.RIGHT_PLAYER) {
+        console.log('RIGHT player click hole ' + holeNumber);
+      }
+    }
   }
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */

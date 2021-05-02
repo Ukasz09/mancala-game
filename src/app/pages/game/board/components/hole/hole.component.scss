@@ -1,3 +1,12 @@
-.holes-highlight {
-  box-shadow: 1px 0px 17px 9px rgba(51, 255, 0, 0.4) inset;
+.actual-player-move {
+  &.hole {
+    box-shadow: 1px 0px 17px 9px rgba(51, 255, 0, 0.4) inset;
+  }
+  &.stone {
+    cursor: pointer;
+  }
+}
+
+.other-player-move {
+  cursor: not-allowed;
 }
