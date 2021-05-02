@@ -15,8 +15,9 @@
         class="h-100 hole-container d-flex"
       >
         <app-hole
-          [size]="holesContainer.offsetWidth / 6"
+          [size]="getHoleSize(holesContainer.offsetWidth)"
           [imageUrl]="holeImageUrl"
+          [stones]="getStones(holeNumber)"
         ></app-hole>
       </div>
     </div>
@@ -28,8 +29,9 @@
           class="hole-container"
         >
           <app-hole
-            [size]="holesContainer.offsetWidth / 6"
+            [size]="getHoleSize(holesContainer.offsetWidth)"
             [imageUrl]="holeImageUrl"
+            [stones]="getStones(holeNumber)"
           ></app-hole>
         </div>
       </div>

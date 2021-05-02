@@ -1,6 +1,6 @@
 @use "/src/app/shared/styles/utilities/mixins";
 @use "/src/app/shared/styles/utilities/functions";
 
-.hole {
+.bg-image {
   @include mixins.bg-fill();
 }

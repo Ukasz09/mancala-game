@@ -18,4 +18,9 @@ export class HoleComponent implements OnInit {
   getStoneTransformStyle(stone: Stone): string {
     return `translateX(${stone.translatePositonX}px) translateY(${stone.translatePositonY}px)`;
   }
+
+  /* ------------------------------------------- Getters / setters ------------------------------------------- */
+  get stoneSize(): number {
+    return this.size / 4;
+  }
 }
