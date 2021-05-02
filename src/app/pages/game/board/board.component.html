@@ -4,7 +4,7 @@
   [ngStyle]="{ 'background-image': boardImageUrl }"
 >
   <!-- ----------------------- Left player's store ---------------------- -->
-  <div id="store-left" class="h-75 px-4 mt-4">
+  <div id="store-left" #storeLeftDiv class="h-75 px-4 mt-4">
     <app-store
       [imageUrl]="storeImageUrl"
       [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
@@ -19,7 +19,7 @@
         class="h-100 hole-container d-flex"
       >
         <app-hole
-          [holeCssClass]="getHolesHighlightCss(Player.LEFT_PLAYER, holeNumber)"
+          [isActive]="getHoleIsActive(Player.LEFT_PLAYER, holeNumber)"
           [size]="getHoleSize(holesContainer.offsetWidth)"
           [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
           [imageUrl]="holeImageUrl"
@@ -36,9 +36,7 @@
           class="hole-container"
         >
           <app-hole
-            [holeCssClass]="
-              getHolesHighlightCss(Player.RIGHT_PLAYER, holeNumber)
-            "
+            [isActive]="getHoleIsActive(Player.RIGHT_PLAYER, holeNumber)"
             [size]="getHoleSize(holesContainer.offsetWidth)"
             [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
             [imageUrl]="holeImageUrl"
@@ -54,7 +52,7 @@
     id="store-right"
     class="h-100 d-flex flex-column justify-content-end pb-4"
   >
-    <div class="h-75 px-4">
+    <div class="h-75 px-4" #storeRightDiv>
       <app-store
         [imageUrl]="storeImageUrl"
         [stones]="rightPlayerStoreStones"

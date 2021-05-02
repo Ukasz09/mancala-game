@@ -11,9 +11,12 @@ export class HoleComponent implements OnInit {
   @Input() imageUrl: string;
   @Input() stones: Stone[] = [];
   @Input() stoneSize: number;
-  @Input() holeCssClass: string = 'other-player-move';
+  @Input() isActive = false;
 
   @Output() stoneClick: EventEmitter<void> = new EventEmitter();
+
+  private readonly activeHoleClass = 'actual-player-move';
+  private readonly notActiveHoleClass = 'other-player-move';
 
   constructor() {}
 
@@ -24,6 +27,14 @@ export class HoleComponent implements OnInit {
   }
 
   public onStoneClick(): void {
-    this.stoneClick.emit();
+    if (this.isActive) {
+      this.stoneClick.emit();
+    }
+  }
+
+  /* ------------------------------------------- Getters / setters ------------------------------------------- */
+
+  get holeCssClass(): string {
+    return this.isActive ? this.activeHoleClass : this.notActiveHoleClass;
   }
 }

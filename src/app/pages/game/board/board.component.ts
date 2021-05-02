@@ -2,12 +2,11 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  Input,
   OnInit,
-  Output,
   ViewChild,
 } from '@angular/core';
 import { Player } from '../models/player';
+import { StoreComponent } from './components/store/store.component';
 import { Stone } from './models/stone';
 import { StoreKind } from './models/store-kind';
 
@@ -21,6 +20,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   Player = Player;
   @ViewChild('holesContainer') holesContainer: ElementRef;
+  @ViewChild('storeRightDiv') storeComponentWrapper: ElementRef;
 
   private boardNumber = 0;
   private maxBoardNumber = 4;
@@ -31,8 +31,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private maxStoneNumber = 3;
   private holeStones: Map<number, Stone[]> = new Map();
   private storeStones: Map<StoreKind, Stone[]> = new Map();
-  private readonly activeHoleClass = 'actual-player-move';
-  private readonly notActiveHoleClass = 'other-player-move';
 
   public actualPlayerMove = Player.RIGHT_PLAYER;
   public leftPlayerHoleNumbers: number[];
@@ -43,14 +41,10 @@ export class BoardComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.initRightPlayerHoleNumbers();
     this.initLeftPlayerHoleNumbers();
-    console.log(this.leftPlayerHoleNumbers, this.rightPlayerHoleNumbers);
   }
 
   ngAfterViewInit(): void {
-    const holeSize = this.getHoleSize(
-      this.holesContainer.nativeElement.offsetWidth
-    );
-    this.initStones(holeSize);
+    this.initStones(this.holeSize);
   }
 
   private initRightPlayerHoleNumbers(): void {
@@ -164,26 +158,21 @@ export class BoardComponent implements OnInit, AfterViewInit {
     return holeSize / 4;
   }
 
-  public getHolesHighlightCss(player: Player, holeNumber: number): string {
+  public getHoleIsActive(player: Player, holeNumber: number): boolean {
     const actualPlayerHole = player === this.actualPlayerMove;
     const stonesInHole = this.holeStones.get(holeNumber);
     const holeNotEmpty = stonesInHole?.length > 0;
-    return actualPlayerHole && holeNotEmpty
-      ? this.activeHoleClass
-      : this.notActiveHoleClass;
+    return actualPlayerHole && holeNotEmpty;
   }
 
   /* ------------------------------------------- Logic ------------------------------------------- */
   public onHoleClick(holeNumber: number) {
     this.distributeStones(holeNumber);
-    // change player
     this.actualPlayerMove = (this.actualPlayerMove.valueOf() + 1) % 2;
   }
 
   private distributeStones(holeNumber: number): void {
     var stones = this.holeStones.get(holeNumber);
-
-    //TODO: don't allow click on empty holes
 
     // clear hole
     this.holeStones.set(holeNumber, []);
@@ -195,8 +184,10 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
       // check whether stone should be added to any store
       if (actualHoleNumer === this.holesQtyInRow) {
+        this.setRandomTranslateYForStoneInStore(stone);
         this.rightPlayerStoreStones.push(stone);
       } else if (actualHoleNumer === this.holesQtyInRow * 2 + 1) {
+        this.setRandomTranslateYForStoneInStore(stone);
         this.leftPlayerStoreStones.push(stone);
       }
       // add to hole
@@ -205,6 +196,18 @@ export class BoardComponent implements OnInit, AfterViewInit {
         nextHoleStones.push(stone);
       }
     }
+  }
+
+  private setRandomTranslateYForStoneInStore(stone: Stone): void {
+    const storeHeight = this.storeComponentWrapper.nativeElement.offsetHeight;
+    const stoneSize = this.getStoneSize(this.holeSize);
+    const centerPosition = -storeHeight / 2 - stoneSize / 2;
+    const dispersionOffset = 4;
+    const randOffset =
+      Math.random() * (2 * dispersionOffset * stoneSize) -
+      stoneSize * dispersionOffset;
+    const translateY = centerPosition + randOffset;
+    stone.translatePositonY = translateY;
   }
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
@@ -227,5 +230,9 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   get rightPlayerStoreStones(): Stone[] {
     return this.getStoreStones(StoreKind.RIGHT_PLAYER_STORE);
+  }
+
+  get holeSize(): number {
+    return this.getHoleSize(this.holesContainer.nativeElement.offsetWidth);
   }
 }
