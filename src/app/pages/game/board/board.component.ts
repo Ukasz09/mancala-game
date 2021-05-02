@@ -31,8 +31,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private maxStoneNumber = 3;
   private holeStones: Map<number, Stone[]> = new Map();
   private storeStones: Map<StoreKind, Stone[]> = new Map();
-  private readonly actualPlayerMoveClass = 'actual-player-move';
-  private readonly otherPlayerMoveClass = 'other-player-move';
+  private readonly activeHoleClass = 'actual-player-move';
+  private readonly notActiveHoleClass = 'other-player-move';
 
   public actualPlayerMove = Player.RIGHT_PLAYER;
   public leftPlayerHoleNumbers: number[];
@@ -164,10 +164,13 @@ export class BoardComponent implements OnInit, AfterViewInit {
     return holeSize / 4;
   }
 
-  public getHolesHighlightCss(player: Player): string {
-    return player === this.actualPlayerMove
-      ? this.actualPlayerMoveClass
-      : this.otherPlayerMoveClass;
+  public getHolesHighlightCss(player: Player, holeNumber: number): string {
+    const actualPlayerHole = player === this.actualPlayerMove;
+    const stonesInHole = this.holeStones.get(holeNumber);
+    const holeNotEmpty = stonesInHole?.length > 0;
+    return actualPlayerHole && holeNotEmpty
+      ? this.activeHoleClass
+      : this.notActiveHoleClass;
   }
 
   /* ------------------------------------------- Logic ------------------------------------------- */

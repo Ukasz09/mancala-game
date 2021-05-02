@@ -19,7 +19,7 @@
         class="h-100 hole-container d-flex"
       >
         <app-hole
-          [playerMoveCss]="getHolesHighlightCss(Player.LEFT_PLAYER)"
+          [holeCssClass]="getHolesHighlightCss(Player.LEFT_PLAYER, holeNumber)"
           [size]="getHoleSize(holesContainer.offsetWidth)"
           [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
           [imageUrl]="holeImageUrl"
@@ -36,8 +36,9 @@
           class="hole-container"
         >
           <app-hole
-            [playerMoveCss]="getHolesHighlightCss(Player.RIGHT_PLAYER)"
-            [ngClass]="getHolesHighlightCss(Player.RIGHT_PLAYER)"
+            [holeCssClass]="
+              getHolesHighlightCss(Player.RIGHT_PLAYER, holeNumber)
+            "
             [size]="getHoleSize(holesContainer.offsetWidth)"
             [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
             [imageUrl]="holeImageUrl"
@@ -56,7 +57,7 @@
     <div class="h-75 px-4">
       <app-store
         [imageUrl]="storeImageUrl"
-        [stones]="leftPlayerStoreStones"
+        [stones]="rightPlayerStoreStones"
         [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
       ></app-store>
     </div>

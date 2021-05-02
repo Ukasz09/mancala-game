@@ -11,7 +11,7 @@ export class HoleComponent implements OnInit {
   @Input() imageUrl: string;
   @Input() stones: Stone[] = [];
   @Input() stoneSize: number;
-  @Input() playerMoveCss: string = '';
+  @Input() holeCssClass: string = 'other-player-move';
 
   @Output() stoneClick: EventEmitter<void> = new EventEmitter();
 
