@@ -176,11 +176,18 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   /* ------------------------------------------- Logic ------------------------------------------- */
   public onHoleClick(holeNumber: number) {
-    this.distributeStones(holeNumber);
-    this.actualPlayerMove = (this.actualPlayerMove.valueOf() + 1) % 2;
+    const playerHasAdditionalMove = this.distributeStones(holeNumber);
+    // change player
+    if (!playerHasAdditionalMove) {
+      this.actualPlayerMove = (this.actualPlayerMove.valueOf() + 1) % 2;
+    }
   }
 
-  private distributeStones(holeNumber: number): void {
+  /**
+   *
+   * @returns true - player has additional move
+   */
+  private distributeStones(holeNumber: number): boolean {
     var stones = this.holeStones.get(holeNumber);
 
     // clear hole
@@ -228,6 +235,19 @@ export class BoardComponent implements OnInit, AfterViewInit {
         this.endOfTheGame.emit(true);
       }
     }
+
+    // Check if player has additional move
+    var playerHasAdditionalMove = false;
+    if (stones.length > 0) {
+      const lastStone = stones[stones.length - 1];
+      const isInAnyStore =
+        this.leftPlayerStoreStones.includes(lastStone) ||
+        this.rightPlayerStoreStones.includes(lastStone);
+      if (isInAnyStore) {
+        playerHasAdditionalMove = true;
+      }
+    }
+    return playerHasAdditionalMove;
   }
 
   private addAllStonesToStore(
