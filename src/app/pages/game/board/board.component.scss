@@ -7,3 +7,12 @@
   // box-shadow: 0px 3px 8px 4px variables.$bootstrap-dark;
   box-shadow: 0px -1px 12px 9px rgba(0, 0, 0, 0.55) inset;
 }
+
+#store-left,
+#store-right {
+  width: percentage(1/8);
+}
+
+.hole-container {
+  width: percentage(1/6);
+}
