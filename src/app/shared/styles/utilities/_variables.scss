@@ -1,0 +1,46 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+$text-font-stack: sans-serif !default;
+$base-font-size: 18px;
+$breakpoints: (
+  "small": 320px,
+  "medium": 768px,
+  "large": 1024px,
+) !default;
+
+/* ------------------------------------------- Colors ------------------------------------------- */
+
+/* Bootstrap 5.0 palette
+============================================= */
+$bootstrap-blue: #0d6efd;
+$bootstrap-indigo: #6610f2;
+$bootstrap-purple: #6f42c1;
+$bootstrap-pink: #d63384;
+$bootstrap-red: #dc3545;
+$bootstrap-orange: #fd7e14;
+$bootstrap-yellow: #ffc107;
+$bootstrap-green: #198754;
+$bootstrap-teal: #20c997;
+$bootstrap-cyan: #0dcaf0;
+$bootstrap-gray-100: #f8f9fa !default;
+$bootstrap-gray-200: #e9ecef !default;
+$bootstrap-gray-300: #dee2e6 !default;
+$bootstrap-gray-400: #ced4da !default;
+$bootstrap-gray-500: #adb5bd !default;
+$bootstrap-gray-600: #6c757d !default;
+$bootstrap-gray-700: #495057 !default;
+$bootstrap-gray-800: #343a40 !default;
+$bootstrap-gray-900: #212529 !default;
+$bootstrap-light: $bootstrap-gray-100 !default;
+$bootstrap-dark: $bootstrap-gray-900 !default;
+
+/* Custom palette
+============================================= */
+$white: #fff !default;
+$black: #000 !default;
+
+/* Assets
+============================================= */
+$base-assets-url: "/assets/" !default;

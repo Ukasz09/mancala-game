@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@charset "UTF-8";
+
+@use "./app/shared/styles/base/base";
+@use "./app/shared/styles/vendors/normalize";
+@use "./app/shared/styles/base/sizing";
+@use "./app/shared/styles/base/helpers";

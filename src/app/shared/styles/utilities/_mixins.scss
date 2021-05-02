@@ -1,0 +1,18 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+@use "/src/app/shared/styles/utilities/variables";
+
+@mixin selection-style {
+  color: variables.$bootstrap-light;
+  background: variables.$bootstrap-orange;
+}
+
+@mixin flex-container($direction: column, $justify-content: center) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: $justify-content;
+  text-align: center;
+}

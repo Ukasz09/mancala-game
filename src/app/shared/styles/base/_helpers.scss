@@ -1,0 +1,32 @@
+// -----------------------------------------------------------------------------
+// This file contains CSS helper classes.
+// -----------------------------------------------------------------------------
+
+@use "/src/app/shared/styles/utilities/variables";
+
+.max-viewport {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+}
+
+$bg-colours: (
+  "blue": variables.$bootstrap-blue,
+  "indigo": variables.$bootstrap-indigo,
+  "purple": variables.$bootstrap-purple,
+  "pink": variables.$bootstrap-pink,
+  "red": variables.$bootstrap-red,
+  "orange": variables.$bootstrap-orange,
+  "yellow": variables.$bootstrap-yellow,
+  "green": variables.$bootstrap-green,
+  "teal": variables.$bootstrap-teal,
+  "cyan": variables.$bootstrap-cyan,
+  "light": variables.$bootstrap-light,
+  "dark": variables.$bootstrap-dark,
+);
+
+@each $bgColor, $i in $bg-colours {
+  .bg-#{$bgColor} {
+    background-color: $i;
+  }
+}

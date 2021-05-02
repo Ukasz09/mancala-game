@@ -1,0 +1,15 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass functions.
+// -----------------------------------------------------------------------------
+
+@use "/src/app/shared/styles/utilities/variables";
+
+/// Native `url(..)` function wrapper
+@function asset($base, $type, $path) {
+  @return url($base + $type + $path);
+}
+
+/// Returns URL to an image based on its path
+@function image($name, $base: variables.$base-assets-url) {
+  @return asset($base, "images/", $name);
+}

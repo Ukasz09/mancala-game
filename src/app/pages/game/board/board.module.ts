@@ -5,12 +5,9 @@ import { HoleComponent } from './components/hole/hole.component';
 import { StoneComponent } from './components/stone/stone.component';
 import { StoreComponent } from './components/store/store.component';
 
-
-
 @NgModule({
   declarations: [BoardComponent, HoleComponent, StoneComponent, StoreComponent],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
+  exports: [BoardComponent, HoleComponent, StoneComponent, StoreComponent],
 })
-export class BoardModule { }
+export class BoardModule {}
