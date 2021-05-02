@@ -1,0 +1,6 @@
+@use "/src/app/shared/styles/utilities/mixins";
+@use "/src/app/shared/styles/utilities/functions";
+
+.store {
+  @include mixins.bg-fill();
+}

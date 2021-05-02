@@ -1,36 +1,49 @@
 <div
   id="board"
-  class="rounded-100 w-100 h-100 d-flex flex-row"
+  class="rounded-100 w-100 h-100 d-flex flex-row px-4"
   [ngStyle]="{ 'background-image': boardImageUrl }"
 >
-  <div id="store-left" class="h-100"></div>
-  <div class="flex-fill d-flex flex-column h-100" #holesContainer>
-    <!-- ----------------------- Left player ---------------------- -->
+  <!-- ----------------------- Left player's store ---------------------- -->
+  <div id="store-left" class="h-75 px-4 mt-4">
+    <app-store [imageUrl]="storeImageUrl"></app-store>
+  </div>
+  <div class="d-flex flex-column flex-fill h-100 py-4" #holesContainer>
+    <!-- ----------------------- Left player's holes ---------------------- -->
     <div id="left-player" class="h-50 d-flex flex-row">
       <div
-        *ngFor="let holeNumber of holeNumbers"
-        class="h-100 hole-container d-flex align-items-center"
+        *ngFor="let holeNumber of leftPlayerHoleNumbers"
+        class="h-100 hole-container d-flex"
       >
         <app-hole
           [size]="holesContainer.offsetWidth / 6"
-          [holeImageUrl]="holeImageUrl"
+          [imageUrl]="holeImageUrl"
         ></app-hole>
       </div>
     </div>
-    <!-- ----------------------- Right player ---------------------- -->
-    <div id="left-player" class="h-50 d-flex flex-row">
-      <div
-        *ngFor="let holeNumber of holeNumbers"
-        class="h-100 hole-container d-flex align-items-center"
-      >
-        <app-hole
-          [size]="holesContainer.offsetWidth / 6"
-          [holeImageUrl]="holeImageUrl"
-        ></app-hole>
+    <!-- ----------------------- Right player's holes ---------------------- -->
+    <div class="h-50 d-flex flex-column justify-content-end">
+      <div id="left-player" class="d-flex flex-row">
+        <div
+          *ngFor="let holeNumber of rightPlayerHoleNumbers"
+          class="hole-container"
+        >
+          <app-hole
+            [size]="holesContainer.offsetWidth / 6"
+            [imageUrl]="holeImageUrl"
+          ></app-hole>
+        </div>
       </div>
     </div>
   </div>
-  <div id="store-right" class="h-100"></div>
+  <!-- ----------------------- Right player's store ---------------------- -->
+  <div
+    id="store-right"
+    class="h-100 d-flex flex-column justify-content-end pb-4"
+  >
+    <div class="h-75 px-4">
+      <app-store [imageUrl]="storeImageUrl"></app-store>
+    </div>
+  </div>
 </div>
 <div class="d-flex flex-row">
   <button class="btn-orange p-4 my-3" (click)="onNextHoleClick()">

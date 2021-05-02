@@ -1,10 +1,5 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Stone } from './models/stone';
 
 @Component({
   selector: 'app-board',
@@ -18,18 +13,27 @@ export class BoardComponent implements OnInit {
   private maxHoleNumber = 1;
   private holesQtyInRow = 6;
 
-  holeNumbers: number[];
+  leftPlayerHoleNumbers: number[];
+  rightPlayerHoleNumbers: number[];
+  stones: Map<number, Stone[]> = new Map();
 
   constructor() {}
 
   ngOnInit(): void {
-    this.initHoleNumbers();
+    this.initLeftPlayerHoleNumbers();
+    this.initRightPlayerHoleNumbers();
   }
 
-  private initHoleNumbers(): void {
-    this.holeNumbers = Array(this.holesQtyInRow)
+  private initLeftPlayerHoleNumbers(): void {
+    this.leftPlayerHoleNumbers = Array(this.holesQtyInRow)
       .fill(1)
       .map((_x, i) => i + 1);
+  }
+
+  private initRightPlayerHoleNumbers(): void {
+    this.rightPlayerHoleNumbers = Array(this.holesQtyInRow)
+      .fill(this.leftPlayerHoleNumbers.length)
+      .map((x, i) => x + i + 1);
   }
 
   public onNextBoardClick(): void {
@@ -47,5 +51,9 @@ export class BoardComponent implements OnInit {
 
   get boardImageUrl(): string {
     return `url(/assets/images/cartoon-wood-00${this.boardNumber}.jpg)`;
+  }
+
+  get storeImageUrl(): string {
+    return `url(/assets/images/store-001.png)`;
   }
 }

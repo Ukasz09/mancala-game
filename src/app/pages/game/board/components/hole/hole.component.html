@@ -1,8 +1,22 @@
+<!-- ------------------------------------------- Hole ------------------------------------------- -->
 <div
   class="hole rounded-100"
+  style="order: 1"
   [ngStyle]="{
-    'background-image': holeImageUrl,
+    'background-image': imageUrl,
     width: size + 'px',
     height: size + 'px'
+  }"
+></div>
+<!-- ------------------------------------------- Stones ------------------------------------------- -->
+<div
+  *ngFor="let stone of stones"
+  class="bg-blue"
+  style="position: absolute"
+  [ngStyle]="{
+    width: size / 2 + 'px',
+    height: size / 3 + 'px',
+    transform: getStoneTransformStyle(stone),
+    'background-image': stone.imageUrl
   }"
 ></div>
