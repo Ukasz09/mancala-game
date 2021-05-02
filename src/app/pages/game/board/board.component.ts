@@ -35,7 +35,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private holeStones: Map<number, Stone[]> = new Map();
   private storeStones: Map<StoreKind, Stone[]> = new Map();
 
-  public actualPlayerMove = Player.RIGHT_PLAYER;
+  public actualPlayer = Player.RIGHT_PLAYER;
   public leftPlayerHoleNumbers: number[];
   public rightPlayerHoleNumbers: number[];
 
@@ -52,7 +52,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   }
 
   private setActivePlayerByRandom(): void {
-    this.actualPlayerMove =
+    this.actualPlayer =
       Math.random() > 0.5 ? Player.LEFT_PLAYER : Player.RIGHT_PLAYER;
   }
 
@@ -168,7 +168,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   }
 
   public getHoleIsActive(player: Player, holeNumber: number): boolean {
-    const actualPlayerHole = player === this.actualPlayerMove;
+    const actualPlayerHole = player === this.actualPlayer;
     const stonesInHole = this.holeStones.get(holeNumber);
     const holeNotEmpty = stonesInHole?.length > 0;
     return actualPlayerHole && holeNotEmpty;
@@ -179,7 +179,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     const playerHasAdditionalMove = this.distributeStones(holeNumber);
     // change player
     if (!playerHasAdditionalMove) {
-      this.actualPlayerMove = (this.actualPlayerMove.valueOf() + 1) % 2;
+      this.actualPlayer = (this.actualPlayer.valueOf() + 1) % 2;
     }
   }
 
@@ -196,20 +196,33 @@ export class BoardComponent implements OnInit, AfterViewInit {
     // distribute stones
     let actualHoleNumer = holeNumber;
     for (let stone of stones) {
-      actualHoleNumer = (actualHoleNumer + 1) % (this.holesQtyInRow * 2 + 2); // +2 becouse of the stores
+      actualHoleNumer = this.getNextHoleNumber(actualHoleNumer); // +2 because of the stores
 
       // check whether stone should be added to any store
       if (actualHoleNumer === this.holesQtyInRow) {
-        this.setRandomTranslateYForStoneInStore(stone);
-        this.rightPlayerStoreStones.push(stone);
+        // Right player place stone in his store
+        if (this.actualPlayer === Player.RIGHT_PLAYER) {
+          this.setRandomTranslateYForStoneInStore(stone);
+          this.rightPlayerStoreStones.push(stone);
+        }
+        // Ommit store of the opponent
+        else {
+          actualHoleNumer = this.getNextHoleNumber(actualHoleNumer);
+          this.addStoneToHole(actualHoleNumer, stone);
+        }
       } else if (actualHoleNumer === this.holesQtyInRow * 2 + 1) {
-        this.setRandomTranslateYForStoneInStore(stone);
-        this.leftPlayerStoreStones.push(stone);
+        // Left player place stone in his store
+        if (this.actualPlayer === Player.LEFT_PLAYER) {
+          this.setRandomTranslateYForStoneInStore(stone);
+          this.leftPlayerStoreStones.push(stone);
+        } else {
+          actualHoleNumer = this.getNextHoleNumber(actualHoleNumer);
+          this.addStoneToHole(actualHoleNumer, stone);
+        }
       }
       // add to hole
       else {
-        const nextHoleStones = this.holeStones.get(actualHoleNumer);
-        nextHoleStones.push(stone);
+        this.addStoneToHole(actualHoleNumer, stone);
       }
     }
 
@@ -248,6 +261,15 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
     return playerHasAdditionalMove;
+  }
+
+  private getNextHoleNumber(holeNumber: number): number {
+    return (holeNumber + 1) % (this.holesQtyInRow * 2 + 2); // +2 because of the stores
+  }
+
+  private addStoneToHole(holeNumber: number, stone: Stone): void {
+    const nextHoleStones = this.holeStones.get(holeNumber);
+    nextHoleStones.push(stone);
   }
 
   private addAllStonesToStore(
