@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Player } from './models/player';
+import { BoardComponent } from './board/board.component';
 
 @Component({
   selector: 'app-game',
@@ -7,7 +7,19 @@ import { Player } from './models/player';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
+  endOfTheGame = false;
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  public onRestartGameBtnClick(gameBoard: BoardComponent) {
+    gameBoard.resetGame();
+    this.endOfTheGame = false;
+  }
+
+  /* ------------------------------------------- Getters / setters ------------------------------------------- */
+  get headerText(): string {
+    return this.endOfTheGame ? 'Game over' : 'Mancala Game';
+  }
 }

@@ -100,7 +100,7 @@ $round-sizes: 15, 25, 50, 75, 100;
     variables.$bootstrap-orange,
     variables.$bootstrap-light,
     darken(variables.$bootstrap-orange, 25),
-    darken(variables.$bootstrap-light, 25),
+    variables.$bootstrap-light,
     variables.$bootstrap-gray-500,
     variables.$bootstrap-gray-500
   );

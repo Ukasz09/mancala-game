@@ -2,11 +2,12 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { Player } from '../models/player';
-import { StoreComponent } from './components/store/store.component';
 import { Stone } from './models/stone';
 import { StoreKind } from './models/store-kind';
 
@@ -16,11 +17,13 @@ import { StoreKind } from './models/store-kind';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit, AfterViewInit {
-  //TODO: move gmae logic to parent component
+  //TODO: move gmae logic to parent component, general refator needed
 
   Player = Player;
   @ViewChild('holesContainer') holesContainer: ElementRef;
   @ViewChild('storeRightDiv') storeComponentWrapper: ElementRef;
+
+  @Output() endOfTheGame: EventEmitter<boolean> = new EventEmitter();
 
   private boardNumber = 0;
   private maxBoardNumber = 4;
@@ -39,12 +42,18 @@ export class BoardComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   ngOnInit(): void {
+    this.setActivePlayerByRandom();
     this.initRightPlayerHoleNumbers();
     this.initLeftPlayerHoleNumbers();
   }
 
   ngAfterViewInit(): void {
     this.initStones(this.holeSize);
+  }
+
+  private setActivePlayerByRandom(): void {
+    this.actualPlayerMove =
+      Math.random() > 0.5 ? Player.LEFT_PLAYER : Player.RIGHT_PLAYER;
   }
 
   private initRightPlayerHoleNumbers(): void {
@@ -196,6 +205,52 @@ export class BoardComponent implements OnInit, AfterViewInit {
         nextHoleStones.push(stone);
       }
     }
+
+    // Check end of the game
+    const rightPlayerHolesEmpty = this.allHolesEmpty(
+      this.rightPlayerHoleNumbers
+    );
+    if (rightPlayerHolesEmpty) {
+      this.addAllStonesToStore(
+        this.leftPlayerHoleNumbers,
+        this.leftPlayerStoreStones
+      );
+      this.endOfTheGame.emit(true);
+    } else {
+      const leftPlayerHolesEmpty = this.allHolesEmpty(
+        this.leftPlayerHoleNumbers
+      );
+      if (leftPlayerHolesEmpty) {
+        this.addAllStonesToStore(
+          this.rightPlayerHoleNumbers,
+          this.rightPlayerStoreStones
+        );
+        this.endOfTheGame.emit(true);
+      }
+    }
+  }
+
+  private addAllStonesToStore(
+    holeNumbers: number[],
+    storeStones: Stone[]
+  ): void {
+    for (let holeNumber of holeNumbers) {
+      const stonesInHole = this.holeStones.get(holeNumber);
+      this.holeStones.set(holeNumber, []);
+      for (let stone of stonesInHole) {
+        storeStones.push(stone);
+      }
+    }
+  }
+
+  private allHolesEmpty(holeNumbers: number[]): boolean {
+    for (let holeNumber of holeNumbers) {
+      const stones = this.holeStones.get(holeNumber);
+      if (stones.length > 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private setRandomTranslateYForStoneInStore(stone: Stone): void {
@@ -208,6 +263,13 @@ export class BoardComponent implements OnInit, AfterViewInit {
       stoneSize * dispersionOffset;
     const translateY = centerPosition + randOffset;
     stone.translatePositonY = translateY;
+  }
+
+  public resetGame(): void {
+    this.setActivePlayerByRandom();
+    this.initRightPlayerHoleNumbers();
+    this.initLeftPlayerHoleNumbers();
+    this.initStones(this.holeSize);
   }
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */

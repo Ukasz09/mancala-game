@@ -1,8 +1,21 @@
 <div
   id="main-container"
-  class="d-flex flex-center-column bg-light text-light max-viewport"
+  class="d-flex flex-column align-items-center bg-light text-light max-viewport"
 >
-  <div class="w-75 h-60">
-    <app-board></app-board>
+  <!-- ------------------------------------------- Header ------------------------------------------- -->
+  <div class="d-flex flex-column py-5">
+    <h1 class="text-center">{{ headerText }}</h1>
+    <button
+      *ngIf="endOfTheGame"
+      class="btn-orange py-2"
+      style="font-size: 1.25rem"
+      (click)="onRestartGameBtnClick(gameBoard)"
+    >
+      Play again
+    </button>
+  </div>
+  <!-- ------------------------------------------- Board ------------------------------------------- -->
+  <div class="w-75 h-60 mx-auto">
+    <app-board #gameBoard (endOfTheGame)="endOfTheGame = $event"></app-board>
   </div>
 </div>
