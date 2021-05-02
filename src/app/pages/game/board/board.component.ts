@@ -45,6 +45,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.setActivePlayerByRandom();
     this.initRightPlayerHoleNumbers();
     this.initLeftPlayerHoleNumbers();
+    console.log(this.leftPlayerHoleNumbers, this.rightPlayerHoleNumbers);
   }
 
   ngAfterViewInit(): void {
@@ -249,15 +250,48 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
 
-    // Check if player has additional move
+    // Check if player has additional move and stealing
     var playerHasAdditionalMove = false;
     if (stones.length > 0) {
       const lastStone = stones[stones.length - 1];
+      // Check 'last in store'
       const isInAnyStore =
         this.leftPlayerStoreStones.includes(lastStone) ||
         this.rightPlayerStoreStones.includes(lastStone);
       if (isInAnyStore) {
         playerHasAdditionalMove = true;
+      }
+      // Check stealing
+      else {
+        const lastStoneOfItsOwnHole = this.actualPlayerHoleNumbers.includes(
+          actualHoleNumer
+        );
+        if (lastStoneOfItsOwnHole) {
+          const stones = this.holeStones.get(actualHoleNumer);
+          const wasEmpty = stones.length === 1;
+          if (wasEmpty) {
+            const holeIndexInArr = this.actualPlayerHoleNumbers.indexOf(
+              actualHoleNumer
+            );
+            const oppositeHoleNumber = this.oppositePlayerHoleNumbers[
+              holeIndexInArr
+            ];
+            const stonesFromTheOppositeHole = this.holeStones.get(
+              oppositeHoleNumber
+            );
+
+            // Steal from the opponent
+            this.holeStones.set(oppositeHoleNumber, []);
+            for (let stone of stonesFromTheOppositeHole) {
+              this.actualPlayerStoreStones.push(stone);
+            }
+
+            // Add own stone to store
+            const stones = this.holeStones.get(actualHoleNumer);
+            this.actualPlayerStoreStones.push(stones[0]);
+            this.holeStones.set(actualHoleNumer, []);
+          }
+        }
       }
     }
     return playerHasAdditionalMove;
@@ -338,5 +372,23 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   get holeSize(): number {
     return this.getHoleSize(this.holesContainer.nativeElement.offsetWidth);
+  }
+
+  get actualPlayerHoleNumbers(): number[] {
+    return this.actualPlayer === Player.LEFT_PLAYER
+      ? this.leftPlayerHoleNumbers
+      : this.rightPlayerHoleNumbers;
+  }
+
+  get oppositePlayerHoleNumbers(): number[] {
+    return this.actualPlayer === Player.LEFT_PLAYER
+      ? this.rightPlayerHoleNumbers
+      : this.leftPlayerHoleNumbers;
+  }
+
+  get actualPlayerStoreStones(): Stone[] {
+    return this.actualPlayer === Player.LEFT_PLAYER
+      ? this.leftPlayerStoreStones
+      : this.rightPlayerStoreStones;
   }
 }
