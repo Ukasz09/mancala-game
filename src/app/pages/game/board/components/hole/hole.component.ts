@@ -11,6 +11,7 @@ export class HoleComponent implements OnInit {
   @Input() imageUrl: string;
   @Input() stones: Stone[] = [];
   @Input() stoneSize: number;
+  @Input() holesHighlightClass: string = '';
 
   constructor() {}
 

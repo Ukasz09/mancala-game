@@ -1,11 +1,12 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Player } from '../models/player';
 import { Stone } from './models/stone';
 import { StoreKind } from './models/store-kind';
 
@@ -15,7 +16,10 @@ import { StoreKind } from './models/store-kind';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit, AfterViewInit {
+  Player = Player;
   @ViewChild('holesContainer') holesContainer: ElementRef;
+
+  @Input() actualPlayerMove: Player;
 
   private boardNumber = 0;
   private maxBoardNumber = 4;
@@ -26,6 +30,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private maxStoneNumber = 3;
   private stones: Map<number, Stone[]> = new Map();
   private storeStones: Map<StoreKind, Stone[]> = new Map();
+  private readonly holesHighlightClass = 'holes-highlight';
 
   leftPlayerHoleNumbers: number[];
   rightPlayerHoleNumbers: number[];
@@ -42,7 +47,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
       this.holesContainer.nativeElement.offsetWidth
     );
     this.initStones(holeSize);
-    this.setRandomPostionForStones(holeSize);
   }
 
   private initLeftPlayerHoleNumbers(): void {
@@ -93,7 +97,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     return stones;
   }
 
-  private setRandomPostionForStones(holeSize: number): void {
+  setRandomPostionForStones(holeSize: number): void {
     for (let holeNumber of this.stones.keys()) {
       const stones = this.stones.get(+holeNumber);
       for (let stone of stones) {
@@ -154,7 +158,13 @@ export class BoardComponent implements OnInit, AfterViewInit {
   getStoneSize(holeSize: number): number {
     return holeSize / 4;
   }
+
+  getHolesHighlightCss(player: Player): string {
+    return player === this.actualPlayerMove ? this.holesHighlightClass : '';
+  }
+
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
+
   get holeImageUrl(): string {
     return `url(/assets/images/tree-hollow-00${this.holeNumber}.png)`;
   }
