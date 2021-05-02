@@ -7,8 +7,6 @@ import { Player } from './models/player';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-  actualPlayerMove: Player = Player.RIGHT_PLAYER;
-
   constructor() {}
 
   ngOnInit(): void {}

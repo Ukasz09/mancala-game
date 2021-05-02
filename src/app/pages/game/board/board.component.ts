@@ -4,6 +4,7 @@ import {
   ElementRef,
   Input,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { Player } from '../models/player';
@@ -16,10 +17,10 @@ import { StoreKind } from './models/store-kind';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit, AfterViewInit {
+  //TODO: move gmae logic to parent component
+
   Player = Player;
   @ViewChild('holesContainer') holesContainer: ElementRef;
-
-  @Input() actualPlayerMove: Player;
 
   private boardNumber = 0;
   private maxBoardNumber = 4;
@@ -28,19 +29,21 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private holesQtyInRow = 6;
   private stonesInAHoleAtStartQty = 4;
   private maxStoneNumber = 3;
-  private stones: Map<number, Stone[]> = new Map();
+  private holeStones: Map<number, Stone[]> = new Map();
   private storeStones: Map<StoreKind, Stone[]> = new Map();
   private readonly actualPlayerMoveClass = 'actual-player-move';
   private readonly otherPlayerMoveClass = 'other-player-move';
 
-  leftPlayerHoleNumbers: number[];
-  rightPlayerHoleNumbers: number[];
+  public actualPlayerMove = Player.RIGHT_PLAYER;
+  public leftPlayerHoleNumbers: number[];
+  public rightPlayerHoleNumbers: number[];
 
   constructor() {}
 
   ngOnInit(): void {
-    this.initLeftPlayerHoleNumbers();
     this.initRightPlayerHoleNumbers();
+    this.initLeftPlayerHoleNumbers();
+    console.log(this.leftPlayerHoleNumbers, this.rightPlayerHoleNumbers);
   }
 
   ngAfterViewInit(): void {
@@ -50,31 +53,32 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.initStones(holeSize);
   }
 
-  private initLeftPlayerHoleNumbers(): void {
-    this.leftPlayerHoleNumbers = Array(this.holesQtyInRow)
-      .fill(1)
-      .map((_x, i) => i + 1);
-  }
-
   private initRightPlayerHoleNumbers(): void {
     this.rightPlayerHoleNumbers = Array(this.holesQtyInRow)
-      .fill(this.leftPlayerHoleNumbers.length)
-      .map((x, i) => x + i + 1);
+      .fill(0)
+      .map((_x, i) => i);
+  }
+
+  private initLeftPlayerHoleNumbers(): void {
+    this.leftPlayerHoleNumbers = Array(this.holesQtyInRow)
+      .fill(this.rightPlayerHoleNumbers.length)
+      .map((x, i) => x + i + 1)
+      .reverse();
   }
 
   private initStones(holeSize: number): void {
     // init stores
     this.storeStones.set(StoreKind.LEFT_PLAYER_STORE, []);
-    this.storeStones.set(StoreKind.LEFT_PLAYER_STORE, []);
+    this.storeStones.set(StoreKind.RIGHT_PLAYER_STORE, []);
 
     // init holes
     for (const number of this.leftPlayerHoleNumbers) {
       const newStones = this.getStartedStones(holeSize);
-      this.stones.set(number, newStones);
+      this.holeStones.set(number, newStones);
     }
     for (const number of this.rightPlayerHoleNumbers) {
       const newStones = this.getStartedStones(holeSize);
-      this.stones.set(number, newStones);
+      this.holeStones.set(number, newStones);
     }
   }
 
@@ -99,8 +103,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
   }
 
   setRandomPostionForStones(holeSize: number): void {
-    for (let holeNumber of this.stones.keys()) {
-      const stones = this.stones.get(+holeNumber);
+    for (let holeNumber of this.holeStones.keys()) {
+      const stones = this.holeStones.get(+holeNumber);
       for (let stone of stones) {
         stone.translatePositonX = this.getRandomStoneTranslateX(
           holeSize,
@@ -145,7 +149,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   }
 
   public getHoleStones(holeNumber: number): Stone[] {
-    return this.stones.get(holeNumber);
+    return this.holeStones.get(holeNumber);
   }
 
   private getStoreStones(storeKind: StoreKind): Stone[] {
@@ -166,14 +170,36 @@ export class BoardComponent implements OnInit, AfterViewInit {
       : this.otherPlayerMoveClass;
   }
 
+  /* ------------------------------------------- Logic ------------------------------------------- */
   public onHoleClick(holeNumber: number) {
-    if (this.leftPlayerHoleNumbers.includes(holeNumber)) {
-      if (this.actualPlayerMove === Player.LEFT_PLAYER) {
-        console.log('LEFT player click hole ' + holeNumber);
+    this.distributeStones(holeNumber);
+    // change player
+    this.actualPlayerMove = (this.actualPlayerMove.valueOf() + 1) % 2;
+  }
+
+  private distributeStones(holeNumber: number): void {
+    var stones = this.holeStones.get(holeNumber);
+
+    //TODO: don't allow click on empty holes
+
+    // clear hole
+    this.holeStones.set(holeNumber, []);
+
+    // distribute stones
+    let actualHoleNumer = holeNumber;
+    for (let stone of stones) {
+      actualHoleNumer = (actualHoleNumer + 1) % (this.holesQtyInRow * 2 + 2); // +2 becouse of the stores
+
+      // check whether stone should be added to any store
+      if (actualHoleNumer === this.holesQtyInRow) {
+        this.rightPlayerStoreStones.push(stone);
+      } else if (actualHoleNumer === this.holesQtyInRow * 2 + 1) {
+        this.leftPlayerStoreStones.push(stone);
       }
-    } else if (this.rightPlayerHoleNumbers.includes(holeNumber)) {
-      if (this.actualPlayerMove === Player.RIGHT_PLAYER) {
-        console.log('RIGHT player click hole ' + holeNumber);
+      // add to hole
+      else {
+        const nextHoleStones = this.holeStones.get(actualHoleNumer);
+        nextHoleStones.push(stone);
       }
     }
   }
