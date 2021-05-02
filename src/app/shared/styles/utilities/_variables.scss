@@ -10,6 +10,9 @@ $breakpoints: (
   "large": 1024px,
 ) !default;
 
+$zindex-fixed: 999;
+$zindex-sticky: 999;
+
 /* ------------------------------------------- Colors ------------------------------------------- */
 
 /* Bootstrap 5.0 palette

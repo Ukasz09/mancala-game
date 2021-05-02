@@ -16,3 +16,13 @@
   justify-content: $justify-content;
   text-align: center;
 }
+
+@mixin bg-fill {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@mixin mask($color, $opacity: 0.65) {
+  background: rgba($color, $opacity);
+}
