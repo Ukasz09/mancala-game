@@ -17,6 +17,7 @@ export class BoardComponent implements OnInit {
   boardHeightPx: number;
   storeHeightPx: number;
   binSizePx: number;
+
   stoneModels: Map<number, Stone> = new Map(); // <stoneId, stone model>
   binNumbers: number[] = [];
 
@@ -26,6 +27,7 @@ export class BoardComponent implements OnInit {
     this.initWidths();
     this.initStoneModels();
     this.binNumbers = this.gameLogic.binNumbers;
+    console.log(this.gameLogic);
   }
 
   private initWidths(): void {

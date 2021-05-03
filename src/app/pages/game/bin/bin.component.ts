@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Stone } from '../models';
 
 @Component({
-  selector: 'app-hole',
-  templateUrl: './hole.component.html',
-  styleUrls: ['./hole.component.scss'],
+  selector: 'app-bin',
+  templateUrl: './bin.component.html',
+  styleUrls: ['./bin.component.scss'],
 })
 export class HoleComponent implements OnInit {
   @Input() size: number;
@@ -15,8 +15,8 @@ export class HoleComponent implements OnInit {
 
   @Output() stoneClick: EventEmitter<void> = new EventEmitter();
 
-  private readonly activeHoleClass = 'actual-player-move';
-  private readonly notActiveHoleClass = 'other-player-move';
+  private readonly activeBinClass = 'actual-player-move';
+  private readonly notActiveBinClass = 'other-player-move';
 
   constructor() {}
 
@@ -32,9 +32,13 @@ export class HoleComponent implements OnInit {
     }
   }
 
+  public getStone(stoneId: number): Stone {
+    return this.allStones.get(stoneId);
+  }
+
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
 
-  get holeCssClass(): string {
-    return this.isActive ? this.activeHoleClass : this.notActiveHoleClass;
+  get binCssClass(): string {
+    return this.isActive ? this.activeBinClass : this.notActiveBinClass;
   }
 }

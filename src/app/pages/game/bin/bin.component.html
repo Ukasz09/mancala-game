@@ -1,8 +1,7 @@
 <!-- ------------------------------------------- Hole ------------------------------------------- -->
 <div
-  [ngClass]="holeCssClass"
+  [ngClass]="binCssClass"
   class="bg-image rounded-100 hole"
-  style="order: 1"
   [ngStyle]="{
     width: size + 'px',
     height: size + 'px'
@@ -10,10 +9,10 @@
 ></div>
 <!-- ------------------------------------------- Stones ------------------------------------------- -->
 <app-stone
-  [ngClass]="holeCssClass"
+  *ngFor="let stoneId of stoneIds"
+  [ngClass]="binCssClass"
   class="bg-blue stone"
   (click)="onStoneClick()"
-  *ngFor="let stone of stones"
   [size]="stoneSize"
-  [stone]="stone"
+  [stone]="getStone(stoneId)"
 ></app-stone>

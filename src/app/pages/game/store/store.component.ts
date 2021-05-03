@@ -14,4 +14,8 @@ export class StoreComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  public getStone(stoneId: number): Stone {
+    return this.allStones.get(stoneId);
+  }
 }

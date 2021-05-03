@@ -20,9 +20,14 @@ export class Game {
     let stoneIndex = 0;
     for (let i = 0; i < this.totalBinsAndStoresQty; i++) {
       const binStonesId = [];
-      for (let j = 0; j < this.startedStonesQty; j++) {
-        binStonesId.push(stoneIndex);
-        stoneIndex++;
+      if (
+        i !== this.binNumberPlayerStoreA &&
+        i !== this.binNumberPlayerStoreB
+      ) {
+        for (let j = 0; j < this.startedStonesQty; j++) {
+          binStonesId.push(stoneIndex);
+          stoneIndex++;
+        }
       }
       this.bins.set(i, binStonesId);
     }

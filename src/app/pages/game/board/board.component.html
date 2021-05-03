@@ -1,6 +1,6 @@
 <div id="board" class="rounded-100 w-100 h-100 d-flex flex-row px-4">
   <!-- ----------------------- Store A ---------------------- -->
-  <div class="h-70 px-4 mt-4">
+  <div class="px-4 mt-4" [style.height.px]="storeHeightPx">
     <app-store
       [stoneSize]="stoneSize"
       [allStones]="stoneModels"
@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="d-flex flex-column flex-fill h-100 py-4">
-    <!-- ----------------------- Left player's holes ---------------------- -->
+    <!-- ----------------------- Player A bins ---------------------- -->
     <div class="h-50 d-flex flex-row">
       <ng-container *ngFor="let binNumber of binNumbers">
         <div
@@ -19,14 +19,14 @@
           class="h-100 d-flex"
         >
           <div class="d-flex flex-column">
-            <app-hole
+            <app-bin
               [isActive]="binIsActive(playerA, binNumber)"
               [size]="binSizePx"
               [stoneSize]="stoneSize"
               [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
               [allStones]="stoneModels"
               (stoneClick)="onBinClick(binNumber)"
-            ></app-hole>
+            ></app-bin>
             <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
               {{ gameLogic.getStonesQty(binNumber) }}
             </div>
@@ -34,7 +34,7 @@
         </div>
       </ng-container>
     </div>
-    <!-- ----------------------- Right player's holes ---------------------- -->
+    <!-- ----------------------- Player B bins ---------------------- -->
     <div class="h-50 d-flex flex-row">
       <ng-container *ngFor="let binNumber of binNumbers">
         <div
@@ -45,14 +45,14 @@
             <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
               {{ gameLogic.getStonesQty(binNumber) }}
             </div>
-            <app-hole
+            <app-bin
               [isActive]="binIsActive(playerB, binNumber)"
               [size]="binSizePx"
               [stoneSize]="stoneSize"
               [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
               [allStones]="stoneModels"
               (stoneClick)="onBinClick(binNumber)"
-            ></app-hole>
+            ></app-bin>
           </div>
         </div>
       </ng-container>
@@ -60,11 +60,10 @@
   </div>
   <!-- ----------------------- Store B ---------------------- -->
   <div class="h-100 d-flex flex-column justify-content-end pb-4">
-    <!-- ------------------------------------------- Stones qty label ------------------------------------------- -->
     <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
       {{ gameLogic.stonesQtyInStoreB }}
     </div>
-    <div class="h-70 px-4" #storeRightDiv>
+    <div class="px-4" [style.height.px]="storeHeightPx">
       <app-store
         [stoneSize]="stoneSize"
         [allStones]="stoneModels"

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HoleComponent } from './hole.component';
+import { HoleComponent } from './bin.component';
 
 describe('HoleComponent', () => {
   let component: HoleComponent;
@@ -8,9 +8,8 @@ describe('HoleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HoleComponent ]
-    })
-    .compileComponents();
+      declarations: [HoleComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
