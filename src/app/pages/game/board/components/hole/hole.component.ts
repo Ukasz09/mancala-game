@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { LabelPosition } from '../../models/enums';
 import { Stone } from '../../models/stone';
 
 @Component({
@@ -36,9 +37,5 @@ export class HoleComponent implements OnInit {
 
   get holeCssClass(): string {
     return this.isActive ? this.activeHoleClass : this.notActiveHoleClass;
-  }
-
-  get stonesQty(): number {
-    return this.stones?.length ?? 0;
   }
 }

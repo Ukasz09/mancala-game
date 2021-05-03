@@ -21,14 +21,19 @@
         *ngFor="let holeNumber of leftPlayerHoleNumbers"
         class="h-100 hole-container d-flex"
       >
-        <app-hole
-          [isActive]="getHoleIsActive(Player.LEFT_PLAYER, holeNumber)"
-          [size]="getHoleSize(holesContainer.offsetWidth)"
-          [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
-          [imageUrl]="holeImageUrl"
-          [stones]="getHoleStones(holeNumber)"
-          (stoneClick)="onHoleClick(holeNumber)"
-        ></app-hole>
+        <div class="d-flex flex-column">
+          <app-hole
+            [isActive]="getHoleIsActive(Player.LEFT_PLAYER, holeNumber)"
+            [size]="getHoleSize(holesContainer.offsetWidth)"
+            [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
+            [imageUrl]="holeImageUrl"
+            [stones]="getHoleStones(holeNumber)"
+            (stoneClick)="onHoleClick(holeNumber)"
+          ></app-hole>
+          <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
+            {{ getStonesQty(holeNumber) }}
+          </div>
+        </div>
       </div>
     </div>
     <!-- ----------------------- Right player's holes ---------------------- -->
@@ -38,14 +43,21 @@
           *ngFor="let holeNumber of rightPlayerHoleNumbers"
           class="hole-container"
         >
-          <app-hole
-            [isActive]="getHoleIsActive(Player.RIGHT_PLAYER, holeNumber)"
-            [size]="getHoleSize(holesContainer.offsetWidth)"
-            [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
-            [imageUrl]="holeImageUrl"
-            [stones]="getHoleStones(holeNumber)"
-            (stoneClick)="onHoleClick(holeNumber)"
-          ></app-hole>
+          <div class="d-flex flex-column">
+            <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
+              {{ getStonesQty(holeNumber) }}
+            </div>
+            <app-hole
+              [isActive]="getHoleIsActive(Player.RIGHT_PLAYER, holeNumber)"
+              [size]="getHoleSize(holesContainer.offsetWidth)"
+              [stoneSize]="
+                getStoneSize(getHoleSize(holesContainer.offsetWidth))
+              "
+              [imageUrl]="holeImageUrl"
+              [stones]="getHoleStones(holeNumber)"
+              (stoneClick)="onHoleClick(holeNumber)"
+            ></app-hole>
+          </div>
         </div>
       </div>
     </div>

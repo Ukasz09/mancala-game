@@ -349,6 +349,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.initStones(this.holeSize);
   }
 
+  public getStonesQty(holeNumber: number): number {
+    const stones = this.holeStones.get(holeNumber);
+    return stones?.length ?? 0;
+  }
+
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
 
   get holeImageUrl(): string {
@@ -393,11 +398,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
       : this.rightPlayerStoreStones;
   }
 
-  get rightStoreLabelPosition(): LabelPosition {
+  get rightPlayerLabelPosition(): LabelPosition {
     return LabelPosition.ABOVE;
   }
 
-  get leftStoreLabelPosition(): LabelPosition {
+  get leftPlayerLabelPosition(): LabelPosition {
     return LabelPosition.BELOW;
   }
 
