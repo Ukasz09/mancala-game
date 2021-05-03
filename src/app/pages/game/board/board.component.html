@@ -33,46 +33,39 @@
   </div>
   <div class="d-flex flex-column flex-fill align-items-center h-100 py-4">
     <!-- ----------------------- Player A bins ---------------------- -->
-    <div class="h-50 d-flex flex-row">
-      <ng-container *ngFor="let binNumber of binNumbers">
-        <div
-          *ngIf="gameLogic.binBelongsToPlayerA(binNumber)"
-          class="h-100 d-flex"
-        >
-          <div class="d-flex flex-column">
-            <app-bin
-              [isActive]="binIsActive(playerA, binNumber)"
-              [size]="binSizePx"
-              [stoneSize]="stoneSize"
-              [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
-              [allStones]="stoneModels"
-              (stoneClick)="onBinClick(binNumber)"
-            ></app-bin>
-            <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
-              {{ gameLogic.getStonesQty(binNumber) }}
-            </div>
+    <div class="h-50 h-100 d-flex flex-row">
+      <ng-container *ngFor="let binNumber of binNumbersPlayerA">
+        <div class="d-flex flex-column">
+          <app-bin
+            [isActive]="binIsActive(playerA, binNumber)"
+            [size]="binSizePx"
+            [stoneSize]="stoneSize"
+            [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
+            [allStones]="stoneModels"
+            (stoneClick)="onBinClick(binNumber)"
+          ></app-bin>
+          <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
+            {{ gameLogic.getStonesQty(binNumber) }}
           </div>
         </div>
       </ng-container>
     </div>
     <!-- ----------------------- Player B bins ---------------------- -->
     <div class="h-50 d-flex flex-row">
-      <ng-container *ngFor="let binNumber of binNumbers">
-        <ng-container *ngIf="gameLogic.binBelongsToPlayerB(binNumber)">
-          <div class="d-flex flex-column justify-content-end">
-            <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
-              {{ gameLogic.getStonesQty(binNumber) }}
-            </div>
-            <app-bin
-              [isActive]="binIsActive(playerB, binNumber)"
-              [size]="binSizePx"
-              [stoneSize]="stoneSize"
-              [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
-              [allStones]="stoneModels"
-              (stoneClick)="onBinClick(binNumber)"
-            ></app-bin>
+      <ng-container *ngFor="let binNumber of binNumbersPlayerB">
+        <div class="d-flex flex-column justify-content-end">
+          <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
+            {{ gameLogic.getStonesQty(binNumber) }}
           </div>
-        </ng-container>
+          <app-bin
+            [isActive]="binIsActive(playerB, binNumber)"
+            [size]="binSizePx"
+            [stoneSize]="stoneSize"
+            [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
+            [allStones]="stoneModels"
+            (stoneClick)="onBinClick(binNumber)"
+          ></app-bin>
+        </div>
       </ng-container>
     </div>
   </div>

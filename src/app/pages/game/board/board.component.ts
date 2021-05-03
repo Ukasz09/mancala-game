@@ -19,15 +19,15 @@ export class BoardComponent implements OnInit {
   binSizePx: number;
 
   stoneModels: Map<number, Stone> = new Map(); // <stoneId, stone model>
-  binNumbers: number[] = [];
+  binNumbersPlayerA: number[] = [];
+  binNumbersPlayerB: number[] = [];
 
   constructor() {}
 
   ngOnInit(): void {
     this.initWidths();
+    this.initBinNumbers();
     this.initStoneModels();
-    this.binNumbers = this.gameLogic.binNumbers;
-    console.log(this.gameLogic);
   }
 
   private initWidths(): void {
@@ -43,6 +43,17 @@ export class BoardComponent implements OnInit {
     }
 
     this.storeHeightPx = this.boardHeightPx * BoardConstants.STORE_HEIGHT_PERC;
+  }
+
+  private initBinNumbers(): void {
+    this.binNumbersPlayerB = Array(this.gameLogic.binsQtyInRow)
+      .fill(this.gameLogic.fstBinNumberForPlayerA)
+      .map((x, i) => i);
+
+    this.binNumbersPlayerA = Array(this.gameLogic.binsQtyInRow)
+      .fill(this.gameLogic.fstBinNumberForPlayerB)
+      .map((x, i) => x + i)
+      .reverse();
   }
 
   private initStoneModels(): void {

@@ -22,6 +22,10 @@ export class GameComponent implements OnInit {
     this.endOfTheGame = false;
   }
 
+  public onBinClick(binNumber: number): void {
+    this.gameLogic.makeMove(binNumber);
+  }
+
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
   get headerText(): string {
     return this.endOfTheGame ? 'Game over' : 'Mancala Game';

@@ -15,6 +15,9 @@
   </div>
   <!-- ------------------------------------------- Board ------------------------------------------- -->
   <div class="w-75 h-60 mx-auto">
-    <app-board [gameLogic]="gameLogic"></app-board>
+    <app-board
+      [gameLogic]="gameLogic"
+      (binClick)="onBinClick($event)"
+    ></app-board>
   </div>
 </div>
