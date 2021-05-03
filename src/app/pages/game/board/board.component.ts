@@ -32,9 +32,9 @@ export class BoardComponent implements OnInit {
 
   private initWidths(): void {
     this.boardWidthPx = window.innerWidth * BoardConstants.BOARD_WIDTH_PERC;
-    this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 2);
+    this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 3);
     this.boardHeightPx = window.innerHeight * BoardConstants.BOARD_HEIGHT_PERC;
-    this.storeHeightPx = window.innerHeight * BoardConstants.STORE_HEIGHT_PERC;
+    this.storeHeightPx = this.boardHeightPx * BoardConstants.STORE_HEIGHT_PERC;
   }
 
   private initStoneModels(): void {
