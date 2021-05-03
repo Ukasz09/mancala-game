@@ -32,8 +32,16 @@ export class BoardComponent implements OnInit {
 
   private initWidths(): void {
     this.boardWidthPx = window.innerWidth * BoardConstants.BOARD_WIDTH_PERC;
+    if (this.boardWidthPx > BoardConstants.MAX_BOARD_WIDTH_PX) {
+      this.boardWidthPx = BoardConstants.MAX_BOARD_WIDTH_PX;
+    }
     this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 3);
+
     this.boardHeightPx = window.innerHeight * BoardConstants.BOARD_HEIGHT_PERC;
+    if (this.boardHeightPx < BoardConstants.MIN_BOARD_HEIGHT_PX) {
+      this.boardHeightPx = BoardConstants.MIN_BOARD_HEIGHT_PX;
+    }
+
     this.storeHeightPx = this.boardHeightPx * BoardConstants.STORE_HEIGHT_PERC;
   }
 
