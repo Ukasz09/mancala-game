@@ -1,0 +1,1 @@
+export { Stone } from './stone';

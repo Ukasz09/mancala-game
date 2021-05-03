@@ -1,11 +1,11 @@
 import { GameResult, Player } from '../shared/models';
 
 export class Game {
-  private readonly binsQtyInRow = 6;
+  public readonly binsQtyInRow = 6;
   private readonly startedStonesQty = 4;
 
+  public actualPlayer: Player;
   private bins: Map<number, number[]> = new Map(); // <bin number, array of stone's id>
-  private actualPlayer: Player;
 
   constructor() {
     this.chooseActualPlayerByRandom();
@@ -30,6 +30,15 @@ export class Game {
 
   public getStoneIdsForBin(binNumber: number): number[] {
     return this.bins.get(binNumber);
+  }
+
+  public getAllStoneIds(): number[] {
+    let stoneIds = [];
+    for (let binNumber of this.bins.keys()) {
+      const stones = this.getStoneIdsForBin(binNumber);
+      stoneIds = stoneIds.concat(stones);
+    }
+    return stoneIds;
   }
 
   private changePlayer() {
@@ -305,5 +314,9 @@ export class Game {
         ? this.binNumberPlayerStoreA
         : this.binNumberPlayerStoreB;
     return this.bins.get(storeNumber);
+  }
+
+  get binNumbers(): number[] {
+    return Array.from(this.bins.keys());
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Game } from 'src/app/game-logic/game';
 import { BoardComponent } from './board/board.component';
 
 @Component({
@@ -8,10 +9,13 @@ import { BoardComponent } from './board/board.component';
 })
 export class GameComponent implements OnInit {
   endOfTheGame = false;
+  gameLogic: Game;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.gameLogic = new Game();
+  }
 
   public onRestartGameBtnClick(gameBoard: BoardComponent) {
     gameBoard.resetGame();

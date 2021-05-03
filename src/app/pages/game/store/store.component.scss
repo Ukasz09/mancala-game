@@ -2,4 +2,5 @@
 
 .store {
   @include mixins.bg-fill();
+  background-image: url("/assets/images/store-001.png");
 }

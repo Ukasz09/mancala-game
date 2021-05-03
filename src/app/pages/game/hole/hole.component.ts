@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { LabelPosition } from '../../../../../shared/models/enums';
-import { Stone } from '../../models/stone';
+import { Stone } from '../models';
 
 @Component({
   selector: 'app-hole',
@@ -9,7 +8,6 @@ import { Stone } from '../../models/stone';
 })
 export class HoleComponent implements OnInit {
   @Input() size: number;
-  @Input() imageUrl: string;
   @Input() stones: Stone[] = [];
   @Input() stoneSize: number;
   @Input() isActive = false;

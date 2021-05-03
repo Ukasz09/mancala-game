@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Stone } from '../../models/stone';
+import { Stone } from '../models';
 
 @Component({
   selector: 'app-stone',

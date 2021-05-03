@@ -5,7 +5,7 @@
 
 #board {
   @include mixins.bg-fill();
-  // box-shadow: 0px 3px 8px 4px variables.$bootstrap-dark;
+  background-image: url("/assets/images/cartoon-wood-000.jpg");
   box-shadow: 0px -1px 12px 9px rgba(0, 0, 0, 0.55) inset;
 }
 

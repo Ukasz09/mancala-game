@@ -9,13 +9,12 @@
       *ngIf="endOfTheGame"
       class="btn-orange py-2"
       style="font-size: 1.25rem"
-      (click)="onRestartGameBtnClick(gameBoard)"
     >
       Play again
     </button>
   </div>
   <!-- ------------------------------------------- Board ------------------------------------------- -->
   <div class="w-75 h-60 mx-auto">
-    <app-board #gameBoard (endOfTheGame)="endOfTheGame = $event"></app-board>
+    <app-board [gameLogic]="gameLogic"></app-board>
   </div>
 </div>
