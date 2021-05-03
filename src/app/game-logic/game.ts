@@ -5,11 +5,24 @@ export class Game {
   private readonly startedStonesQty = 4;
 
   public actualPlayer: Player;
+  public gameIsOver = false;
   private bins: Map<number, number[]> = new Map(); // <bin number, array of stone's id>
 
-  constructor() {
+  constructor() {}
+
+  public initGame() {
     this.chooseActualPlayerByRandom();
     this.initBins();
+  }
+
+  public clone(): Game {
+    const clonedGame = new Game();
+    clonedGame.actualPlayer = this.actualPlayer;
+    clonedGame.gameIsOver = this.gameIsOver;
+    for (const binNumber of this.bins.keys()) {
+      clonedGame.bins.set(binNumber, [...this.bins.get(binNumber)]);
+    }
+    return clonedGame;
   }
 
   private chooseActualPlayerByRandom(): void {
@@ -71,8 +84,8 @@ export class Game {
       this.changePlayer();
     }
 
-    const gameIsOver = this.collectAllStonesWhenEmptyBins();
-    return [this.getActualGameResult(), gameIsOver];
+    this.gameIsOver = this.collectAllStonesWhenEmptyBins();
+    return [this.getActualGameResult(), this.gameIsOver];
   }
 
   /**
@@ -291,6 +304,15 @@ export class Game {
   public resetGame(): void {
     this.chooseActualPlayerByRandom();
     this.initBins();
+  }
+
+  public illegalMove(binNumber: number): boolean {
+    return (
+      binNumber < 0 ||
+      binNumber >= this.binNumberPlayerStoreA ||
+      binNumber === this.binNumberPlayerStoreB ||
+      this.getStonesQty(binNumber) === 0
+    );
   }
 
   /* ------------------------------------------- Getters & Setters ------------------------------------------- */

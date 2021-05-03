@@ -17,6 +17,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameLogic = new Game();
+    this.gameLogic.initGame();
   }
 
   public onRestartGameBtnClick(gameBoard: BoardComponent) {
