@@ -23,7 +23,11 @@
       <h3 class="mt-1 text-center text-orange game-text-shadow">
         {{ winnerInfoText }}
       </h3>
-      <button class="btn-orange py-2" style="font-size: 1.25rem">
+      <button
+        class="btn-orange py-2 w-25 mx-auto"
+        style="font-size: 1.25rem"
+        (click)="onRestartGameBtnClick(gameBoard)"
+      >
         Play again
       </button>
     </ng-container>

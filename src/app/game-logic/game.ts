@@ -4,14 +4,14 @@ export class Game {
   public readonly binsQtyInRow = 6;
   private readonly startedStonesQty = 4;
 
-  public actualPlayer: Player;
+  public actualPlayer: Player = Player.B;
   public gameIsOver = false;
   private bins: Map<number, number[]> = new Map(); // <bin number, array of stone's id>
 
   constructor() {}
 
   public initGame() {
-    this.chooseActualPlayerByRandom();
+    // this.chooseActualPlayerByRandom();
     this.initBins();
   }
 
@@ -266,7 +266,7 @@ export class Game {
     return false;
   }
 
-  private allBinsEmpty(startBinNumber: number, endBinNumber: number): boolean {
+  public allBinsEmpty(startBinNumber: number, endBinNumber: number): boolean {
     for (let i = startBinNumber; i <= endBinNumber; i++) {
       const stones = this.bins.get(i);
       if (stones.length > 0) {
