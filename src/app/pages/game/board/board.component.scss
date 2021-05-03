@@ -1,6 +1,7 @@
 @use "/src/app/shared/styles/utilities/mixins";
 @use "/src/app/shared/styles/utilities/variables";
 @use "/src/app/shared/styles/utilities/functions";
+@use "/src/app/shared/styles/components/game";
 
 #board {
   @include mixins.bg-fill();

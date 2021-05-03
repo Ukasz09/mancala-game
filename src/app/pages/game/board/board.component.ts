@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Player } from '../models/player';
 import { Stone } from './models/stone';
-import { StoreKind } from './models/store-kind';
+import { LabelPosition, StoreKind } from './models/enums';
 
 @Component({
   selector: 'app-board',
@@ -391,5 +391,21 @@ export class BoardComponent implements OnInit, AfterViewInit {
     return this.actualPlayer === Player.LEFT_PLAYER
       ? this.leftPlayerStoreStones
       : this.rightPlayerStoreStones;
+  }
+
+  get rightStoreLabelPosition(): LabelPosition {
+    return LabelPosition.ABOVE;
+  }
+
+  get leftStoreLabelPosition(): LabelPosition {
+    return LabelPosition.BELOW;
+  }
+
+  get stonesQtyInLeftStore(): number {
+    return this.leftPlayerStoreStones?.length ?? 0;
+  }
+
+  get stonesQtyInRightStore(): number {
+    return this.rightPlayerStoreStones?.length ?? 0;
   }
 }

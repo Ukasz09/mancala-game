@@ -1,0 +1,10 @@
+@use "/src/app/shared/styles/utilities/variables";
+
+.stones-qty-label {
+  @extend .game-text-shadow;
+  font-size: 2rem;
+}
+
+.game-text-shadow {
+  text-shadow: 2px 2px variables.$bootstrap-gray-800;
+}

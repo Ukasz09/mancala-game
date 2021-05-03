@@ -1,5 +1,6 @@
 @use "/src/app/shared/styles/utilities/mixins";
 @use "/src/app/shared/styles/utilities/functions";
+@use "/src/app/shared/styles/components/game";
 
 #main-container {
   @include mixins.bg-fill();
