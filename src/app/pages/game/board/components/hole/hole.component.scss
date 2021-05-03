@@ -1,3 +1,5 @@
+@use "/src/app/shared/styles/utilities/variables";
+
 .actual-player-move {
   &.hole {
     box-shadow: 1px 0px 17px 9px rgba(51, 255, 0, 0.4) inset;
@@ -9,4 +11,9 @@
 
 .other-player-move {
   cursor: not-allowed;
+}
+
+.stones-qty-label {
+  font-size: 1.75rem;
+  text-shadow: 2px 2px variables.$bootstrap-gray-800;
 }

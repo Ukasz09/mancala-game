@@ -45,7 +45,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.setActivePlayerByRandom();
     this.initRightPlayerHoleNumbers();
     this.initLeftPlayerHoleNumbers();
-    console.log(this.leftPlayerHoleNumbers, this.rightPlayerHoleNumbers);
   }
 
   ngAfterViewInit(): void {
@@ -216,7 +215,9 @@ export class BoardComponent implements OnInit, AfterViewInit {
         if (this.actualPlayer === Player.LEFT_PLAYER) {
           this.setRandomTranslateYForStoneInStore(stone);
           this.leftPlayerStoreStones.push(stone);
-        } else {
+        }
+        // Ommit store of the opponent
+        else {
           actualHoleNumer = this.getNextHoleNumber(actualHoleNumer);
           this.addStoneToHole(actualHoleNumer, stone);
         }
@@ -227,46 +228,18 @@ export class BoardComponent implements OnInit, AfterViewInit {
       }
     }
 
-    // Check end of the game
-    const rightPlayerHolesEmpty = this.allHolesEmpty(
-      this.rightPlayerHoleNumbers
-    );
-    if (rightPlayerHolesEmpty) {
-      this.addAllStonesToStore(
-        this.leftPlayerHoleNumbers,
-        this.leftPlayerStoreStones
-      );
-      this.endOfTheGame.emit(true);
-    } else {
-      const leftPlayerHolesEmpty = this.allHolesEmpty(
-        this.leftPlayerHoleNumbers
-      );
-      if (leftPlayerHolesEmpty) {
-        this.addAllStonesToStore(
-          this.rightPlayerHoleNumbers,
-          this.rightPlayerStoreStones
-        );
-        this.endOfTheGame.emit(true);
-      }
-    }
-
     // Check if player has additional move and stealing
     var playerHasAdditionalMove = false;
     if (stones.length > 0) {
-      const lastStone = stones[stones.length - 1];
-      // Check 'last in store'
-      const isInAnyStore =
-        this.leftPlayerStoreStones.includes(lastStone) ||
-        this.rightPlayerStoreStones.includes(lastStone);
-      if (isInAnyStore) {
+      if (
+        actualHoleNumer === this.holesQtyInRow ||
+        actualHoleNumer === this.holesQtyInRow * 2 + 1
+      ) {
         playerHasAdditionalMove = true;
       }
       // Check stealing
       else {
-        const lastStoneOfItsOwnHole = this.actualPlayerHoleNumbers.includes(
-          actualHoleNumer
-        );
-        if (lastStoneOfItsOwnHole) {
+        if (this.actualPlayerHoleNumbers.includes(actualHoleNumer)) {
           const stones = this.holeStones.get(actualHoleNumer);
           const wasEmpty = stones.length === 1;
           if (wasEmpty) {
@@ -280,20 +253,48 @@ export class BoardComponent implements OnInit, AfterViewInit {
               oppositeHoleNumber
             );
 
-            // Steal from the opponent
-            this.holeStones.set(oppositeHoleNumber, []);
-            for (let stone of stonesFromTheOppositeHole) {
-              this.actualPlayerStoreStones.push(stone);
-            }
+            if (stonesFromTheOppositeHole.length > 0) {
+              // Steal from the opponent
+              this.holeStones.set(oppositeHoleNumber, []);
+              for (let stone of stonesFromTheOppositeHole) {
+                this.actualPlayerStoreStones.push(stone);
+              }
 
-            // Add own stone to store
-            const stones = this.holeStones.get(actualHoleNumer);
-            this.actualPlayerStoreStones.push(stones[0]);
-            this.holeStones.set(actualHoleNumer, []);
+              // Add own stone to store
+              const stones = this.holeStones.get(actualHoleNumer);
+              this.actualPlayerStoreStones.push(stones[0]);
+              this.holeStones.set(actualHoleNumer, []);
+            }
           }
         }
       }
     }
+
+    // Check end of the game
+    const rightPlayerHolesEmpty = this.allHolesEmpty(
+      this.rightPlayerHoleNumbers
+    );
+    if (rightPlayerHolesEmpty) {
+      this.addAllStonesToStore(
+        this.leftPlayerHoleNumbers,
+        this.leftPlayerStoreStones
+      );
+      this.endOfTheGame.emit(true);
+      return false;
+    } else {
+      const leftPlayerHolesEmpty = this.allHolesEmpty(
+        this.leftPlayerHoleNumbers
+      );
+      if (leftPlayerHolesEmpty) {
+        this.addAllStonesToStore(
+          this.rightPlayerHoleNumbers,
+          this.rightPlayerStoreStones
+        );
+        this.endOfTheGame.emit(true);
+        return false;
+      }
+    }
+
     return playerHasAdditionalMove;
   }
 

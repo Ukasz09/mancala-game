@@ -37,4 +37,8 @@ export class HoleComponent implements OnInit {
   get holeCssClass(): string {
     return this.isActive ? this.activeHoleClass : this.notActiveHoleClass;
   }
+
+  get stonesQty(): number {
+    return this.stones?.length ?? 0;
+  }
 }

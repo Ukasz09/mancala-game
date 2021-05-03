@@ -23,9 +23,9 @@
   @include mixins.flex-container($direction: row, $justify-content: center);
 }
 
-/* Backgrounds
+/* Colors
 ============================================= */
-$bg-colours: (
+$colours: (
   "blue": variables.$bootstrap-blue,
   "indigo": variables.$bootstrap-indigo,
   "purple": variables.$bootstrap-purple,
@@ -40,24 +40,24 @@ $bg-colours: (
   "dark": variables.$bootstrap-dark,
 );
 
-@each $bgColor, $i in $bg-colours {
+@each $bgColor, $i in $colours {
   .bg-#{$bgColor} {
     background-color: $i;
   }
 }
 
+@each $textColor, $i in $colours {
+  .text-#{$textColor} {
+    color: $i;
+  }
+}
+
+.text-gray-300 {
+  color: variables.$bootstrap-gray-300;
+}
+
 .bg-image {
   @include mixins.bg-fill();
-}
-
-/* Text colors
-============================================= */
-.text-light {
-  color: variables.$bootstrap-light;
-}
-
-.text-dark {
-  color: variables.$bootstrap-dark;
 }
 
 /* Rounded
@@ -104,4 +104,10 @@ $round-sizes: 15, 25, 50, 75, 100;
     variables.$bootstrap-gray-500,
     variables.$bootstrap-gray-500
   );
+}
+
+/* Text utils
+============================================= */
+.text-center {
+  text-align: center;
 }
