@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { timer } from 'rxjs';
 import { Bot } from 'src/app/game-logic/bot';
 import { Game } from 'src/app/game-logic/game';
 import { GameMode, GameResult, Player } from 'src/app/shared/models';
@@ -37,13 +38,23 @@ export class GameComponent implements OnInit {
 
   public onBinClick(binNumber: number): void {
     this.makeMove(binNumber);
-    if (
-      !this.gameOver &&
-      this.isPlayerVsbotMode &&
-      this.gameLogic.actualPlayer === Player.A
-    ) {
-      this.makeMoveByBot();
-    }
+    console.log('user:' + binNumber, this.gameLogic.bins);
+    const s = timer(5000);
+    const abc = s.subscribe((val) => {
+      if (
+        !this.gameOver &&
+        this.isPlayerVsbotMode &&
+        this.gameLogic.actualPlayer === Player.A
+      ) {
+        this.makeMoveByBot();
+      } else {
+        console.log(
+          !this.gameOver,
+          this.isPlayerVsbotMode,
+          this.gameLogic.actualPlayer === Player.A
+        );
+      }
+    });
   }
 
   private makeMove(binNumber: number) {
@@ -57,15 +68,22 @@ export class GameComponent implements OnInit {
   }
 
   private makeMoveByBot(): void {
+    console.log('make move');
+
     const chosenBinByBot = this.botA.move(this.gameLogic);
     this.makeMove(chosenBinByBot);
-    if (
-      !this.gameOver &&
-      this.isPlayerVsbotMode &&
-      this.gameLogic.actualPlayer === Player.A
-    ) {
-      this.makeMoveByBot();
-    }
+    console.log('bot:' + chosenBinByBot, this.gameLogic.bins);
+
+    const s = timer(5000);
+    const abc = s.subscribe((val) => {
+      if (
+        !this.gameOver &&
+        this.isPlayerVsbotMode &&
+        this.gameLogic.actualPlayer === Player.A
+      ) {
+        this.makeMoveByBot();
+      }
+    });
   }
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
@@ -83,7 +101,7 @@ export class GameComponent implements OnInit {
   }
 
   get actualGameModeText(): string {
-    return this.route.snapshot.paramMap.get('mode').split('=')[1];
+    return this.route.snapshot.paramMap.get('mode');
   }
 
   get isPlayerVsbotMode(): boolean {

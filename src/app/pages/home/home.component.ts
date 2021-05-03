@@ -14,6 +14,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {}
 
   public getGameModeUrl(mode: string): string {
-    return `/game/mode=${mode}`;
+    return `/game/${mode}`;
   }
 }

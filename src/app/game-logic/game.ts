@@ -6,7 +6,7 @@ export class Game {
 
   public actualPlayer: Player = Player.B;
   public gameIsOver = false;
-  private bins: Map<number, number[]> = new Map(); // <bin number, array of stone's id>
+  public bins: Map<number, number[]> = new Map(); // <bin number, array of stone's id>
 
   constructor() {}
 
