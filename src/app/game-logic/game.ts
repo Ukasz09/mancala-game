@@ -142,15 +142,33 @@ export class Game {
   }
 
   private binBelongsToActualPlayer(binNumber: number): boolean {
+    return this.binBelongsToPlayer(binNumber, this.actualPlayer);
+  }
+
+  public binBelongsToPlayer(binNumber: number, player: Player): boolean {
     const fstBinNumber =
-      this.actualPlayer === Player.A
+      player === Player.A
         ? this.fstBinNumberForPlayerA
         : this.fstBinNumberForPlayerB;
     const lastBinNumber =
-      this.actualPlayer === Player.A
+      player === Player.A
         ? this.lastBinNumberForPlayerA
         : this.lastBinNumberForPlayerB;
     return binNumber >= fstBinNumber && binNumber <= lastBinNumber;
+  }
+
+  public binBelongsToPlayerA(binNumber: number): boolean {
+    return (
+      binNumber >= this.fstBinNumberForPlayerA &&
+      binNumber <= this.lastBinNumberForPlayerA
+    );
+  }
+
+  public binBelongsToPlayerB(binNumber: number): boolean {
+    return (
+      binNumber >= this.fstBinNumberForPlayerB &&
+      binNumber <= this.lastBinNumberForPlayerB
+    );
   }
 
   public getStonesQty(binNumber: number): number {
@@ -300,11 +318,11 @@ export class Game {
     return this.binsQtyInRow * 2 + 2;
   }
 
-  get getStoneIdsForStoreA(): number[] {
+  get stoneIdsForStoreA(): number[] {
     return this.bins.get(this.binNumberPlayerStoreA);
   }
 
-  get getStoneIdsForStoreB(): number[] {
+  get stoneIdsForStoreB(): number[] {
     return this.bins.get(this.binNumberPlayerStoreB);
   }
 
@@ -318,5 +336,13 @@ export class Game {
 
   get binNumbers(): number[] {
     return Array.from(this.bins.keys());
+  }
+
+  get stonesQtyInStoreA(): number {
+    return this.stoneIdsForStoreA.length;
+  }
+
+  get stonesQtyInStoreB(): number {
+    return this.stoneIdsForStoreB.length;
   }
 }

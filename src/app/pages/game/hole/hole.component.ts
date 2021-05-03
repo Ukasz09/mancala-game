@@ -8,9 +8,10 @@ import { Stone } from '../models';
 })
 export class HoleComponent implements OnInit {
   @Input() size: number;
-  @Input() stones: Stone[] = [];
   @Input() stoneSize: number;
   @Input() isActive = false;
+  @Input() allStones: Map<number, Stone> = new Map(); // <stone id, stone models>
+  @Input() stoneIds: number[] = [];
 
   @Output() stoneClick: EventEmitter<void> = new EventEmitter();
 

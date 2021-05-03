@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Game } from 'src/app/game-logic/game';
 import { Player } from '../../../shared/models/player';
 import { Stone } from '../models';
@@ -20,18 +13,19 @@ export class BoardComponent implements OnInit {
   @Input() gameLogic: Game;
   @Output() binClick: EventEmitter<number> = new EventEmitter();
 
-  private boardWidthPx: number;
-  private boardHeightPx: number;
-  private storeHeightPx: number;
-  private binSizePx: number;
-
-  private stoneModels: Map<number, Stone> = new Map(); // <stoneId, stone model>
+  boardWidthPx: number;
+  boardHeightPx: number;
+  storeHeightPx: number;
+  binSizePx: number;
+  stoneModels: Map<number, Stone> = new Map(); // <stoneId, stone model>
+  binNumbers: number[] = [];
 
   constructor() {}
 
   ngOnInit(): void {
     this.initWidths();
     this.initStoneModels();
+    this.binNumbers = this.gameLogic.binNumbers;
   }
 
   private initWidths(): void {
@@ -125,5 +119,13 @@ export class BoardComponent implements OnInit {
 
   get stoneSize(): number {
     return this.binSizePx * BoardConstants.STONE_SIZE_PERC;
+  }
+
+  get playerA(): Player {
+    return Player.A;
+  }
+
+  get playerB(): Player {
+    return Player.B;
   }
 }

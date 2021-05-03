@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Stone } from '../models';
 
 @Component({
   selector: 'app-store',
@@ -6,8 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./store.component.scss'],
 })
 export class StoreComponent implements OnInit {
-  @Input() imageUrl: string;
-  @Input() stones: Stone[] = [];
+  @Input() allStones: Map<number, Stone> = new Map(); // <stone id, stone models>
+  @Input() stoneIds: number[] = [];
   @Input() stoneSize: number;
 
   constructor() {}

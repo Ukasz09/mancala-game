@@ -1,81 +1,74 @@
-<div
-  id="board"
-  class="rounded-100 w-100 h-100 d-flex flex-row px-4"
-  [ngStyle]="{ 'background-image': boardImageUrl }"
->
-  <!-- ----------------------- Left player's store ---------------------- -->
-  <div id="store-left" #storeLeftDiv class="h-70 px-4 mt-4">
+<div id="board" class="rounded-100 w-100 h-100 d-flex flex-row px-4">
+  <!-- ----------------------- Store A ---------------------- -->
+  <div class="h-70 px-4 mt-4">
     <app-store
-      [imageUrl]="storeImageUrl"
-      [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
-      [stones]="leftPlayerStoreStones"
+      [stoneSize]="stoneSize"
+      [allStones]="stoneModels"
+      [stoneIds]="gameLogic.stoneIdsForStoreA"
     ></app-store>
     <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
-      {{ stonesQtyInLeftStore }}
+      {{ gameLogic.stonesQtyInStoreA }}
     </div>
   </div>
-  <div class="d-flex flex-column flex-fill h-100 py-4" #holesContainer>
+  <div class="d-flex flex-column flex-fill h-100 py-4">
     <!-- ----------------------- Left player's holes ---------------------- -->
-    <div id="left-player" class="h-50 d-flex flex-row">
-      <div
-        *ngFor="let holeNumber of leftPlayerHoleNumbers"
-        class="h-100 hole-container d-flex"
-      >
-        <div class="d-flex flex-column">
-          <app-hole
-            [isActive]="getHoleIsActive(Player.LEFT_PLAYER, holeNumber)"
-            [size]="getHoleSize(holesContainer.offsetWidth)"
-            [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
-            [imageUrl]="holeImageUrl"
-            [stones]="getHoleStones(holeNumber)"
-            (stoneClick)="onHoleClick(holeNumber)"
-          ></app-hole>
-          <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
-            {{ getStonesQty(holeNumber) }}
+    <div class="h-50 d-flex flex-row">
+      <ng-container *ngFor="let binNumber of binNumbers">
+        <div
+          *ngIf="gameLogic.binBelongsToPlayerA(binNumber)"
+          class="h-100 d-flex"
+        >
+          <div class="d-flex flex-column">
+            <app-hole
+              [isActive]="binIsActive(playerA, binNumber)"
+              [size]="binSizePx"
+              [stoneSize]="stoneSize"
+              [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
+              [allStones]="stoneModels"
+              (stoneClick)="onBinClick(binNumber)"
+            ></app-hole>
+            <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
+              {{ gameLogic.getStonesQty(binNumber) }}
+            </div>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
     <!-- ----------------------- Right player's holes ---------------------- -->
-    <div class="h-50 d-flex flex-column justify-content-end">
-      <div id="left-player" class="d-flex flex-row">
+    <div class="h-50 d-flex flex-row">
+      <ng-container *ngFor="let binNumber of binNumbers">
         <div
-          *ngFor="let holeNumber of rightPlayerHoleNumbers"
-          class="hole-container"
+          *ngIf="gameLogic.binBelongsToPlayerB(binNumber)"
+          class="h-100 d-flex"
         >
           <div class="d-flex flex-column">
             <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
-              {{ getStonesQty(holeNumber) }}
+              {{ gameLogic.getStonesQty(binNumber) }}
             </div>
             <app-hole
-              [isActive]="getHoleIsActive(Player.RIGHT_PLAYER, holeNumber)"
-              [size]="getHoleSize(holesContainer.offsetWidth)"
-              [stoneSize]="
-                getStoneSize(getHoleSize(holesContainer.offsetWidth))
-              "
-              [imageUrl]="holeImageUrl"
-              [stones]="getHoleStones(holeNumber)"
-              (stoneClick)="onHoleClick(holeNumber)"
+              [isActive]="binIsActive(playerB, binNumber)"
+              [size]="binSizePx"
+              [stoneSize]="stoneSize"
+              [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
+              [allStones]="stoneModels"
+              (stoneClick)="onBinClick(binNumber)"
             ></app-hole>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
-  <!-- ----------------------- Right player's store ---------------------- -->
-  <div
-    id="store-right"
-    class="h-100 d-flex flex-column justify-content-end pb-4"
-  >
+  <!-- ----------------------- Store B ---------------------- -->
+  <div class="h-100 d-flex flex-column justify-content-end pb-4">
     <!-- ------------------------------------------- Stones qty label ------------------------------------------- -->
     <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
-      {{ stonesQtyInRightStore }}
+      {{ gameLogic.stonesQtyInStoreB }}
     </div>
     <div class="h-70 px-4" #storeRightDiv>
       <app-store
-        [imageUrl]="storeImageUrl"
-        [stones]="rightPlayerStoreStones"
-        [stoneSize]="getStoneSize(getHoleSize(holesContainer.offsetWidth))"
+        [stoneSize]="stoneSize"
+        [allStones]="stoneModels"
+        [stoneIds]="gameLogic.stoneIdsForStoreB"
       ></app-store>
     </div>
   </div>
