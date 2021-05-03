@@ -1,12 +1,20 @@
+<h3
+  class="fixed-top my-2 btn-orange py-1 ps-4 game-text-shadow"
+  style="width: 100px; border-radius: 0px 50px 50px 0px"
+  routerLink="/home"
+  (click)="backToHome()"
+>
+  <span class="material-icons" style="font-size: 2.5rem"> home </span>
+</h3>
 <div
   id="main-container"
-  class="d-flex flex-column align-items-center bg-light text-light max-viewport"
+  class="d-flex flex-column align-items-center bg-light text-light max-viewport fade-in-default"
 >
   <!-- ------------------------------------------- Header ------------------------------------------- -->
   <div class="d-flex flex-column py-5 w-100">
     <div class="d-flex flex-row">
       <h2 class="flex-fill text-center player-info">Player A</h2>
-      <h1 class="w-50 text-center text-light game-text-shadow">
+      <h1 class="w-15 text-center text-light game-text-shadow">
         {{ headerText }}
       </h1>
       <h2 class="flex-fill text-center player-info">Player B</h2>
@@ -22,6 +30,7 @@
   </div>
   <!-- ------------------------------------------- Board ------------------------------------------- -->
   <app-board
+    #gameBoard
     [gameLogic]="gameLogic"
     (binClick)="onBinClick($event)"
   ></app-board>

@@ -97,7 +97,7 @@ $round-sizes: 15, 25, 50, 75, 100;
 ============================================= */
 .btn-orange {
   @include buttons.btn(
-    variables.$bootstrap-orange,
+    darken(variables.$bootstrap-orange, 5),
     variables.$bootstrap-light,
     darken(variables.$bootstrap-orange, 25),
     variables.$bootstrap-light,
@@ -121,4 +121,19 @@ $round-sizes: 15, 25, 50, 75, 100;
 ============================================= */
 .text-center {
   text-align: center;
+}
+
+/* Others
+============================================= */
+
+.fade-in-default {
+  animation: fadeIn 2s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
