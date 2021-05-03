@@ -255,14 +255,15 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
             if (stonesFromTheOppositeHole.length > 0) {
               // Steal from the opponent
-              this.holeStones.set(oppositeHoleNumber, []);
-              for (let stone of stonesFromTheOppositeHole) {
-                this.actualPlayerStoreStones.push(stone);
-              }
+              this.takeAllStonesFromHoleToStore(
+                oppositeHoleNumber,
+                this.actualPlayerStoreStones
+              );
 
               // Add own stone to store
-              const stones = this.holeStones.get(actualHoleNumer);
-              this.actualPlayerStoreStones.push(stones[0]);
+              const stone = this.holeStones.get(actualHoleNumer)[0];
+              this.setRandomTranslateYForStoneInStore(stone);
+              this.actualPlayerStoreStones.push(stone);
               this.holeStones.set(actualHoleNumer, []);
             }
           }
@@ -312,11 +313,19 @@ export class BoardComponent implements OnInit, AfterViewInit {
     storeStones: Stone[]
   ): void {
     for (let holeNumber of holeNumbers) {
-      const stonesInHole = this.holeStones.get(holeNumber);
-      this.holeStones.set(holeNumber, []);
-      for (let stone of stonesInHole) {
-        storeStones.push(stone);
-      }
+      this.takeAllStonesFromHoleToStore(holeNumber, storeStones);
+    }
+  }
+
+  private takeAllStonesFromHoleToStore(
+    holeNumber: number,
+    storeStones: Stone[]
+  ): void {
+    const stonesInHole = this.holeStones.get(holeNumber);
+    this.holeStones.set(holeNumber, []);
+    for (let stone of stonesInHole) {
+      this.setRandomTranslateYForStoneInStore(stone);
+      storeStones.push(stone);
     }
   }
 
