@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LabelPosition } from '../../models/enums';
+import { LabelPosition } from '../../../../../shared/models/enums';
 import { Stone } from '../../models/stone';
 
 @Component({

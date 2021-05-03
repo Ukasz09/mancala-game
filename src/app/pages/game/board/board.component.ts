@@ -7,9 +7,9 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { Player } from '../models/player';
+import { Player } from '../../../shared/models/player';
 import { Stone } from './models/stone';
-import { LabelPosition, StoreKind } from './models/enums';
+import { LabelPosition, StoreKind } from '../../../shared/models/enums';
 
 @Component({
   selector: 'app-board',
@@ -35,7 +35,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   private holeStones: Map<number, Stone[]> = new Map();
   private storeStones: Map<StoreKind, Stone[]> = new Map();
 
-  public actualPlayer = Player.RIGHT_PLAYER;
+  public actualPlayer = Player.B;
   public leftPlayerHoleNumbers: number[];
   public rightPlayerHoleNumbers: number[];
 
@@ -52,8 +52,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
   }
 
   private setActivePlayerByRandom(): void {
-    this.actualPlayer =
-      Math.random() > 0.5 ? Player.LEFT_PLAYER : Player.RIGHT_PLAYER;
+    this.actualPlayer = Math.random() > 0.5 ? Player.A : Player.B;
   }
 
   private initRightPlayerHoleNumbers(): void {
@@ -201,7 +200,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       // check whether stone should be added to any store
       if (actualHoleNumer === this.holesQtyInRow) {
         // Right player place stone in his store
-        if (this.actualPlayer === Player.RIGHT_PLAYER) {
+        if (this.actualPlayer === Player.B) {
           this.setRandomTranslateYForStoneInStore(stone);
           this.rightPlayerStoreStones.push(stone);
         }
@@ -212,7 +211,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
         }
       } else if (actualHoleNumer === this.holesQtyInRow * 2 + 1) {
         // Left player place stone in his store
-        if (this.actualPlayer === Player.LEFT_PLAYER) {
+        if (this.actualPlayer === Player.A) {
           this.setRandomTranslateYForStoneInStore(stone);
           this.leftPlayerStoreStones.push(stone);
         }
@@ -390,19 +389,19 @@ export class BoardComponent implements OnInit, AfterViewInit {
   }
 
   get actualPlayerHoleNumbers(): number[] {
-    return this.actualPlayer === Player.LEFT_PLAYER
+    return this.actualPlayer === Player.A
       ? this.leftPlayerHoleNumbers
       : this.rightPlayerHoleNumbers;
   }
 
   get oppositePlayerHoleNumbers(): number[] {
-    return this.actualPlayer === Player.LEFT_PLAYER
+    return this.actualPlayer === Player.A
       ? this.rightPlayerHoleNumbers
       : this.leftPlayerHoleNumbers;
   }
 
   get actualPlayerStoreStones(): Stone[] {
-    return this.actualPlayer === Player.LEFT_PLAYER
+    return this.actualPlayer === Player.A
       ? this.leftPlayerStoreStones
       : this.rightPlayerStoreStones;
   }
