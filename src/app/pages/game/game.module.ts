@@ -15,6 +15,6 @@ import { BoardComponent } from './board/board.component';
     BoardComponent,
   ],
   imports: [CommonModule],
-  exports: [GameComponent],
+  exports: [GameComponent, HoleComponent],
 })
 export class GameModule {}

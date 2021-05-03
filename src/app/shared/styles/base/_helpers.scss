@@ -106,6 +106,17 @@ $round-sizes: 15, 25, 50, 75, 100;
   );
 }
 
+.btn-gray-brown {
+  @include buttons.btn(
+    variables.$gray-brown,
+    variables.$bootstrap-light,
+    variables.$bootstrap-orange,
+    variables.$bootstrap-light,
+    variables.$bootstrap-gray-500,
+    variables.$bootstrap-gray-500
+  );
+}
+
 /* Text utils
 ============================================= */
 .text-center {

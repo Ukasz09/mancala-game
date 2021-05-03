@@ -1,0 +1,12 @@
+@use "/src/app/shared/styles/utilities/mixins";
+@use "/src/app/shared/styles/components/game";
+
+.home-btn {
+  box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.85);
+  border: transparent;
+}
+
+.bg-down {
+  @include mixins.bg-fill();
+  background-image: url("/assets/images/bg-down.png");
+}
