@@ -62,9 +62,11 @@ export class Game {
     if (!playerHasAdditionalMove) {
       // Check wheter need to steal stones
       const stonesQtyInBin = this.getStonesQty(lastUsedBinNumber);
+      console.log(this.actualPlayer);
       const needToStealStones =
         this.binBelongsToActualPlayer(lastUsedBinNumber) &&
         stonesQtyInBin === 1;
+      console.log(this.binBelongsToActualPlayer(lastUsedBinNumber));
       if (needToStealStones) {
         this.stealStones(lastUsedBinNumber);
       }
@@ -303,19 +305,19 @@ export class Game {
     return this.binsQtyInRow;
   }
 
-  get fstBinNumberForPlayerA(): number {
+  get fstBinNumberForPlayerB(): number {
     return 0;
   }
 
-  get lastBinNumberForPlayerA(): number {
+  get lastBinNumberForPlayerB(): number {
     return this.binsQtyInRow - 1;
   }
 
-  get fstBinNumberForPlayerB(): number {
+  get fstBinNumberForPlayerA(): number {
     return this.binsQtyInRow + 1;
   }
 
-  get lastBinNumberForPlayerB(): number {
+  get lastBinNumberForPlayerA(): number {
     return this.binsQtyInRow * 2;
   }
 

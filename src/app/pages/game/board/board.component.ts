@@ -47,11 +47,11 @@ export class BoardComponent implements OnInit {
 
   private initBinNumbers(): void {
     this.binNumbersPlayerB = Array(this.gameLogic.binsQtyInRow)
-      .fill(this.gameLogic.fstBinNumberForPlayerA)
+      .fill(this.gameLogic.fstBinNumberForPlayerB)
       .map((x, i) => i);
 
     this.binNumbersPlayerA = Array(this.gameLogic.binsQtyInRow)
-      .fill(this.gameLogic.fstBinNumberForPlayerB)
+      .fill(this.gameLogic.fstBinNumberForPlayerA)
       .map((x, i) => x + i)
       .reverse();
   }
