@@ -3,21 +3,26 @@
   class="d-flex flex-column align-items-center bg-light text-light max-viewport"
 >
   <!-- ------------------------------------------- Header ------------------------------------------- -->
-  <div class="d-flex flex-column py-5">
-    <h1 class="text-center text-light game-text-shadow">{{ headerText }}</h1>
-    <button
-      *ngIf="endOfTheGame"
-      class="btn-orange py-2"
-      style="font-size: 1.25rem"
-    >
-      Play again
-    </button>
+  <div class="d-flex flex-column py-5 w-100">
+    <div class="d-flex flex-row">
+      <h2 class="flex-fill text-center player-info">Player A</h2>
+      <h1 class="w-50 text-center text-light game-text-shadow">
+        {{ headerText }}
+      </h1>
+      <h2 class="flex-fill text-center player-info">Player B</h2>
+    </div>
+    <ng-container *ngIf="gameOver">
+      <h3 class="mt-1 text-center text-orange game-text-shadow">
+        {{ winnerInfoText }}
+      </h3>
+      <button class="btn-orange py-2" style="font-size: 1.25rem">
+        Play again
+      </button>
+    </ng-container>
   </div>
   <!-- ------------------------------------------- Board ------------------------------------------- -->
-  <div class="w-75 h-60 mx-auto">
-    <app-board
-      [gameLogic]="gameLogic"
-      (binClick)="onBinClick($event)"
-    ></app-board>
-  </div>
+  <app-board
+    [gameLogic]="gameLogic"
+    (binClick)="onBinClick($event)"
+  ></app-board>
 </div>

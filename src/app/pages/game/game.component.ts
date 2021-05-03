@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/app/game-logic/game';
+import { GameResult } from 'src/app/shared/models';
 import { BoardComponent } from './board/board.component';
 
 @Component({
@@ -8,8 +9,9 @@ import { BoardComponent } from './board/board.component';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-  endOfTheGame = false;
-  gameLogic: Game;
+  public gameOver = false;
+  public gameLogic: Game;
+  private actualGameResult: GameResult;
 
   constructor() {}
 
@@ -19,15 +21,26 @@ export class GameComponent implements OnInit {
 
   public onRestartGameBtnClick(gameBoard: BoardComponent) {
     gameBoard.resetGame();
-    this.endOfTheGame = false;
+    this.gameOver = false;
   }
 
   public onBinClick(binNumber: number): void {
-    this.gameLogic.makeMove(binNumber);
+    const [gameResult, gameOver] = this.gameLogic.makeMove(binNumber);
+    this.gameOver = gameOver;
+    this.actualGameResult = gameResult;
   }
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
   get headerText(): string {
-    return this.endOfTheGame ? 'Game over' : 'Mancala Game';
+    return this.gameOver ? 'Game over' : 'Mancala Game';
+  }
+
+  get winnerInfoText(): string {
+    if (this.actualGameResult === GameResult.TIE) {
+      return "It's a tie !";
+    }
+    return this.actualGameResult === GameResult.WINNER_A
+      ? 'Player A won !'
+      : 'Player B won !';
   }
 }

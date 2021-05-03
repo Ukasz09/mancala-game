@@ -1,9 +1,12 @@
-@use "/src/app/shared/styles/utilities/mixins";
-@use "/src/app/shared/styles/utilities/functions";
+@use "/src/app/shared/styles/utilities/variables";
 @use "/src/app/shared/styles/components/game";
 
 #main-container {
   // @include mixins.bg-fill();
   // background-image: functions.image("bg-2.png");
   background-color: #504a48;
+}
+
+.player-info {
+  color: lighten(variables.$bootstrap-orange, 10);
 }
