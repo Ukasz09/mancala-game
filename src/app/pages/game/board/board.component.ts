@@ -85,7 +85,12 @@ export class BoardComponent implements OnInit {
   }
 
   private getStoneImageUrl(stoneImageNumber: number): string {
-    return `url(/assets/images/stone-00${stoneImageNumber}.png)`;
+    const paddedStrStoneNumb = stoneImageNumber.toString().padStart(3, '0');
+    const imagePath = BoardConstants.stonesImagePathPrefix.replace(
+      '{stoneNumber}',
+      paddedStrStoneNumb
+    );
+    return `url(${imagePath}`;
   }
 
   private getRandomStoneTranslateX(stoneSize: number): number {
@@ -105,7 +110,7 @@ export class BoardComponent implements OnInit {
     return randOffset;
   }
 
-  setRandomPostionForStones(stoneIds: number[]): void {
+  public setRandomPostionForStones(stoneIds: number[]): void {
     for (let stoneId of stoneIds) {
       const stone = this.stoneModels.get(stoneId);
       stone.translatePositonX = this.getRandomStoneTranslateX(this.stoneSize);
@@ -135,6 +140,10 @@ export class BoardComponent implements OnInit {
   public resetGame(): void {
     this.initBinNumbers();
     this.initStoneModels();
+  }
+
+  public test() {
+    console.log('sth');
   }
 
   /* ------------------------------------------- Getters & Setters ------------------------------------------- */

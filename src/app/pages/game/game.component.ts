@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { timer } from 'rxjs';
 import { Bot } from 'src/app/game-logic/bot';
 import { Game } from 'src/app/game-logic/game';
 import { GameMode, GameResult, Player } from 'src/app/shared/models';
@@ -12,6 +11,8 @@ import { BoardComponent } from './board/board.component';
   styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
+  @ViewChild('gameBoard') boardComponent: BoardComponent;
+
   public gameOver = false;
   public gameLogic: Game;
   private actualGameResult: GameResult;
@@ -38,7 +39,6 @@ export class GameComponent implements OnInit {
 
   public onBinClick(binNumber: number): void {
     this.makeMove(binNumber);
-    console.log('user:' + binNumber, this.gameLogic.bins);
     if (
       !this.gameOver &&
       this.isPlayerVsbotMode &&
@@ -52,6 +52,7 @@ export class GameComponent implements OnInit {
     const [gameResult, gameOver] = this.gameLogic.makeMove(binNumber);
     this.gameOver = gameOver;
     this.actualGameResult = gameResult;
+    this.boardComponent.test();
   }
 
   public backToHome(): void {
