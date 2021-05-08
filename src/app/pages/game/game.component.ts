@@ -16,18 +16,46 @@ export class GameComponent implements OnInit {
 
   public gameOver = false;
   public gameLogic: Game;
+  public gameMode: GameMode;
+
   private actualGameResult: GameResult;
   private botA: Bot = undefined;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.initActualGameMode();
     this.gameLogic = new Game();
     this.gameLogic.initGame();
-    if (this.isPlayerVsbotMode) {
+    if (this.gameMode === GameMode.PLAYER_VS_BOT) {
       this.botA = new Bot();
       if (this.gameLogic.actualPlayer === Player.A) {
         this.makeMoveByBot();
+      }
+    }
+  }
+
+  private initActualGameMode(): void {
+    const gameModeText = this.route.snapshot.paramMap.get('mode');
+    switch (gameModeText) {
+      case GameMode.PLAYER_VS_PLAYER: {
+        this.gameMode = GameMode.PLAYER_VS_PLAYER;
+        break;
+      }
+      case GameMode.PLAYER_VS_BOT: {
+        this.gameMode = GameMode.PLAYER_VS_BOT;
+        break;
+      }
+      case GameMode.BOT_VS_BOT: {
+        this.gameMode = GameMode.BOT_VS_BOT;
+        break;
+      }
+      default: {
+        console.warn(
+          `Incorrect game mode - running in mode: ${this.gameMode} `
+        );
+        this.gameMode = GameMode.PLAYER_VS_PLAYER;
+        break;
       }
     }
   }
@@ -42,7 +70,7 @@ export class GameComponent implements OnInit {
     this.makeMove(binNumber);
     if (
       !this.gameOver &&
-      this.isPlayerVsbotMode &&
+      this.gameMode === GameMode.PLAYER_VS_BOT &&
       this.gameLogic.actualPlayer === Player.A
     ) {
       this.makeMoveByBot();
@@ -62,14 +90,17 @@ export class GameComponent implements OnInit {
 
   private makeMoveByBot(): void {
     const chosenBinByBot = this.botA.move(this.gameLogic);
-    this.makeMove(chosenBinByBot);
-    if (
-      !this.gameOver &&
-      this.isPlayerVsbotMode &&
-      this.gameLogic.actualPlayer === Player.A
-    ) {
-      this.makeMoveByBot();
-    }
+    // TODO: temp hardcoded time
+    timer(2000).subscribe(() => {
+      this.makeMove(chosenBinByBot);
+      if (
+        !this.gameOver &&
+        this.gameMode === GameMode.PLAYER_VS_BOT &&
+        this.gameLogic.actualPlayer === Player.A
+      ) {
+        this.makeMoveByBot();
+      }
+    });
   }
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
@@ -84,13 +115,5 @@ export class GameComponent implements OnInit {
     return this.actualGameResult === GameResult.WINNER_A
       ? 'Player A won !'
       : 'Player B won !';
-  }
-
-  get actualGameModeText(): string {
-    return this.route.snapshot.paramMap.get('mode');
-  }
-
-  get isPlayerVsbotMode(): boolean {
-    return this.actualGameModeText === GameMode.PLAYER_VS_BOT;
   }
 }

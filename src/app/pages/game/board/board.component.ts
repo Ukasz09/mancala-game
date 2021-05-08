@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { timer } from 'rxjs';
 import { Game } from 'src/app/game-logic/game';
+import { GameMode } from 'src/app/shared/models';
 import { Player } from '../../../shared/models/player';
 import { Stone } from '../models';
 import { BoardConstants } from './board-constants';
@@ -15,6 +16,7 @@ export class BoardComponent implements OnInit {
   private readonly notActiveBinClass = 'other-player-move';
 
   @Input() gameLogic: Game;
+  @Input() gameMode: GameMode;
   @Output() binClick: EventEmitter<number> = new EventEmitter();
 
   public readonly stoneTransitionTimeSec = 2; // ! Need to be the same as in stone's css animation property !
@@ -81,13 +83,12 @@ export class BoardComponent implements OnInit {
     const [positionX, positionY] = this.getStoneStartedPosition(stoneId);
     const randTranslateX = this.getRandomStoneTranslateX(this.stoneSize);
     const randTranslateY = this.getRandomStoneTranslateY(this.stoneSize);
-    const randRotation = Math.random() * 360;
     const stone = new Stone(
       stoneId,
       stoneImageUrl,
       positionX + randTranslateX,
       positionY + randTranslateY,
-      randRotation
+      this.randomRotationDeg
     );
     return stone;
   }
@@ -156,10 +157,11 @@ export class BoardComponent implements OnInit {
   }
 
   public binIsActive(player: Player, binNumber: number): boolean {
-    const actualPlayerBin = player === this.gameLogic.actualPlayer;
     const stonesInBin = this.gameLogic.getStoneIdsForBin(binNumber);
-    const BinNotEmpty = stonesInBin?.length > 0;
-    return actualPlayerBin && BinNotEmpty;
+    const binNotEmpty = stonesInBin?.length > 0;
+
+    const actualPlayerBin = player === this.gameLogic.actualPlayer;
+    return actualPlayerBin && binNotEmpty;
   }
 
   public onStoneClick(stoneNumber: number) {
@@ -234,7 +236,7 @@ export class BoardComponent implements OnInit {
           }
           // Set position X
           stone.positonX += translateX;
-
+          stone.rotation = this.randomRotationDeg;
           stonesWithMovingAnimation.push(stoneNumber);
         }
       }
@@ -297,6 +299,13 @@ export class BoardComponent implements OnInit {
   }
 
   public getBinCssClass(binNumber: number, player: Player): string {
+    if (this.gameMode === GameMode.PLAYER_VS_BOT) {
+      // Turn off all bins
+      if (this.gameLogic.actualPlayer === this.playerA) {
+        return this.notActiveBinClass;
+      }
+    }
+
     const isActive = this.binIsActive(player, binNumber);
     return isActive ? this.activeBinClass : this.notActiveBinClass;
   }
@@ -325,5 +334,9 @@ export class BoardComponent implements OnInit {
 
   get boardHeightWithPadding(): number {
     return this.boardHeightPx + this.binSizePx / 2;
+  }
+
+  get randomRotationDeg(): number {
+    return Math.random() * 360;
   }
 }

@@ -51,6 +51,7 @@
       <div class="h-100 d-flex flex-row" style="width: fit-content">
         <ng-container *ngFor="let binNumber of binNumbersPlayerA">
           <div class="d-flex flex-column">
+            <!-- ----------------------- Bin ---------------------- -->
             <div
               [ngClass]="getBinCssClass(binNumber, playerA)"
               class="bg-image rounded-100 bin"
@@ -72,6 +73,7 @@
             <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
               {{ gameLogic.getStonesQty(binNumber) }}
             </div>
+            <!-- ----------------------- Bin ---------------------- -->
             <div
               [ngClass]="getBinCssClass(binNumber, playerB)"
               class="bg-image rounded-100 bin"
