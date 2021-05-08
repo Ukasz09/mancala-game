@@ -10,8 +10,9 @@ export class HoleComponent implements OnInit {
   @Input() size: number;
   @Input() stoneSize: number;
   @Input() isActive = false;
-  @Input() allStones: Map<number, Stone> = new Map(); // <stone id, stone models>
+  @Input() allStones: Map<number, Stone> = new Map(); // <stone number, stone models>
   @Input() stoneIds: number[] = [];
+  @Input() stonesWithMovingAnimation: number[] = []; // stone_number []
 
   @Output() stoneClick: EventEmitter<void> = new EventEmitter();
 
@@ -32,8 +33,12 @@ export class HoleComponent implements OnInit {
     }
   }
 
-  public getStone(stoneId: number): Stone {
-    return this.allStones.get(stoneId);
+  public getStone(stoneNumber: number): Stone {
+    return this.allStones.get(stoneNumber);
+  }
+
+  public getStoneMovingAnimationClass(stoneNumber: number) {
+    return this.stonesWithMovingAnimation.includes(stoneNumber) ? `moving` : '';
   }
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */

@@ -9,12 +9,14 @@ import { Stone } from '../models';
 export class StoneComponent implements OnInit {
   @Input() size: number;
   @Input() stone: Stone;
+  @Input() stoneMovingAnimationClass: string;
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  getStoneTransformStyle(stone: Stone): string {
-    return `translateX(${stone.translatePositonX}px) translateY(${stone.translatePositonY}px) rotate(${stone.rotation}deg)`;
+  /* ------------------------------------------- Getters & Setters ------------------------------------------- */
+  get stoneTransformStyle(): string {
+    return `translateX(${this.stone.translatePositonX}px) translateY(${this.stone.translatePositonY}px) rotate(${this.stone.rotation}deg)`;
   }
 }

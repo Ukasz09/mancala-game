@@ -2,10 +2,11 @@
 <div
   class="bg-image rounded-50"
   style="position: absolute"
+  [ngClass]="stoneMovingAnimationClass"
   [ngStyle]="{
     width: size + 'px',
     height: size + 'px',
-    transform: getStoneTransformStyle(stone),
+    transform: stoneTransformStyle,
     'background-image': stone.imageUrl
   }"
 ></div>

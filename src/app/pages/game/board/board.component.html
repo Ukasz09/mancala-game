@@ -38,8 +38,9 @@
             [isActive]="binIsActive(playerA, binNumber)"
             [size]="binSizePx"
             [stoneSize]="stoneSize"
-            [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
+            [stoneIds]="getStoneIdsForBin(binNumber)"
             [allStones]="stoneModels"
+            [stonesWithMovingAnimation]="stonesWithMovingAnimation"
             (stoneClick)="onBinClick(binNumber)"
           ></app-bin>
           <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
@@ -59,8 +60,9 @@
             [isActive]="binIsActive(playerB, binNumber)"
             [size]="binSizePx"
             [stoneSize]="stoneSize"
-            [stoneIds]="gameLogic.getStoneIdsForBin(binNumber)"
+            [stoneIds]="getStoneIdsForBin(binNumber)"
             [allStones]="stoneModels"
+            [stonesWithMovingAnimation]="stonesWithMovingAnimation"
             (stoneClick)="onBinClick(binNumber)"
           ></app-bin>
         </div>

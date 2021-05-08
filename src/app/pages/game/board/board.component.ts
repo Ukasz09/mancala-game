@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { timer } from 'rxjs';
 import { Game } from 'src/app/game-logic/game';
 import { Player } from '../../../shared/models/player';
 import { Stone } from '../models';
@@ -13,6 +14,8 @@ export class BoardComponent implements OnInit {
   @Input() gameLogic: Game;
   @Output() binClick: EventEmitter<number> = new EventEmitter();
 
+  private readonly stoneMovingAnimationTimeMs = 5000; // ! Need to be the same as in stone's css animation property !
+
   boardWidthPx: number;
   boardHeightPx: number;
   storeHeightPx: number;
@@ -21,6 +24,8 @@ export class BoardComponent implements OnInit {
   stoneModels: Map<number, Stone> = new Map(); // <stoneId, stone model>
   binNumbersPlayerA: number[] = [];
   binNumbersPlayerB: number[] = [];
+  binsSnapshot: Map<number, number[]> = new Map();
+  stonesWithMovingAnimation: number[] = [];
 
   constructor() {}
 
@@ -28,6 +33,7 @@ export class BoardComponent implements OnInit {
     this.initWidths();
     this.initBinNumbers();
     this.initStoneModels();
+    this.makeBinsSnapshot();
   }
 
   private initWidths(): void {
@@ -142,8 +148,111 @@ export class BoardComponent implements OnInit {
     this.initStoneModels();
   }
 
-  public test() {
-    console.log('sth');
+  public onMoveHasBeenDone() {
+    this.updateStoneTranslateValue();
+    timer(this.stoneMovingAnimationTimeMs).subscribe(() => {
+      console.log('Timer end - making snapshot');
+      this.resetAnimatedStoneTranslate();
+      this.stonesWithMovingAnimation = [];
+      this.makeBinsSnapshot();
+    });
+  }
+
+  private makeBinsSnapshot() {
+    this.binsSnapshot = this.gameLogic.cloneBins();
+  }
+
+  public getStoneIdsForBin(binNumber: number): number[] {
+    return this.binsSnapshot.get(binNumber);
+  }
+
+  /**
+   * @returns <stone-number, (translate-value-X, translate-value-Y)>
+   */
+  private updateStoneTranslateValue(): void {
+    const stonesWithMovingAnimation = [];
+    for (const binNumber of this.binsSnapshot.keys()) {
+      const stonesNumberFromSnapshot = this.binsSnapshot.get(binNumber);
+      const stonesNumberFromGame = this.gameLogic.getStoneIdsForBin(binNumber);
+      for (const stoneNumber of stonesNumberFromSnapshot) {
+        // If stone is moved
+        const stoneIsMoved = !stonesNumberFromGame.includes(stoneNumber);
+        if (stoneIsMoved) {
+          const newBinNumber = this.getBinNumberForStone(stoneNumber);
+          const translateX = this.getStoneXTranslate(binNumber, newBinNumber);
+          const translateY = this.getStoneYTranslate(binNumber, newBinNumber);
+          const stone = this.stoneModels.get(stoneNumber);
+          stone.translatePositonX = translateX;
+          stone.translatePositonY = translateY;
+          stonesWithMovingAnimation.push(stoneNumber);
+        }
+      }
+    }
+    this.stonesWithMovingAnimation = stonesWithMovingAnimation;
+  }
+
+  private getBinNumberForStone(wantedStoneNumber: number): number {
+    for (let binNumber of this.gameLogic.binNumbers) {
+      const stoneNumbersFromGame = this.gameLogic.getStoneIdsForBin(binNumber);
+      for (let stoneNumber of stoneNumbersFromGame) {
+        if (stoneNumber === wantedStoneNumber) {
+          return binNumber;
+        }
+      }
+    }
+    return -1;
+  }
+
+  private getStoneXTranslate(
+    actualBinNumber: number,
+    newBinNumber: number
+  ): number {
+    let newBinOffset = newBinNumber;
+    if (newBinNumber > this.gameLogic.binNumberPlayerStoreB) {
+      newBinOffset =
+        this.gameLogic.binsQtyInRow -
+        1 -
+        (newBinNumber % (this.gameLogic.binsQtyInRow + 1));
+    }
+
+    let actualBinOffset = actualBinNumber;
+    if (actualBinNumber > this.gameLogic.binNumberPlayerStoreB) {
+      actualBinOffset =
+        this.gameLogic.binsQtyInRow -
+        1 -
+        (actualBinNumber % (this.gameLogic.binsQtyInRow + 1));
+    }
+
+    return (
+      (newBinOffset - actualBinOffset) * this.binSizePx + this.binSizePx / 2
+    );
+  }
+
+  private getStoneYTranslate(
+    actualBinNumber: number,
+    newBinNumber: number
+  ): number {
+    const newBinNumberOffset = this.gameLogic.binBelongsToPlayerA(newBinNumber)
+      ? 1
+      : 0;
+    const actualBinNumberOffset = this.gameLogic.binBelongsToPlayerA(
+      actualBinNumber
+    )
+      ? 1
+      : 0;
+    return (
+      -1 * (newBinNumberOffset - actualBinNumberOffset) * this.boardHeightPx -
+      this.binSizePx / 2
+    );
+  }
+
+  private resetAnimatedStoneTranslate(): void {
+    for (let stoneNumber of this.stonesWithMovingAnimation) {
+      const stone = this.stoneModels.get(stoneNumber);
+      // TODO: Improve
+      stone.translatePositonX = this.getRandomStoneTranslateX(stoneNumber);
+      stone.translatePositonY = this.getRandomStoneTranslateY(stoneNumber);
+    }
   }
 
   /* ------------------------------------------- Getters & Setters ------------------------------------------- */

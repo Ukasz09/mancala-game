@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { timer } from 'rxjs';
 import { Bot } from 'src/app/game-logic/bot';
 import { Game } from 'src/app/game-logic/game';
 import { GameMode, GameResult, Player } from 'src/app/shared/models';
@@ -52,7 +53,7 @@ export class GameComponent implements OnInit {
     const [gameResult, gameOver] = this.gameLogic.makeMove(binNumber);
     this.gameOver = gameOver;
     this.actualGameResult = gameResult;
-    this.boardComponent.test();
+    this.boardComponent.onMoveHasBeenDone();
   }
 
   public backToHome(): void {

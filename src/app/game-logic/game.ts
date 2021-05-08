@@ -315,6 +315,15 @@ export class Game {
     );
   }
 
+  public cloneBins(): Map<number, number[]> {
+    const cloned = new Map();
+    for (let binNumber of this.bins.keys()) {
+      const clonedStonesId = [...this.bins.get(binNumber)];
+      cloned.set(binNumber, clonedStonesId);
+    }
+    return cloned;
+  }
+
   /* ------------------------------------------- Getters & Setters ------------------------------------------- */
 
   get binNumberPlayerStoreA(): number {
