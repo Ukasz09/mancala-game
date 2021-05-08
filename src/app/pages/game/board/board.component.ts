@@ -14,6 +14,7 @@ import { BoardConstants } from './board-constants';
 export class BoardComponent implements OnInit {
   private readonly activeBinClass = 'actual-player-move';
   private readonly notActiveBinClass = 'other-player-move';
+  private readonly lastClickedBinClass = 'last-clicked-bin';
 
   @Input() gameLogic: Game;
   @Input() gameMode: GameMode;
@@ -33,6 +34,7 @@ export class BoardComponent implements OnInit {
   binsSnapshot: Map<number, number[]> = new Map();
   stonesWithMovingAnimation: number[] = [];
   binsAreClickable = true;
+  lastClickedBinNumer: number = undefined;
 
   constructor() {}
 
@@ -200,6 +202,7 @@ export class BoardComponent implements OnInit {
   public resetGame(): void {
     this.initBinNumbers();
     this.initStoneModels();
+    this.lastClickedBinNumer = undefined;
   }
 
   public onMoveHasBeenDone() {
@@ -321,6 +324,10 @@ export class BoardComponent implements OnInit {
   }
 
   public getBinCssClass(binNumber: number, player: Player): string {
+    if (binNumber === this.lastClickedBinNumer) {
+      return this.lastClickedBinClass;
+    }
+
     if (this.gameMode === GameMode.PLAYER_VS_BOT) {
       // Turn off all bins
       if (this.gameLogic.actualPlayer === this.playerA) {
@@ -331,7 +338,10 @@ export class BoardComponent implements OnInit {
     }
 
     const isActive = this.binIsActive(player, binNumber);
-    return isActive ? this.activeBinClass : this.notActiveBinClass;
+    if (isActive) {
+      return this.activeBinClass;
+    }
+    return this.notActiveBinClass;
   }
 
   public getStoneMovingAnimationClass(stoneNumber: number): string {

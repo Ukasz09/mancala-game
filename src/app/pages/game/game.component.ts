@@ -21,11 +21,6 @@ export class GameComponent implements OnInit {
   public gameMode: GameMode;
 
   private actualGameResult: GameResult;
-  private bots: Map<Player, Bot> = new Map([
-    [Player.A, new Bot()],
-    [Player.B, new Bot()],
-  ]);
-  private botB: Bot = undefined;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
@@ -101,6 +96,7 @@ export class GameComponent implements OnInit {
     const [gameResult, gameOver] = this.gameLogic.makeMove(binNumber);
     this.gameOver = gameOver;
     this.actualGameResult = gameResult;
+    this.boardComponent.lastClickedBinNumer = binNumber;
     this.boardComponent.onMoveHasBeenDone();
   }
 
@@ -109,8 +105,7 @@ export class GameComponent implements OnInit {
   }
 
   private makeMoveByBot(botPlayer: Player): void {
-    const bot = this.bots.get(botPlayer);
-    const chosenBinByBot = bot.move(this.gameLogic, botPlayer);
+    const chosenBinByBot = Bot.move(this.gameLogic, botPlayer);
     const delayTime = this.stoneTransitionTimeSec * 1000;
     timer(delayTime).subscribe(() => {
       this.makeMove(chosenBinByBot);

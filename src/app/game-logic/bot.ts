@@ -4,7 +4,7 @@ import { Game } from './game';
 export class Bot {
   private static MAX_DEPTH = 4;
 
-  public move(game: Game, botType: Player): number {
+  public static move(game: Game, botType: Player): number {
     const clonedGame = game.clone();
     const newMove: BotMoveValue = this.maxAction(
       clonedGame,
@@ -14,7 +14,7 @@ export class Bot {
     return newMove.binNumber;
   }
 
-  private maxAction(
+  private static maxAction(
     game: Game,
     currentDepth: number,
     botType: Player
@@ -66,7 +66,7 @@ export class Bot {
     return newMove;
   }
 
-  private minAction(
+  private static minAction(
     game: Game,
     currentDepth: number,
     botType: Player

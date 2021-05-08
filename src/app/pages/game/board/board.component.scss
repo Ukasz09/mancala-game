@@ -12,6 +12,10 @@
   cursor: not-allowed;
 }
 
+.last-clicked-bin {
+  box-shadow: 1px 0px 17px 9px rgba(255, 187, 0, 0.5) inset;
+}
+
 .bin {
   background-image: url("/assets/images/tree-hollow-000.png");
 }
