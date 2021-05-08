@@ -26,13 +26,13 @@ export class BoardComponent implements OnInit {
   boardHeightPx: number;
   storeHeightPx: number;
   binSizePx: number;
-  readonly storePaddingPx = 50;
 
   stoneModels: Map<number, Stone> = new Map(); // <stoneId, stone model>
   binNumbersPlayerA: number[] = [];
   binNumbersPlayerB: number[] = [];
   binsSnapshot: Map<number, number[]> = new Map();
   stonesWithMovingAnimation: number[] = [];
+  binsAreClickable = true;
 
   constructor() {}
 
@@ -160,9 +160,22 @@ export class BoardComponent implements OnInit {
   public binIsActive(player: Player, binNumber: number): boolean {
     const stonesInBin = this.gameLogic.getStoneIdsForBin(binNumber);
     const binNotEmpty = stonesInBin?.length > 0;
-
     const actualPlayerBin = player === this.gameLogic.actualPlayer;
-    return actualPlayerBin && binNotEmpty;
+    const binIsStoreType =
+      this.gameLogic.binNumberPlayerStoreA === binNumber ||
+      this.gameLogic.binNumberPlayerStoreB === binNumber;
+    const isBotVsBot = this.gameMode === GameMode.BOT_VS_BOT;
+    const isPlayerVsBotAndBotTurn =
+      this.gameMode === GameMode.PLAYER_VS_BOT &&
+      this.gameLogic.actualPlayer === Player.A;
+    return (
+      !isPlayerVsBotAndBotTurn &&
+      !isBotVsBot &&
+      this.binsAreClickable &&
+      actualPlayerBin &&
+      binNotEmpty &&
+      !binIsStoreType
+    );
   }
 
   public onStoneClick(stoneNumber: number) {
@@ -190,11 +203,13 @@ export class BoardComponent implements OnInit {
   }
 
   public onMoveHasBeenDone() {
+    this.binsAreClickable = false;
     this.updateStoneTranslateValue();
-    timer(this.stoneTransitionTimeSec).subscribe(() => {
-      console.log('Timer end - making snapshot');
+    const delayTime = this.stoneTransitionTimeSec * 1000;
+    timer(delayTime).subscribe(() => {
       this.stonesWithMovingAnimation = [];
       this.makeBinsSnapshot();
+      this.binsAreClickable = true;
     });
   }
 
@@ -311,6 +326,8 @@ export class BoardComponent implements OnInit {
       if (this.gameLogic.actualPlayer === this.playerA) {
         return this.notActiveBinClass;
       }
+    } else if (this.gameMode === GameMode.BOT_VS_BOT) {
+      return this.notActiveBinClass;
     }
 
     const isActive = this.binIsActive(player, binNumber);

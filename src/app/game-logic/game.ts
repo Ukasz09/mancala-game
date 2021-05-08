@@ -11,7 +11,6 @@ export class Game {
   constructor() {}
 
   public initGame() {
-    // this.chooseActualPlayerByRandom();
     this.initBins();
   }
 
