@@ -200,8 +200,8 @@ export class BoardComponent implements OnInit {
   }
 
   public resetGame(): void {
-    this.initBinNumbers();
     this.initStoneModels();
+    this.makeBinsSnapshot();
     this.lastClickedBinNumer = undefined;
   }
 

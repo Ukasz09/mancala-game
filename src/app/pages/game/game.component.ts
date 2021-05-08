@@ -79,6 +79,8 @@ export class GameComponent implements OnInit {
     this.gameLogic.resetGame();
     gameBoard.resetGame();
     this.gameOver = false;
+    this.gameLogic.actualPlayer = Player.B;
+    this.startGameInProperMode();
   }
 
   public onBinClick(binNumber: number): void {

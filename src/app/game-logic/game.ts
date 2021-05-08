@@ -301,8 +301,8 @@ export class Game {
   }
 
   public resetGame(): void {
-    this.chooseActualPlayerByRandom();
     this.initBins();
+    this.gameIsOver = false;
   }
 
   public illegalMove(binNumber: number): boolean {
