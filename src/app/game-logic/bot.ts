@@ -1,26 +1,41 @@
+import { Player } from '../shared/models';
 import { Game } from './game';
 
 export class Bot {
   private static MAX_DEPTH = 4;
 
-  public move(game: Game): number {
+  public move(game: Game, botType: Player): number {
     const clonedGame = game.clone();
-    const newMove: BotMoveValue = this.maxAction(clonedGame, Bot.MAX_DEPTH);
+    const newMove: BotMoveValue = this.maxAction(
+      clonedGame,
+      Bot.MAX_DEPTH,
+      botType
+    );
     return newMove.binNumber;
   }
 
-  private maxAction(game: Game, currentDepth: number): BotMoveValue {
+  private maxAction(
+    game: Game,
+    currentDepth: number,
+    botType: Player
+  ): BotMoveValue {
     const newMove = new BotMoveValue(Number.MIN_SAFE_INTEGER, 1);
 
     if (game.gameIsOver || currentDepth === 0) {
       newMove.binNumber = -1;
-      newMove.fitnessValue = FitnessValue.calcFitness(game);
+      newMove.fitnessValue = FitnessValue.calcFitness(game, botType);
       return newMove;
     }
     let fitnessValue = Number.MIN_SAFE_INTEGER;
     for (
-      let binNumber = game.lastBinNumberForPlayerA;
-      binNumber >= game.fstBinNumberForPlayerA;
+      let binNumber =
+        botType === Player.A
+          ? game.lastBinNumberForPlayerA
+          : game.lastBinNumberForPlayerB;
+      binNumber >=
+      (botType === Player.A
+        ? game.fstBinNumberForPlayerA
+        : game.fstBinNumberForPlayerB);
       binNumber--
     ) {
       if (!game.illegalMove(binNumber)) {
@@ -34,12 +49,12 @@ export class Bot {
         if (!extraTurn)
           fitnessValue = Math.max(
             fitnessValue,
-            this.minAction(clonedGame, currentDepth - 1).fitnessValue
+            this.minAction(clonedGame, currentDepth - 1, botType).fitnessValue
           );
         else
           fitnessValue = Math.max(
             fitnessValue,
-            this.maxAction(clonedGame, currentDepth - 1).fitnessValue
+            this.maxAction(clonedGame, currentDepth - 1, botType).fitnessValue
           );
 
         if (fintessValueBefore < fitnessValue) {
@@ -51,18 +66,28 @@ export class Bot {
     return newMove;
   }
 
-  private minAction(game: Game, currentDepth: number): BotMoveValue {
+  private minAction(
+    game: Game,
+    currentDepth: number,
+    botType: Player
+  ): BotMoveValue {
     const newMove = new BotMoveValue(Number.MAX_SAFE_INTEGER, 1);
 
     if (game.gameIsOver || currentDepth === 0) {
       newMove.binNumber = -1;
-      newMove.fitnessValue = FitnessValue.calcFitness(game);
+      newMove.fitnessValue = FitnessValue.calcFitness(game, botType);
       return newMove;
     }
     let fitnessValue = Number.MAX_SAFE_INTEGER;
     for (
-      let binNumber = game.lastBinNumberForPlayerB;
-      binNumber >= game.fstBinNumberForPlayerB;
+      let binNumber =
+        botType === Player.A
+          ? game.lastBinNumberForPlayerB
+          : game.lastBinNumberForPlayerA;
+      binNumber >=
+      (botType === Player.A
+        ? game.fstBinNumberForPlayerB
+        : game.fstBinNumberForPlayerA);
       binNumber--
     ) {
       if (!game.illegalMove(binNumber)) {
@@ -76,12 +101,12 @@ export class Bot {
         if (!extraTurn)
           fitnessValue = Math.min(
             fitnessValue,
-            this.maxAction(clonedGame, currentDepth - 1).fitnessValue
+            this.maxAction(clonedGame, currentDepth - 1, botType).fitnessValue
           );
         else
           fitnessValue = Math.min(
             fitnessValue,
-            this.minAction(clonedGame, currentDepth - 1).fitnessValue
+            this.minAction(clonedGame, currentDepth - 1, botType).fitnessValue
           );
 
         if (fintessValueBefore > fitnessValue) {
@@ -99,58 +124,10 @@ export class BotMoveValue {
 }
 
 export class FitnessValue {
-  public static calcFitness(game: Game): number {
-    return game.stonesQtyInStoreA - game.stonesQtyInStoreB;
-  }
-
-  private static getStonesQtyForPlayerA(game: Game): number {
-    let stonesQty = 0;
-    for (
-      let i = game.fstBinNumberForPlayerA;
-      i <= game.lastBinNumberForPlayerA;
-      i++
-    ) {
-      stonesQty += game.getStonesQty(i);
+  public static calcFitness(game: Game, botType: Player): number {
+    if (botType === Player.A) {
+      return game.stonesQtyInStoreA - game.stonesQtyInStoreB;
     }
-    return stonesQty;
-  }
-
-  private static getStonesQtyForPlayerB(game: Game): number {
-    let stonesQty = 0;
-    for (
-      let i = game.fstBinNumberForPlayerB;
-      i <= game.lastBinNumberForPlayerB;
-      i++
-    ) {
-      stonesQty += game.getStonesQty(i);
-    }
-    return stonesQty;
+    return game.stonesQtyInStoreB - game.stonesQtyInStoreA;
   }
 }
-// PSEUDO-CODE
-//
-// function minimax(node, depth, maximizingPlayer)
-//     if depth = 0 or node is a terminal node
-//         return the heuristic value of node
-//     if maximizingPlayer
-//         bestValue := -∞
-//         for each child of node
-//             # here is a small change
-//             if freeTurn(child):
-//                isMax := TRUE
-//             else:
-//                isMax := FALSE
-//             val := minimax(child, depth - 1, isMax)
-//             bestValue := max(bestValue, val)
-//         return bestValue
-//     else
-//         bestValue := +∞
-//         for each child of node
-//             # here is a small change
-//             if freeTurn(child):
-//                isMax := FALSE
-//             else:
-//                isMax := TRUE
-//             val := minimax(child, depth - 1, isMax)
-//             bestValue := min(bestValue, val)
-//         return bestValue

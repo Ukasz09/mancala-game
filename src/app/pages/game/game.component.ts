@@ -110,8 +110,9 @@ export class GameComponent implements OnInit {
 
   private makeMoveByBot(botPlayer: Player): void {
     const bot = this.bots.get(botPlayer);
-    const chosenBinByBot = bot.move(this.gameLogic);
-    timer(this.stoneTransitionTimeSec * 1000).subscribe(() => {
+    const chosenBinByBot = bot.move(this.gameLogic, botPlayer);
+    const delayTime = this.stoneTransitionTimeSec * 1000;
+    timer(delayTime).subscribe(() => {
       this.makeMove(chosenBinByBot);
       // Player vs bot
       if (this.gameMode === GameMode.PLAYER_VS_BOT) {
@@ -125,7 +126,7 @@ export class GameComponent implements OnInit {
           if (this.gameLogic.actualPlayer === botPlayer) {
             this.makeMoveByBot(botPlayer);
           } else {
-            const nextPlayer = botPlayer === Player.A ? Player.A : Player.B;
+            const nextPlayer = botPlayer === Player.A ? Player.B : Player.A;
             this.makeMoveByBot(nextPlayer);
           }
         }
