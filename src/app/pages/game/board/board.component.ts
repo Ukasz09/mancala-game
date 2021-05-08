@@ -17,10 +17,11 @@ export class BoardComponent implements OnInit {
 
   @Input() gameLogic: Game;
   @Input() gameMode: GameMode;
+  @Input() stoneTransitionTimeSec: number;
+
   @Output() binClick: EventEmitter<number> = new EventEmitter();
 
-  public readonly stoneTransitionTimeSec = 2; // ! Need to be the same as in stone's css animation property !
-
+  stoneIds: number[] = [];
   boardWidthPx: number;
   boardHeightPx: number;
   storeHeightPx: number;
@@ -70,14 +71,14 @@ export class BoardComponent implements OnInit {
 
   private initStoneModels(): void {
     const stoneIds = this.gameLogic.getAllStoneIds();
+    this.stoneIds = stoneIds;
     for (let stoneId of stoneIds) {
-      const stone = this.getStone(stoneId);
-
+      const stone = this.getNewStone(stoneId);
       this.stoneModels.set(stoneId, stone);
     }
   }
 
-  private getStone(stoneId: number): Stone {
+  private getNewStone(stoneId: number): Stone {
     const stoneImageNumber = this.getNextStoneImageNumber(stoneId);
     const stoneImageUrl = this.getStoneImageUrl(stoneImageNumber);
     const [positionX, positionY] = this.getStoneStartedPosition(stoneId);
@@ -312,6 +313,10 @@ export class BoardComponent implements OnInit {
 
   public getStoneMovingAnimationClass(stoneNumber: number): string {
     return this.stonesWithMovingAnimation.includes(stoneNumber) ? 'moving' : '';
+  }
+
+  public getStone(stoneId: number): Stone {
+    return this.stoneModels.get(stoneId);
   }
 
   /* ------------------------------------------- Getters & Setters ------------------------------------------- */

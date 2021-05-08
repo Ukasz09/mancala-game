@@ -13,10 +13,10 @@
     }"
   >
     <app-stone
-      *ngFor="let stone of stoneModels.values()"
+      *ngFor="let stoneId of stoneIds"
       [size]="stoneSize"
-      [stone]="stone"
-      (click)="onStoneClick(stone.id)"
+      [stone]="getStone(stoneId)"
+      (click)="onStoneClick(stoneId)"
       [transitionTimeSec]="stoneTransitionTimeSec"
     ></app-stone>
   </div>

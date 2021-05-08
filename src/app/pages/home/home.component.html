@@ -19,7 +19,12 @@
     >
       Player vs Bot
     </div>
-    <div class="btn-gray-brown w-60 py-3 mb-2 home-btn">Bot vs Bot</div>
+    <div
+      class="btn-gray-brown w-60 py-3 mb-2 home-btn"
+      [routerLink]="getGameModeUrl(GameMode.BOT_VS_BOT)"
+    >
+      Bot vs Bot
+    </div>
     <div class="btn-gray-brown w-60 py-3 home-btn">Instruction</div>
   </div>
   <div class="bg-down w-100 flex-fill mt-4"></div>

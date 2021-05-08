@@ -14,12 +14,18 @@ import { BoardComponent } from './board/board.component';
 export class GameComponent implements OnInit {
   @ViewChild('gameBoard') boardComponent: BoardComponent;
 
+  public readonly stoneTransitionTimeSec = 2;
+
   public gameOver = false;
   public gameLogic: Game;
   public gameMode: GameMode;
 
   private actualGameResult: GameResult;
-  private botA: Bot = undefined;
+  private bots: Map<Player, Bot> = new Map([
+    [Player.A, new Bot()],
+    [Player.B, new Bot()],
+  ]);
+  private botB: Bot = undefined;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
@@ -27,12 +33,7 @@ export class GameComponent implements OnInit {
     this.initActualGameMode();
     this.gameLogic = new Game();
     this.gameLogic.initGame();
-    if (this.gameMode === GameMode.PLAYER_VS_BOT) {
-      this.botA = new Bot();
-      if (this.gameLogic.actualPlayer === Player.A) {
-        this.makeMoveByBot();
-      }
-    }
+    this.startGameInProperMode();
   }
 
   private initActualGameMode(): void {
@@ -60,6 +61,25 @@ export class GameComponent implements OnInit {
     }
   }
 
+  private startGameInProperMode(): void {
+    switch (this.gameMode) {
+      // Player vs bot
+      case GameMode.PLAYER_VS_BOT: {
+        if (this.gameLogic.actualPlayer === Player.A) {
+          this.makeMoveByBot(Player.A);
+        }
+        return;
+      }
+      // Bot vs bot
+      case GameMode.BOT_VS_BOT: {
+        this.makeMoveByBot(Player.B);
+        return;
+      }
+    }
+
+    // If Player vs Player than do nothing
+  }
+
   public onRestartGameBtnClick(gameBoard: BoardComponent) {
     this.gameLogic.resetGame();
     gameBoard.resetGame();
@@ -73,7 +93,7 @@ export class GameComponent implements OnInit {
       this.gameMode === GameMode.PLAYER_VS_BOT &&
       this.gameLogic.actualPlayer === Player.A
     ) {
-      this.makeMoveByBot();
+      this.makeMoveByBot(Player.A);
     }
   }
 
@@ -88,17 +108,27 @@ export class GameComponent implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  private makeMoveByBot(): void {
-    const chosenBinByBot = this.botA.move(this.gameLogic);
-    // TODO: temp hardcoded time
-    timer(2000).subscribe(() => {
+  private makeMoveByBot(botPlayer: Player): void {
+    const bot = this.bots.get(botPlayer);
+    const chosenBinByBot = bot.move(this.gameLogic);
+    timer(this.stoneTransitionTimeSec * 1000).subscribe(() => {
       this.makeMove(chosenBinByBot);
-      if (
-        !this.gameOver &&
-        this.gameMode === GameMode.PLAYER_VS_BOT &&
-        this.gameLogic.actualPlayer === Player.A
-      ) {
-        this.makeMoveByBot();
+      // Player vs bot
+      if (this.gameMode === GameMode.PLAYER_VS_BOT) {
+        if (!this.gameOver && this.gameLogic.actualPlayer === botPlayer) {
+          this.makeMoveByBot(botPlayer);
+        }
+      }
+      // Bot vs bot
+      else if (this.gameMode === GameMode.BOT_VS_BOT) {
+        if (!this.gameOver) {
+          if (this.gameLogic.actualPlayer === botPlayer) {
+            this.makeMoveByBot(botPlayer);
+          } else {
+            const nextPlayer = botPlayer === Player.A ? Player.A : Player.B;
+            this.makeMoveByBot(nextPlayer);
+          }
+        }
       }
     });
   }
