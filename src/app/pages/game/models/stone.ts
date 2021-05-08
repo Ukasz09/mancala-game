@@ -2,8 +2,8 @@ export class Stone {
   constructor(
     public id: number,
     public imageUrl: string,
-    public translatePositonX: number,
-    public translatePositonY: number,
+    public positonX: number,
+    public positonY: number,
     public rotation: number
   ) {}
 }

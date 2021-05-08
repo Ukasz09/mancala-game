@@ -17,6 +17,6 @@ export class StoneComponent implements OnInit {
 
   /* ------------------------------------------- Getters & Setters ------------------------------------------- */
   get stoneTransformStyle(): string {
-    return `translateX(${this.stone.translatePositonX}px) translateY(${this.stone.translatePositonY}px) rotate(${this.stone.rotation}deg)`;
+    return `translateX(${this.stone.positonX}px) translateY(${this.stone.positonY}px) rotate(${this.stone.rotation}deg)`;
   }
 }

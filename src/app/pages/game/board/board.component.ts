@@ -23,6 +23,7 @@ export class BoardComponent implements OnInit {
   boardHeightPx: number;
   storeHeightPx: number;
   binSizePx: number;
+  readonly storePaddingPx = 50;
 
   stoneModels: Map<number, Stone> = new Map(); // <stoneId, stone model>
   binNumbersPlayerA: number[] = [];
@@ -69,6 +70,7 @@ export class BoardComponent implements OnInit {
     const stoneIds = this.gameLogic.getAllStoneIds();
     for (let stoneId of stoneIds) {
       const stone = this.getStone(stoneId);
+
       this.stoneModels.set(stoneId, stone);
     }
   }
@@ -76,17 +78,43 @@ export class BoardComponent implements OnInit {
   private getStone(stoneId: number): Stone {
     const stoneImageNumber = this.getNextStoneImageNumber(stoneId);
     const stoneImageUrl = this.getStoneImageUrl(stoneImageNumber);
-    const translateX = this.getRandomStoneTranslateX(this.stoneSize);
-    const translateY = this.getRandomStoneTranslateY(this.stoneSize);
+    const [positionX, positionY] = this.getStoneStartedPosition(stoneId);
+    const randTranslateX = this.getRandomStoneTranslateX(this.stoneSize);
+    const randTranslateY = this.getRandomStoneTranslateY(this.stoneSize);
     const randRotation = Math.random() * 360;
     const stone = new Stone(
       stoneId,
       stoneImageUrl,
-      translateX,
-      translateY,
+      positionX + randTranslateX,
+      positionY + randTranslateY,
       randRotation
     );
     return stone;
+  }
+
+  /**
+   * @returns <stone position X, stone position Y>
+   */
+  private getStoneStartedPosition(stoneNumber: number): [number, number] {
+    const binNumber = this.getBinNumberForStone(stoneNumber);
+    const positionX = this.getStoneStartedPosX(binNumber);
+    const positionY = this.getStoneStartedPosY(binNumber);
+    return [positionX, positionY];
+  }
+
+  private getStoneStartedPosX(binNumber: number): number {
+    return this.getStoneXTranslate(
+      this.gameLogic.binNumberPlayerStoreA,
+      binNumber
+    );
+  }
+
+  private getStoneStartedPosY(binNumber: number): number {
+    const binBelongsToA = this.gameLogic.binBelongsToPlayerA(binNumber);
+    if (binBelongsToA) {
+      return this.binSizePx;
+    }
+    return this.boardHeightPx;
   }
 
   private getNextStoneImageNumber(stoneId: number): number {
@@ -122,8 +150,8 @@ export class BoardComponent implements OnInit {
   public setRandomPostionForStones(stoneIds: number[]): void {
     for (let stoneId of stoneIds) {
       const stone = this.stoneModels.get(stoneId);
-      stone.translatePositonX = this.getRandomStoneTranslateX(this.stoneSize);
-      stone.translatePositonY = this.getRandomStoneTranslateY(this.stoneSize);
+      stone.positonX = this.getRandomStoneTranslateX(this.stoneSize);
+      stone.positonY = this.getRandomStoneTranslateY(this.stoneSize);
     }
   }
 
@@ -143,7 +171,7 @@ export class BoardComponent implements OnInit {
     const randOffset = (Math.random() * this.storeHeightPx) / 3;
     const translateY = centerPosition + randOffset;
     const stone = this.stoneModels.get(stoneId);
-    stone.translatePositonY = translateY;
+    stone.positonY = translateY;
   }
 
   public resetGame(): void {
@@ -155,7 +183,6 @@ export class BoardComponent implements OnInit {
     this.updateStoneTranslateValue();
     timer(this.stoneMovingAnimationTimeMs).subscribe(() => {
       console.log('Timer end - making snapshot');
-      this.resetAnimatedStoneTranslate();
       this.stonesWithMovingAnimation = [];
       this.makeBinsSnapshot();
     });
@@ -185,8 +212,8 @@ export class BoardComponent implements OnInit {
           const translateX = this.getStoneXTranslate(binNumber, newBinNumber);
           const translateY = this.getStoneYTranslate(binNumber, newBinNumber);
           const stone = this.stoneModels.get(stoneNumber);
-          stone.translatePositonX = translateX;
-          stone.translatePositonY = translateY;
+          stone.positonX = translateX;
+          stone.positonY = translateY;
           stonesWithMovingAnimation.push(stoneNumber);
         }
       }
@@ -226,9 +253,7 @@ export class BoardComponent implements OnInit {
         (actualBinNumber % (this.gameLogic.binsQtyInRow + 1));
     }
 
-    return (
-      (newBinOffset - actualBinOffset) * this.binSizePx + this.binSizePx / 2
-    );
+    return (newBinOffset - actualBinOffset) * this.binSizePx;
   }
 
   private getStoneYTranslate(
@@ -243,19 +268,11 @@ export class BoardComponent implements OnInit {
     )
       ? 1
       : 0;
+    const centerOffsetY = newBinNumberOffset === 1 ? -1 : 1;
     return (
       -1 * (newBinNumberOffset - actualBinNumberOffset) * this.boardHeightPx -
-      this.binSizePx / 2
+      centerOffsetY * this.binSizePx
     );
-  }
-
-  private resetAnimatedStoneTranslate(): void {
-    for (let stoneNumber of this.stonesWithMovingAnimation) {
-      const stone = this.stoneModels.get(stoneNumber);
-      // TODO: Improve
-      stone.translatePositonX = this.getRandomStoneTranslateX(stoneNumber);
-      stone.translatePositonY = this.getRandomStoneTranslateY(stoneNumber);
-    }
   }
 
   public getBinCssClass(binNumber: number, player: Player): string {

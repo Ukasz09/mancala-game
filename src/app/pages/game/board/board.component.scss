@@ -24,3 +24,8 @@
   @include mixins.bg-fill();
   background-image: url("/assets/images/store-001.png");
 }
+
+.stones-placeholder {
+  position: absolute;
+  background-color: rgba(236, 15, 15, 0.25);
+}
