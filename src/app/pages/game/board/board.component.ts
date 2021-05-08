@@ -167,7 +167,13 @@ export class BoardComponent implements OnInit {
 
   public onStoneClick(stoneNumber: number) {
     const binNumber = this.getBinNumberForStone(stoneNumber);
-    this.binClick.emit(binNumber);
+    const ownerOfBin = this.gameLogic.binBelongsToPlayerA(binNumber)
+      ? Player.A
+      : Player.B;
+    const binIsActive = this.binIsActive(ownerOfBin, binNumber);
+    if (binIsActive) {
+      this.binClick.emit(binNumber);
+    }
   }
 
   public setRandomTranslateYForStoneInStore(stoneId: number): void {
