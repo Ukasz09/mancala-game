@@ -16,6 +16,8 @@
       *ngFor="let stone of stoneModels.values()"
       [size]="stoneSize"
       [stone]="stone"
+      (click)="onStoneClick(stone.id)"
+      [transitionTimeSec]="stoneTransitionTimeSec"
     ></app-stone>
   </div>
   <div
@@ -52,7 +54,6 @@
             <div
               [ngClass]="getBinCssClass(binNumber, playerA)"
               class="bg-image rounded-100 bin"
-              (click)="onBinClick(binNumber)"
               [ngStyle]="{
                 width: binSizePx + 'px',
                 height: binSizePx + 'px'
@@ -74,7 +75,6 @@
             <div
               [ngClass]="getBinCssClass(binNumber, playerB)"
               class="bg-image rounded-100 bin"
-              (click)="onBinClick(binNumber)"
               [ngStyle]="{
                 width: binSizePx + 'px',
                 height: binSizePx + 'px'

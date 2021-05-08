@@ -10,6 +10,7 @@ export class StoneComponent implements OnInit {
   @Input() size: number;
   @Input() stone: Stone;
   @Input() stoneMovingAnimationClass: string;
+  @Input() transitionTimeSec: number;
 
   constructor() {}
 

@@ -1,9 +1,5 @@
-.moving {
-  animation: move-animation 5s ease;
-}
-
 @keyframes move-animation {
   0% {
-    transform: translateX(0px) translateY(0px);
+    transform: rotate(0deg);
   }
 }

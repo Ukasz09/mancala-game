@@ -324,6 +324,16 @@ export class Game {
     return cloned;
   }
 
+  public isInStoreA(stoneNumber: number): boolean {
+    const store = this.bins.get(this.binNumberPlayerStoreA);
+    return store.includes(stoneNumber);
+  }
+
+  public isInStoreB(stoneNumber: number): boolean {
+    const store = this.bins.get(this.binNumberPlayerStoreB);
+    return store.includes(stoneNumber);
+  }
+
   /* ------------------------------------------- Getters & Setters ------------------------------------------- */
 
   get binNumberPlayerStoreA(): number {

@@ -17,7 +17,7 @@ export class BoardComponent implements OnInit {
   @Input() gameLogic: Game;
   @Output() binClick: EventEmitter<number> = new EventEmitter();
 
-  private readonly stoneMovingAnimationTimeMs = 5000; // ! Need to be the same as in stone's css animation property !
+  public readonly stoneTransitionTimeSec = 2; // ! Need to be the same as in stone's css animation property !
 
   boardWidthPx: number;
   boardHeightPx: number;
@@ -162,7 +162,8 @@ export class BoardComponent implements OnInit {
     return actualPlayerBin && BinNotEmpty;
   }
 
-  public onBinClick(binNumber: number) {
+  public onStoneClick(stoneNumber: number) {
+    const binNumber = this.getBinNumberForStone(stoneNumber);
     this.binClick.emit(binNumber);
   }
 
@@ -181,7 +182,7 @@ export class BoardComponent implements OnInit {
 
   public onMoveHasBeenDone() {
     this.updateStoneTranslateValue();
-    timer(this.stoneMovingAnimationTimeMs).subscribe(() => {
+    timer(this.stoneTransitionTimeSec).subscribe(() => {
       console.log('Timer end - making snapshot');
       this.stonesWithMovingAnimation = [];
       this.makeBinsSnapshot();
@@ -210,10 +211,30 @@ export class BoardComponent implements OnInit {
         if (stoneIsMoved) {
           const newBinNumber = this.getBinNumberForStone(stoneNumber);
           const translateX = this.getStoneXTranslate(binNumber, newBinNumber);
-          const translateY = this.getStoneYTranslate(binNumber, newBinNumber);
+
           const stone = this.stoneModels.get(stoneNumber);
-          stone.positonX = translateX;
-          stone.positonY = translateY;
+
+          // Set position Y
+          const goesToStoreB = this.gameLogic.isInStoreB(stoneNumber);
+          const goesToStoreA = this.gameLogic.isInStoreA(stoneNumber);
+          const randOffset = Math.random() > 0.5 ? 1 : -1;
+          const randTranslateY = this.getStoneRandomOffset(this.stoneSize);
+          if (goesToStoreA) {
+            const translateY =
+              this.storeHeightPx / 2 + randOffset * randTranslateY;
+            stone.positonY = translateY;
+          } else if (goesToStoreB) {
+            const translateY =
+              this.boardHeightPx -
+              this.storeHeightPx / 2 +
+              randOffset * randTranslateY;
+            stone.positonY = translateY;
+          } else {
+            stone.positonY += this.getStoneYTranslate(binNumber, newBinNumber);
+          }
+          // Set position X
+          stone.positonX += translateX;
+
           stonesWithMovingAnimation.push(stoneNumber);
         }
       }
@@ -268,16 +289,20 @@ export class BoardComponent implements OnInit {
     )
       ? 1
       : 0;
-    const centerOffsetY = newBinNumberOffset === 1 ? -1 : 1;
     return (
-      -1 * (newBinNumberOffset - actualBinNumberOffset) * this.boardHeightPx -
-      centerOffsetY * this.binSizePx
+      -1 *
+      (newBinNumberOffset - actualBinNumberOffset) *
+      (this.boardHeightPx - this.binSizePx)
     );
   }
 
   public getBinCssClass(binNumber: number, player: Player): string {
     const isActive = this.binIsActive(player, binNumber);
     return isActive ? this.activeBinClass : this.notActiveBinClass;
+  }
+
+  public getStoneMovingAnimationClass(stoneNumber: number): string {
+    return this.stonesWithMovingAnimation.includes(stoneNumber) ? 'moving' : '';
   }
 
   /* ------------------------------------------- Getters & Setters ------------------------------------------- */
