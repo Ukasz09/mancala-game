@@ -45,7 +45,7 @@ export class BoardComponent implements OnInit {
     if (this.boardWidthPx > BoardConstants.MAX_BOARD_WIDTH_PX) {
       this.boardWidthPx = BoardConstants.MAX_BOARD_WIDTH_PX;
     }
-    this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 3);
+    this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 2);
 
     this.boardHeightPx = window.innerHeight * BoardConstants.BOARD_HEIGHT_PERC;
     if (this.boardHeightPx < BoardConstants.MIN_BOARD_HEIGHT_PX) {
@@ -292,5 +292,13 @@ export class BoardComponent implements OnInit {
 
   get playerB(): Player {
     return Player.B;
+  }
+
+  get boardWidthWithPadding(): number {
+    return this.boardWidthPx + this.binSizePx / 2;
+  }
+
+  get boardHeightWithPadding(): number {
+    return this.boardHeightPx + this.binSizePx / 2;
   }
 }

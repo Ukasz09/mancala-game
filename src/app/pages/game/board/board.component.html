@@ -1,13 +1,14 @@
 <div
-  class="rounded-100 d-flex flex-row mx-auto mx-auto board"
+  class="rounded-100 d-flex flex-row mx-auto mx-auto board justify-content-center align-items-center"
   [ngStyle]="{
-    height: boardHeightPx + 'px'
+    height: boardHeightWithPadding + 'px',
+    width: boardWidthWithPadding + 'px'
   }"
 >
   <div
     class="stones-placeholder"
     [ngStyle]="{
-      width: (gameLogic.binsQtyInRow + 2) * binSizePx + 'px',
+      width: boardWidthPx + 'px',
       height: boardHeightPx + 'px'
     }"
   >
@@ -17,81 +18,88 @@
       [stone]="stone"
     ></app-stone>
   </div>
-  <!-- ----------------------- Store A ---------------------- -->
   <div
-    class="d-flex flex-column"
+    class="d-flex flex-row"
     [ngStyle]="{
-      width: binSizePx + 'px'
+      height: boardHeightPx + 'px'
     }"
   >
+    <!-- ----------------------- Store A ---------------------- -->
     <div
-      class=""
+      class="d-flex flex-column"
       [ngStyle]="{
-        width: binSizePx + 'px',
-        height: storeHeightPx + 'px'
+        width: binSizePx + 'px'
       }"
     >
-      <div class="store rounded-75 h-100 w-100"></div>
+      <div
+        class=""
+        [ngStyle]="{
+          width: binSizePx + 'px',
+          height: storeHeightPx + 'px'
+        }"
+      >
+        <div class="store rounded-75 h-100 w-100"></div>
+      </div>
+      <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
+        {{ gameLogic.stonesQtyInStoreA }}
+      </div>
     </div>
-    <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
-      {{ gameLogic.stonesQtyInStoreA }}
-    </div>
-  </div>
-  <div class="d-flex flex-column h-100" style="width: fit-content">
-    <!-- ----------------------- Player A bins ---------------------- -->
-    <div class="h-100 d-flex flex-row" style="width: fit-content">
-      <ng-container *ngFor="let binNumber of binNumbersPlayerA">
-        <div class="d-flex flex-column">
-          <div
-            [ngClass]="getBinCssClass(binNumber, playerA)"
-            class="bg-image rounded-100 bin"
-            (click)="onBinClick(binNumber)"
-            [ngStyle]="{
-              width: binSizePx + 'px',
-              height: binSizePx + 'px'
-            }"
-          ></div>
-          <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
-            {{ gameLogic.getStonesQty(binNumber) }}
+    <div class="d-flex flex-column h-100" style="width: fit-content">
+      <!-- ----------------------- Player A bins ---------------------- -->
+      <div class="h-100 d-flex flex-row" style="width: fit-content">
+        <ng-container *ngFor="let binNumber of binNumbersPlayerA">
+          <div class="d-flex flex-column">
+            <div
+              [ngClass]="getBinCssClass(binNumber, playerA)"
+              class="bg-image rounded-100 bin"
+              (click)="onBinClick(binNumber)"
+              [ngStyle]="{
+                width: binSizePx + 'px',
+                height: binSizePx + 'px'
+              }"
+            ></div>
+            <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
+              {{ gameLogic.getStonesQty(binNumber) }}
+            </div>
           </div>
-        </div>
-      </ng-container>
-    </div>
-    <!-- ----------------------- Player B bins ---------------------- -->
-    <div class="h-50 d-flex flex-row" style="width: fit-content">
-      <ng-container *ngFor="let binNumber of binNumbersPlayerB">
-        <div class="d-flex flex-column justify-content-end">
-          <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
-            {{ gameLogic.getStonesQty(binNumber) }}
+        </ng-container>
+      </div>
+      <!-- ----------------------- Player B bins ---------------------- -->
+      <div class="h-50 d-flex flex-row" style="width: fit-content">
+        <ng-container *ngFor="let binNumber of binNumbersPlayerB">
+          <div class="d-flex flex-column justify-content-end">
+            <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
+              {{ gameLogic.getStonesQty(binNumber) }}
+            </div>
+            <div
+              [ngClass]="getBinCssClass(binNumber, playerB)"
+              class="bg-image rounded-100 bin"
+              (click)="onBinClick(binNumber)"
+              [ngStyle]="{
+                width: binSizePx + 'px',
+                height: binSizePx + 'px'
+              }"
+            ></div>
           </div>
-          <div
-            [ngClass]="getBinCssClass(binNumber, playerB)"
-            class="bg-image rounded-100 bin"
-            (click)="onBinClick(binNumber)"
-            [ngStyle]="{
-              width: binSizePx + 'px',
-              height: binSizePx + 'px'
-            }"
-          ></div>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
-  </div>
-  <!-- ----------------------- Store B ---------------------- -->
-  <div
-    class="w-100 d-flex flex-column justify-content-end"
-    [ngStyle]="{ width: binSizePx + 'px' }"
-  >
-    <div class="text-center text-gray-300 fw-600 stones-qty-label">
-      {{ gameLogic.stonesQtyInStoreB }}
-    </div>
+    <!-- ----------------------- Store B ---------------------- -->
     <div
-      class=""
-      [ngStyle]="{
-        height: storeHeightPx + 'px'
-      }"
+      class="w-100 d-flex flex-column justify-content-end"
+      [ngStyle]="{ width: binSizePx + 'px' }"
     >
-      <div class="store rounded-75 h-100 w-100"></div>
+      <div class="text-center text-gray-300 fw-600 stones-qty-label">
+        {{ gameLogic.stonesQtyInStoreB }}
+      </div>
+      <div
+        class=""
+        [ngStyle]="{
+          height: storeHeightPx + 'px'
+        }"
+      >
+        <div class="store rounded-75 h-100 w-100"></div>
+      </div>
     </div>
   </div>
 </div>
