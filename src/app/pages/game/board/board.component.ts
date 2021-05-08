@@ -11,6 +11,9 @@ import { BoardConstants } from './board-constants';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
+  private readonly activeBinClass = 'actual-player-move';
+  private readonly notActiveBinClass = 'other-player-move';
+
   @Input() gameLogic: Game;
   @Output() binClick: EventEmitter<number> = new EventEmitter();
 
@@ -253,6 +256,11 @@ export class BoardComponent implements OnInit {
       stone.translatePositonX = this.getRandomStoneTranslateX(stoneNumber);
       stone.translatePositonY = this.getRandomStoneTranslateY(stoneNumber);
     }
+  }
+
+  public getBinCssClass(binNumber: number, player: Player): string {
+    const isActive = this.binIsActive(player, binNumber);
+    return isActive ? this.activeBinClass : this.notActiveBinClass;
   }
 
   /* ------------------------------------------- Getters & Setters ------------------------------------------- */

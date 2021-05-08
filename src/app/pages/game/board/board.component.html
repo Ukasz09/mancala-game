@@ -19,11 +19,7 @@
         height: storeHeightPx + 'px'
       }"
     >
-      <app-store
-        [stoneSize]="stoneSize"
-        [allStones]="stoneModels"
-        [stoneIds]="gameLogic.stoneIdsForStoreA"
-      ></app-store>
+      <div class="store rounded-75 h-100 w-100"></div>
     </div>
     <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
       {{ gameLogic.stonesQtyInStoreA }}
@@ -34,15 +30,15 @@
     <div class="h-50 h-100 d-flex flex-row">
       <ng-container *ngFor="let binNumber of binNumbersPlayerA">
         <div class="d-flex flex-column">
-          <app-bin
-            [isActive]="binIsActive(playerA, binNumber)"
-            [size]="binSizePx"
-            [stoneSize]="stoneSize"
-            [stoneIds]="getStoneIdsForBin(binNumber)"
-            [allStones]="stoneModels"
-            [stonesWithMovingAnimation]="stonesWithMovingAnimation"
-            (stoneClick)="onBinClick(binNumber)"
-          ></app-bin>
+          <div
+            [ngClass]="getBinCssClass(binNumber, playerA)"
+            class="bg-image rounded-100 bin"
+            (click)="onBinClick(binNumber)"
+            [ngStyle]="{
+              width: binSizePx + 'px',
+              height: binSizePx + 'px'
+            }"
+          ></div>
           <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
             {{ gameLogic.getStonesQty(binNumber) }}
           </div>
@@ -56,15 +52,15 @@
           <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
             {{ gameLogic.getStonesQty(binNumber) }}
           </div>
-          <app-bin
-            [isActive]="binIsActive(playerB, binNumber)"
-            [size]="binSizePx"
-            [stoneSize]="stoneSize"
-            [stoneIds]="getStoneIdsForBin(binNumber)"
-            [allStones]="stoneModels"
-            [stonesWithMovingAnimation]="stonesWithMovingAnimation"
-            (stoneClick)="onBinClick(binNumber)"
-          ></app-bin>
+          <div
+            [ngClass]="getBinCssClass(binNumber, playerB)"
+            class="bg-image rounded-100 bin"
+            (click)="onBinClick(binNumber)"
+            [ngStyle]="{
+              width: binSizePx + 'px',
+              height: binSizePx + 'px'
+            }"
+          ></div>
         </div>
       </ng-container>
     </div>
@@ -83,11 +79,7 @@
         height: storeHeightPx + 'px'
       }"
     >
-      <app-store
-        [stoneSize]="stoneSize"
-        [allStones]="stoneModels"
-        [stoneIds]="gameLogic.stoneIdsForStoreB"
-      ></app-store>
+      <div class="store rounded-75 h-100 w-100"></div>
     </div>
   </div>
 </div>

@@ -2,3 +2,25 @@
 @use "/src/app/shared/styles/utilities/variables";
 @use "/src/app/shared/styles/utilities/functions";
 @use "/src/app/shared/styles/components/game";
+
+.actual-player-move {
+  &.hole {
+    box-shadow: 1px 0px 17px 9px rgba(51, 255, 0, 0.4) inset;
+  }
+  &.stone {
+    cursor: pointer;
+  }
+}
+
+.bin {
+  background-image: url("/assets/images/tree-hollow-000.png");
+}
+
+.other-player-move {
+  cursor: not-allowed;
+}
+
+.store {
+  @include mixins.bg-fill();
+  background-image: url("/assets/images/store-001.png");
+}
