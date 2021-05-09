@@ -1,6 +1,6 @@
 <!-- ------------------------------------------- Home Button ------------------------------------------- -->
 <h3
-  class="menu-btn fixed-top my-2 btn-orange py-1 game-text-shadow"
+  class="menu-btn btn-with-slide fixed-top my-2 btn-orange py-1 game-text-shadow"
   routerLink="/home"
   (click)="backToHome()"
 >
@@ -15,11 +15,13 @@
   </div>
 </h3>
 <!-- ------------------------------------------- Restart Game Button ------------------------------------------- -->
-<h3
+<button
   class="menu-btn fixed-top my-2 btn-orange py-1 game-text-shadow"
   style="top: 60px"
   routerLink="/home"
-  (click)="onRestartGameBtnClick(gameBoard)"
+  [disabled]="resetBtnDisabled"
+  [ngClass]="{ 'btn-with-slide': !resetBtnDisabled }"
+  (click)="onRestartGameBtnClick()"
 >
   <div class="d-flex flex-row">
     <span
@@ -30,7 +32,7 @@
       <span class="material-icons" style="font-size: 2.5rem"> replay </span>
     </span>
   </div>
-</h3>
+</button>
 <div
   id="main-container"
   class="d-flex flex-column align-items-center bg-light text-light max-viewport fade-in-default"
@@ -51,7 +53,7 @@
       <button
         class="btn-orange py-2 w-25 mx-auto"
         style="font-size: 1.25rem"
-        (click)="onRestartGameBtnClick(gameBoard)"
+        (click)="onRestartGameBtnClick()"
       >
         Play again
       </button>

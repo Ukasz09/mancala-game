@@ -15,6 +15,9 @@ $menu-btn-translate-X: -100px;
   width: 160px;
   border-radius: 0px 50px 50px 0px;
   transform: translateX($menu-btn-translate-X);
+}
+
+.btn-with-slide {
   &:hover {
     animation: slide-right 0.25s linear both;
   }

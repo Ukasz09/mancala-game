@@ -99,12 +99,16 @@ export class GameComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  public onRestartGameBtnClick(gameBoard: BoardComponent) {
-    this.gameLogic.resetGame();
-    gameBoard.resetGame();
-    this.gameOver = false;
-    this.gameLogic.actualPlayer = Player.B;
-    this.startGameInProperMode();
+  public onRestartGameBtnClick() {
+    const binsClickable = this.boardComponent?.binsAreClickable;
+    // Don't allow clicking when move in progress
+    if (binsClickable) {
+      this.gameLogic.resetGame();
+      this.boardComponent.resetGame();
+      this.gameOver = false;
+      this.gameLogic.actualPlayer = Player.B;
+      this.startGameInProperMode();
+    }
   }
 
   public onBinClick(binNumber: number): void {
@@ -171,5 +175,13 @@ export class GameComponent implements OnInit {
     return this.actualGameResult === GameResult.WINNER_A
       ? 'Player A won !'
       : 'Player B won !';
+  }
+
+  get resetBtnDisabled(): boolean {
+    const botVsBot = this.gameMode === GameMode.BOT_VS_BOT;
+    const botVsPlayerAndBotMove =
+      this.gameMode === GameMode.PLAYER_VS_BOT &&
+      this.gameLogic.actualPlayer === Player.A;
+    return botVsBot || botVsPlayerAndBotMove;
   }
 }
