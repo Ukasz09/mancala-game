@@ -67,12 +67,36 @@ export class GameComponent implements OnInit {
       }
       // Bot vs bot
       case GameMode.BOT_VS_BOT: {
-        this.makeMoveByBot(Player.B);
+        const botPlayer = Player.B;
+        const randomBinNumber = this.getRandomInt(
+          this.gameLogic.fstBinNumberForPlayerB,
+          this.gameLogic.lastBinNumberForPlayerB
+        );
+        const delayTime = 1000; // Delay time for the fst move
+        timer(delayTime).subscribe(() => {
+          this.makeMove(randomBinNumber);
+          if (!this.gameOver) {
+            this.makeMoveWithCorrectBot(botPlayer);
+          }
+        });
         return;
       }
     }
 
     // If Player vs Player than do nothing
+  }
+
+  /**
+   * Returns a random integer between min (inclusive) and max (inclusive).
+   * The value is no lower than min (or the next integer greater than min
+   * if min isn't an integer) and no greater than max (or the next integer
+   * lower than max if max isn't an integer).
+   * Using Math.round() will give you a non-uniform distribution!
+   */
+  private getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   public onRestartGameBtnClick(gameBoard: BoardComponent) {
@@ -120,15 +144,19 @@ export class GameComponent implements OnInit {
       // Bot vs bot
       else if (this.gameMode === GameMode.BOT_VS_BOT) {
         if (!this.gameOver) {
-          if (this.gameLogic.actualPlayer === botPlayer) {
-            this.makeMoveByBot(botPlayer);
-          } else {
-            const nextPlayer = botPlayer === Player.A ? Player.B : Player.A;
-            this.makeMoveByBot(nextPlayer);
-          }
+          this.makeMoveWithCorrectBot(botPlayer);
         }
       }
     });
+  }
+
+  private makeMoveWithCorrectBot(acutalBotPlayer: Player): void {
+    if (this.gameLogic.actualPlayer === acutalBotPlayer) {
+      this.makeMoveByBot(acutalBotPlayer);
+    } else {
+      const nextPlayer = acutalBotPlayer === Player.A ? Player.B : Player.A;
+      this.makeMoveByBot(nextPlayer);
+    }
   }
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
