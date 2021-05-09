@@ -99,7 +99,7 @@ export class Game {
       actualBinNumer = this.getNextBinNumber(actualBinNumer);
 
       // Check whether needs to add stone to store A
-      if (binNumber === this.binNumberPlayerStoreA) {
+      if (actualBinNumer === this.binNumberPlayerStoreA) {
         if (this.actualPlayer === Player.A) {
           this.addStoneToStoreA(stoneId);
         }
@@ -110,7 +110,7 @@ export class Game {
         }
       }
       // Check whether needs to add stone to store B
-      else if (binNumber === this.binNumberPlayerStoreB) {
+      else if (actualBinNumer === this.binNumberPlayerStoreB) {
         if (this.actualPlayer === Player.B) {
           this.addStoneToStoreB(stoneId);
         }
