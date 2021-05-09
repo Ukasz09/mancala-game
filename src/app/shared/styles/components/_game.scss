@@ -1,5 +1,6 @@
 @use "/src/app/shared/styles/utilities/variables";
 @use "/src/app/shared/styles/utilities/mixins";
+@use "/src/app/shared/styles/utilities/functions";
 
 .stones-qty-label {
   @extend .game-text-shadow;
@@ -12,7 +13,7 @@
 
 .board {
   @include mixins.bg-fill();
-  background-image: url("/assets/images/cartoon-wood-000.jpg");
+  background-image: functions.image("cartoon-wood-000.jpg");
   @extend .inset-shadow;
 }
 

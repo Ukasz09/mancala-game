@@ -1,5 +1,6 @@
 @use "/src/app/shared/styles/utilities/mixins";
 @use "/src/app/shared/styles/utilities/variables";
+@use "/src/app/shared/styles/utilities/functions";
 @use "/src/app/shared/styles/components/game";
 
 .home-btn {
@@ -9,7 +10,7 @@
 
 .bg-down {
   @include mixins.bg-fill();
-  background-image: url("/assets/images/bg-down.png");
+  background-image: functions.image("bg-down.png");
 }
 
 .bg-colors {

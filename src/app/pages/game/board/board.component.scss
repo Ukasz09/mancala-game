@@ -17,12 +17,12 @@
 }
 
 .bin {
-  background-image: url("/assets/images/tree-hollow-000.png");
+  background-image: functions.image("tree-hollow-000.png");
 }
 
 .store {
   @include mixins.bg-fill();
-  background-image: url("/assets/images/store-001.png");
+  background-image: functions.image("store-001.png");
 }
 
 .stones-placeholder {
