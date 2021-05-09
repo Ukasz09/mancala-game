@@ -17,9 +17,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "optimization": true,
-            "baseHref": "https://ukasz09.github.io/mancala-game/",
-            "deployUrl": "https://ukasz09.github.io/mancala-game/",
             "outputPath": "docs",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -38,6 +35,8 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "baseHref": "https://ukasz09.github.io/mancala-game/",
+              "deployUrl": "https://ukasz09.github.io/mancala-game/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
