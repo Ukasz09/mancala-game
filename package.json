@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "./rename-assets-for-deploy.sh && ng build --prod && ./rename-assets-for-dev.sh",
     "test": "ng test",
     "e2e": "ng e2e"
   },
