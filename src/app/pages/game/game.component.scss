@@ -8,3 +8,23 @@
 .player-info {
   color: lighten(variables.$bootstrap-orange, 10);
 }
+
+$menu-btn-translate-X: -100px;
+
+.menu-btn {
+  width: 160px;
+  border-radius: 0px 50px 50px 0px;
+  transform: translateX($menu-btn-translate-X);
+  &:hover {
+    animation: slide-right 0.25s linear both;
+  }
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translateX($menu-btn-translate-X);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

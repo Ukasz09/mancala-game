@@ -1,10 +1,35 @@
+<!-- ------------------------------------------- Home Button ------------------------------------------- -->
 <h3
-  class="fixed-top my-2 btn-orange py-1 ps-4 game-text-shadow"
-  style="width: 100px; border-radius: 0px 50px 50px 0px"
+  class="menu-btn fixed-top my-2 btn-orange py-1 game-text-shadow"
   routerLink="/home"
   (click)="backToHome()"
 >
-  <span class="material-icons" style="font-size: 2.5rem"> home </span>
+  <div class="d-flex flex-row">
+    <span
+      class="px-2 d-flex flex-fill justify-content-center align-items-center d-flex"
+      >HOME</span
+    >
+    <span class="me-3">
+      <span class="material-icons" style="font-size: 2.5rem"> home </span>
+    </span>
+  </div>
+</h3>
+<!-- ------------------------------------------- Restart Game Button ------------------------------------------- -->
+<h3
+  class="menu-btn fixed-top my-2 btn-orange py-1 game-text-shadow"
+  style="top: 60px"
+  routerLink="/home"
+  (click)="onRestartGameBtnClick(gameBoard)"
+>
+  <div class="d-flex flex-row">
+    <span
+      class="px-2 d-flex flex-fill justify-content-center align-items-center d-flex"
+      >RESTART</span
+    >
+    <span class="d-flex flex-fill justify-content-end me-3">
+      <span class="material-icons" style="font-size: 2.5rem"> replay </span>
+    </span>
+  </div>
 </h3>
 <div
   id="main-container"

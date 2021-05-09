@@ -14,7 +14,7 @@ import { BoardComponent } from './board/board.component';
 export class GameComponent implements OnInit {
   @ViewChild('gameBoard') boardComponent: BoardComponent;
 
-  public readonly stoneTransitionTimeSec = 2;
+  public readonly stoneTransitionTimeSec = 1.5;
 
   public gameOver = false;
   public gameLogic: Game;
