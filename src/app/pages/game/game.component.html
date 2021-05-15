@@ -76,16 +76,15 @@
     </div>
   </div>
   <!-- ------------------------------------------- Board ------------------------------------------- -->
-  <h2 class="player-info player-info-portrait">Player A</h2>
+  <h2 class="player-info player-info-portrait">{{ moblieTextPlayerA }}</h2>
   <div class="d-flex h-75 align-items-center">
     <app-board
       #gameBoard
-      [boardText]="headerText"
       [gameLogic]="gameLogic"
       (binClick)="onBinClick($event)"
       [gameMode]="gameMode"
       [stoneTransitionTimeSec]="stoneTransitionTimeSec"
     ></app-board>
   </div>
-  <h2 class="player-info player-info-portrait">Player B</h2>
+  <h2 class="player-info player-info-portrait">{{ moblieTextPlayerB }}</h2>
 </div>

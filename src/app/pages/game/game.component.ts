@@ -171,6 +171,20 @@ export class GameComponent implements OnInit {
     return `Game over. ${this.winnerInfoText}`;
   }
 
+  get mobileHeaderText(): string {
+    return !this.gameOver ? undefined : this.winnerInfoText;
+  }
+
+  get moblieTextPlayerA(): string {
+    const headerText = this.mobileHeaderText;
+    return headerText ?? 'Player A';
+  }
+
+  get moblieTextPlayerB(): string {
+    const headerText = this.mobileHeaderText;
+    return headerText ? '' : 'Player B';
+  }
+
   get winnerInfoText(): string {
     if (this.actualGameResult === GameResult.TIE) {
       return "It's a tie !";
