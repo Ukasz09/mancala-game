@@ -200,8 +200,8 @@ export class GameComponent implements OnInit {
       return "It's a tie !";
     }
     return this.actualGameResult === GameResult.WINNER_A
-      ? 'Player A won !'
-      : 'Player B won !';
+      ? `${this.playerAText} won !`
+      : `${this.playerBText} won !`;
   }
 
   get resetBtnDisabled(): boolean {

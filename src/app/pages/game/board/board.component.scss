@@ -65,6 +65,10 @@ $board-text-color: rgba(245, 222, 179, 0.75);
     transform: rotate(90deg);
     // border: 3px solid rgb(0, 255, 76);
   }
+
+  .stones-qty-label {
+    transform: rotateZ(-90deg);
+  }
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints, sm)) {
@@ -77,6 +81,10 @@ $board-text-color: rgba(245, 222, 179, 0.75);
   .board {
     transform: rotate(0deg);
     // border: 3px solid rgb(225, 0, 255);
+  }
+
+  .stones-qty-label {
+    transform: rotateZ(0deg);
   }
 
   .board-text {
