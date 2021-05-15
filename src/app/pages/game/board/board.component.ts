@@ -127,16 +127,21 @@ export class BoardComponent implements OnInit {
         this.initStoreHeight();
       }
     } else {
+      if (window.innerWidth < BreakPoints.lg) {
+        this.initBoardHeightPx(window.innerHeight, 0.5);
+        console.log('is');
+      } else {
+        this.initBoardHeightPx(
+          window.innerHeight,
+          BoardConstants.BOARD_HEIGHT_PERC
+        );
+      }
       this.initBoardWidthPx(
         window.innerWidth,
         BoardConstants.BOARD_WIDTH_PERC,
         BoardConstants.MAX_BOARD_WIDTH_PX
       );
       this.initBinSizePx();
-      this.initBoardHeightPx(
-        window.innerHeight,
-        BoardConstants.BOARD_HEIGHT_PERC
-      );
       this.initStoreHeight();
     }
   }
