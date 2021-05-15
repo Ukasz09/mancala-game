@@ -12,6 +12,11 @@
   animation: bg-colors-pulse 45s ease infinite;
 }
 
+.board-container {
+  display: flex;
+  flex: 1 1 auto;
+}
+
 /* ------------------------------------------- Media ------------------------------------------- */
 
 @media screen and (min-width: map-get(variables.$breakpoints, xs)) {
@@ -19,9 +24,10 @@
     @include mixins.py(1.5rem);
     font-size: 1.25rem;
     justify-content: space-evenly;
-    height: 50%;
     width: 85%;
-    // border: 3px solid blue;
+    border: 3px solid blue;
+    display: flex;
+    flex-direction: column;
   }
 
   .home-btn {

@@ -1,43 +1,44 @@
-<div class="angle"></div>
 <div class="vh-100 d-flex flex-column bg-colors">
-  <h1
-    class="game-title w-50 mx-auto my-4 text-center text-light game-text-shadow"
-  >
-    Mancala Game
-  </h1>
-  <div
-    class="
-      rounded-100
-      d-flex
-      flex-column
-      board
-      home-board
-      mx-auto
-      text-center
-      game-text-shadow
-      align-items-center
-      fade-in-default
-    "
-  >
-    <button
-      class="btn-gray-brown home-btn"
-      [routerLink]="getGameModeUrl(GameMode.PLAYER_VS_PLAYER)"
-    >
-      Player vs Player
-    </button>
-    <button
-      class="btn-gray-brown home-btn"
-      [routerLink]="getGameModeUrl(GameMode.PLAYER_VS_BOT)"
-    >
-      Player vs Bot
-    </button>
-    <button
-      class="btn-gray-brown home-btn"
-      [routerLink]="getGameModeUrl(GameMode.BOT_VS_BOT)"
-    >
-      Bot vs Bot
-    </button>
-    <button disabled="true" class="btn-gray-brown home-btn">Instruction</button>
+  <div class="h-65 w-100 d-flex flex-column">
+    <h1 class="game-title w-100 text-center text-light game-text-shadow">
+      Mancala Game
+    </h1>
+    <div class="board-container">
+      <div
+        class="
+          rounded-100
+          align-items-center
+          board
+          home-board
+          mx-auto
+          text-center
+          game-text-shadow
+          fade-in-default
+        "
+      >
+        <button
+          class="btn-gray-brown home-btn"
+          [routerLink]="getGameModeUrl(GameMode.PLAYER_VS_PLAYER)"
+        >
+          Player vs Player
+        </button>
+        <button
+          class="btn-gray-brown home-btn"
+          [routerLink]="getGameModeUrl(GameMode.PLAYER_VS_BOT)"
+        >
+          Player vs Bot
+        </button>
+        <button
+          class="btn-gray-brown home-btn"
+          [routerLink]="getGameModeUrl(GameMode.BOT_VS_BOT)"
+        >
+          Bot vs Bot
+        </button>
+        <button disabled="true" class="btn-gray-brown home-btn">
+          Instruction
+        </button>
+      </div>
+    </div>
   </div>
   <div class="bg-down w-100 flex-fill mt-4"></div>
 </div>
