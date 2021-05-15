@@ -17,8 +17,8 @@
   text-align: center;
 }
 
-@mixin bg-fill {
-  background-position: center;
+@mixin bg-fill($background-position: center) {
+  background-position: $background-position;
   background-repeat: no-repeat;
   background-size: cover;
 }
