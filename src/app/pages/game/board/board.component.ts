@@ -9,6 +9,7 @@ import {
 import { timer } from 'rxjs';
 import { Game } from 'src/app/game-logic/game';
 import { GameMode } from 'src/app/shared/models';
+import { BreakPoints } from 'src/app/shared/models/breakepoints';
 import { Player } from '../../../shared/models/player';
 import { Stone } from '../models';
 import { BoardConstants } from './board-constants';
@@ -54,12 +55,11 @@ export class BoardComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.log('Resized');
+    console.log('Resized: ', event.target.innerWidth);
     this.initSize();
     this.updateStonesPosition();
   }
 
-  //TODO: tmp
   private updateStonesPosition() {
     for (let stoneId of this.stoneIds) {
       const [stonePosX, stonePosY] = this.getStoneStartedPosition(stoneId);
@@ -72,38 +72,62 @@ export class BoardComponent implements OnInit {
   }
 
   private initSize(): void {
-    const boardShouldBeRotated = window.innerWidth < 768;
-    if (boardShouldBeRotated) {
-      this.boardWidthPx = window.innerHeight * BoardConstants.BOARD_WIDTH_PERC;
-      // if (this.boardWidthPx > BoardConstants.MAX_BOARD_WIDTH_PX) {
-      //   this.boardWidthPx = BoardConstants.MAX_BOARD_WIDTH_PX;
-      // }
-      this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 2);
-
-      this.boardHeightPx = window.innerWidth * 0.8;
-      // this.boardHeightPx = window.innerWidth * BoardConstants.BOARD_HEIGHT_PERC;
-      // if (this.boardHeightPx < BoardConstants.MIN_BOARD_HEIGHT_PX) {
-      //   this.boardHeightPx = BoardConstants.MIN_BOARD_HEIGHT_PX;
-      // }
-
-      this.storeHeightPx =
-        this.boardHeightPx * BoardConstants.STORE_HEIGHT_PERC;
+    if (window.innerWidth < BreakPoints.md) {
+      if (window.innerHeight > BreakPoints.sm) {
+        this.initBoardWidthPx(
+          window.innerHeight,
+          BoardConstants.BOARD_WIDTH_PERC,
+          BoardConstants.MAX_BOARD_WIDTH_PX
+        );
+        this.initBinSizePx();
+        this.initBoardHeightPx(window.innerWidth, 0.8);
+        this.initStoreHeight();
+      } else {
+        this.initBoardWidthPx(
+          window.innerWidth,
+          BoardConstants.BOARD_WIDTH_PERC,
+          BoardConstants.MAX_BOARD_WIDTH_PX
+        );
+        this.initBinSizePx();
+        this.initBoardHeightPx(window.innerHeight, 0.75);
+        this.initStoreHeight();
+      }
     } else {
-      this.boardWidthPx = window.innerWidth * BoardConstants.BOARD_WIDTH_PERC;
-      if (this.boardWidthPx > BoardConstants.MAX_BOARD_WIDTH_PX) {
-        this.boardWidthPx = BoardConstants.MAX_BOARD_WIDTH_PX;
-      }
-      this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 2);
-
-      this.boardHeightPx =
-        window.innerHeight * BoardConstants.BOARD_HEIGHT_PERC;
-      if (this.boardHeightPx < BoardConstants.MIN_BOARD_HEIGHT_PX) {
-        this.boardHeightPx = BoardConstants.MIN_BOARD_HEIGHT_PX;
-      }
-
-      this.storeHeightPx =
-        this.boardHeightPx * BoardConstants.STORE_HEIGHT_PERC;
+      this.initBoardWidthPx(
+        window.innerWidth,
+        BoardConstants.BOARD_WIDTH_PERC,
+        BoardConstants.MAX_BOARD_WIDTH_PX
+      );
+      this.initBinSizePx();
+      this.initBoardHeightPx(
+        window.innerHeight,
+        BoardConstants.BOARD_HEIGHT_PERC
+      );
+      this.initStoreHeight();
     }
+  }
+
+  private initStoreHeight() {
+    this.storeHeightPx = this.boardHeightPx * BoardConstants.STORE_HEIGHT_PERC;
+  }
+
+  private initBinSizePx() {
+    this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 2);
+  }
+
+  private initBoardWidthPx(
+    windowSizePx: number,
+    widthPerc: number,
+    maxWidthPx: number
+  ) {
+    this.boardWidthPx = windowSizePx * widthPerc;
+    if (this.boardWidthPx > maxWidthPx) {
+      this.boardWidthPx = maxWidthPx;
+    }
+  }
+
+  private initBoardHeightPx(windowSizePx: number, heightPerc: number) {
+    this.boardHeightPx = windowSizePx * heightPerc;
   }
 
   private initBinNumbers(): void {
