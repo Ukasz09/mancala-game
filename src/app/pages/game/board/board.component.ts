@@ -53,43 +53,77 @@ export class BoardComponent implements OnInit {
     this.makeBinsSnapshot();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    console.log('Resized: ', event.target.innerWidth);
+  @HostListener('window:resize')
+  onResize() {
     this.initSize();
     this.updateStonesPosition();
   }
 
   private updateStonesPosition() {
     for (let stoneId of this.stoneIds) {
-      const [stonePosX, stonePosY] = this.getStoneStartedPosition(stoneId);
-      const randTranslateX = this.getRandomStoneTranslateX(this.stoneSize);
-      const randTranslateY = this.getRandomStoneTranslateY(this.stoneSize);
       const stone = this.stoneModels.get(stoneId);
+      const [stonePosX, stonePosY] = this.getStoneStartedPosition(stoneId);
+
+      // Set correct Y position
+      const isInStoreB = this.gameLogic.isInStoreB(stoneId);
+      const isInStoreA = this.gameLogic.isInStoreA(stoneId);
+      const randOffset = Math.random() > 0.5 ? 1 : -1;
+      const randTranslateY = this.getStoneRandomOffset(this.stoneSize);
+      // Stone in StoreA
+      if (isInStoreA) {
+        const translateY = this.storeHeightPx / 2 + randOffset * randTranslateY;
+        stone.positonY = stonePosY - translateY - this.binSizePx;
+      }
+      // Stone in StoreB
+      else if (isInStoreB) {
+        const translateY =
+          this.boardHeightPx -
+          this.storeHeightPx / 2 +
+          randOffset * randTranslateY;
+        stone.positonY = stonePosY - translateY + this.binSizePx / 2;
+      }
+      // Stone in Bin
+      else {
+        const randTranslateY = this.getRandomStoneTranslateY(this.stoneSize);
+        stone.positonY = stonePosY + randTranslateY;
+      }
+
+      // Set correct X position
+      const randTranslateX = this.getRandomStoneTranslateX(this.stoneSize);
       stone.positonX = stonePosX + randTranslateX;
-      stone.positonY = stonePosY + randTranslateY;
     }
   }
 
   private initSize(): void {
-    if (window.innerWidth < BreakPoints.md) {
-      if (window.innerHeight > BreakPoints.sm) {
+    const isMobileDevice = window.innerWidth < BreakPoints.md;
+    if (isMobileDevice) {
+      const isPortraitOrientation = window.innerHeight > BreakPoints.sm;
+      // Mobile portrait orientation
+      if (isPortraitOrientation) {
         this.initBoardWidthPx(
           window.innerHeight,
           BoardConstants.BOARD_WIDTH_PERC,
           BoardConstants.MAX_BOARD_WIDTH_PX
         );
         this.initBinSizePx();
-        this.initBoardHeightPx(window.innerWidth, 0.8);
+        this.initBoardHeightPx(
+          window.innerWidth,
+          BoardConstants.BOARD_HEIGHT_PERC_MOBILE_PORTRAIT
+        );
         this.initStoreHeight();
-      } else {
+      }
+      // Mobile, landscape orientation
+      else {
         this.initBoardWidthPx(
           window.innerWidth,
           BoardConstants.BOARD_WIDTH_PERC,
           BoardConstants.MAX_BOARD_WIDTH_PX
         );
         this.initBinSizePx();
-        this.initBoardHeightPx(window.innerHeight, 0.75);
+        this.initBoardHeightPx(
+          window.innerHeight,
+          BoardConstants.BOARD_HEIGHT_PERC_MOBILE_LANDSCAPE
+        );
         this.initStoreHeight();
       }
     } else {
