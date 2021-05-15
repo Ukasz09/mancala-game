@@ -1,4 +1,5 @@
 @use "/src/app/shared/styles/utilities/variables";
+@use "/src/app/shared/styles/utilities/mixins";
 @use "/src/app/shared/styles/components/game";
 
 #main-container {
@@ -7,6 +8,15 @@
 
 .player-info {
   color: lighten(variables.$bootstrap-orange, 10);
+  text-align: center;
+}
+
+.player-info-landscape {
+  flex: 1 1 auto;
+}
+
+.player-info-portrait {
+  // @include mixins.py(1rem);
 }
 
 $menu-btn-translate-X: -100px;
@@ -31,8 +41,12 @@ $menu-btn-translate-X: -100px;
 // }
 
 @media screen and (min-width: map-get(variables.$breakpoints, xs)) {
-  .header-md {
+  .header-landscape {
     display: none;
+  }
+
+  .player-info-portrait {
+    display: block;
   }
 }
 
@@ -40,8 +54,12 @@ $menu-btn-translate-X: -100px;
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints, md)) {
-  .header-md {
-    display: block;
+  .header-landscape {
+    display: flex;
+  }
+
+  .player-info-portrait {
+    display: none;
   }
 }
 

@@ -70,15 +70,15 @@
   "
 >
   <!-- ------------------------------------------- Header ------------------------------------------- -->
-  <div class="d-flex flex-column py-5 w-100">
+  <div class="header-landscape flex-column py-5 w-100">
     <div class="d-flex flex-row">
-      <h2 class="flex-fill text-center player-info">Player A</h2>
-      <h1 class="header-md w-15 text-center text-light game-text-shadow">
+      <h2 class="player-info player-info-landscape">Player A</h2>
+      <!-- <h1 class="w-15 text-center text-light game-text-shadow">
         {{ headerText }}
-      </h1>
-      <h2 class="flex-fill text-center player-info">Player B</h2>
+      </h1> -->
+      <h2 class="player-info player-info-landscape">Player B</h2>
     </div>
-    <ng-container *ngIf="gameOver">
+    <!-- <ng-container *ngIf="gameOver">
       <h3 class="mt-1 text-center text-orange game-text-shadow">
         {{ winnerInfoText }}
       </h3>
@@ -89,14 +89,18 @@
       >
         Play again
       </button>
-    </ng-container>
+    </ng-container> -->
   </div>
   <!-- ------------------------------------------- Board ------------------------------------------- -->
-  <app-board
-    #gameBoard
-    [gameLogic]="gameLogic"
-    (binClick)="onBinClick($event)"
-    [gameMode]="gameMode"
-    [stoneTransitionTimeSec]="stoneTransitionTimeSec"
-  ></app-board>
+  <h2 class="player-info player-info-portrait">Player A</h2>
+  <div class="d-flex h-75 align-items-center">
+    <app-board
+      #gameBoard
+      [gameLogic]="gameLogic"
+      (binClick)="onBinClick($event)"
+      [gameMode]="gameMode"
+      [stoneTransitionTimeSec]="stoneTransitionTimeSec"
+    ></app-board>
+  </div>
+  <h2 class="player-info player-info-portrait">Player B</h2>
 </div>
