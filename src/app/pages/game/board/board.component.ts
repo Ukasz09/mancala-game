@@ -56,10 +56,10 @@ export class BoardComponent implements OnInit {
   @HostListener('window:resize')
   onResize() {
     this.initSize();
-    this.updateStonesPosition();
+    this.updateStonesPositionAfterResize();
   }
 
-  private updateStonesPosition() {
+  private updateStonesPositionAfterResize() {
     for (let stoneId of this.stoneIds) {
       const stone = this.stoneModels.get(stoneId);
       const [stonePosX, stonePosY] = this.getStoneStartedPosition(stoneId);

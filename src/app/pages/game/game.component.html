@@ -68,15 +68,15 @@
   <!-- ------------------------------------------- Header ------------------------------------------- -->
   <div class="header-landscape flex-column py-5 w-100">
     <div class="d-flex flex-row">
-      <h2 class="player-info player-info-landscape">Player A</h2>
+      <h2 class="player-info player-info-landscape">{{ playerAText }}</h2>
       <h1 class="flex-fill text-center text-light game-text-shadow">
         {{ headerText }}
       </h1>
-      <h2 class="player-info player-info-landscape">Player B</h2>
+      <h2 class="player-info player-info-landscape">{{ playerBText }}</h2>
     </div>
   </div>
   <!-- ------------------------------------------- Board ------------------------------------------- -->
-  <h2 class="player-info player-info-portrait">{{ moblieTextPlayerA }}</h2>
+  <h2 class="player-info player-info-portrait">{{ mobileTextPlayerA }}</h2>
   <div class="d-flex h-75 align-items-center">
     <app-board
       #gameBoard

@@ -175,14 +175,24 @@ export class GameComponent implements OnInit {
     return !this.gameOver ? undefined : this.winnerInfoText;
   }
 
-  get moblieTextPlayerA(): string {
+  get playerAText(): string {
+    const playerVsPlayer = this.gameMode === GameMode.PLAYER_VS_PLAYER;
+    return playerVsPlayer ? 'Player A' : 'Bot A';
+  }
+
+  get playerBText(): string {
+    const botVsBot = this.gameMode === GameMode.BOT_VS_BOT;
+    return botVsBot ? 'Bot B' : 'Player B';
+  }
+
+  get mobileTextPlayerA(): string {
     const headerText = this.mobileHeaderText;
-    return headerText ?? 'Player A';
+    return headerText ?? this.playerAText;
   }
 
   get moblieTextPlayerB(): string {
     const headerText = this.mobileHeaderText;
-    return headerText ? '' : 'Player B';
+    return headerText ? '' : this.playerBText;
   }
 
   get winnerInfoText(): string {
