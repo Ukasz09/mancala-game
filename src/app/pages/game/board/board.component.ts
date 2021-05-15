@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { timer } from 'rxjs';
 import { Game } from 'src/app/game-logic/game';
 import { GameMode } from 'src/app/shared/models';
@@ -39,25 +46,64 @@ export class BoardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.initWidths();
+    this.initSize();
     this.initBinNumbers();
     this.initStoneModels();
     this.makeBinsSnapshot();
   }
 
-  private initWidths(): void {
-    this.boardWidthPx = window.innerWidth * BoardConstants.BOARD_WIDTH_PERC;
-    if (this.boardWidthPx > BoardConstants.MAX_BOARD_WIDTH_PX) {
-      this.boardWidthPx = BoardConstants.MAX_BOARD_WIDTH_PX;
-    }
-    this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 2);
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    console.log('Resized');
+    this.initSize();
+    this.updateStonesPosition();
+  }
 
-    this.boardHeightPx = window.innerHeight * BoardConstants.BOARD_HEIGHT_PERC;
-    if (this.boardHeightPx < BoardConstants.MIN_BOARD_HEIGHT_PX) {
-      this.boardHeightPx = BoardConstants.MIN_BOARD_HEIGHT_PX;
+  //TODO: tmp
+  private updateStonesPosition() {
+    for (let stoneId of this.stoneIds) {
+      const [stonePosX, stonePosY] = this.getStoneStartedPosition(stoneId);
+      const randTranslateX = this.getRandomStoneTranslateX(this.stoneSize);
+      const randTranslateY = this.getRandomStoneTranslateY(this.stoneSize);
+      const stone = this.stoneModels.get(stoneId);
+      stone.positonX = stonePosX + randTranslateX;
+      stone.positonY = stonePosY + randTranslateY;
     }
+  }
 
-    this.storeHeightPx = this.boardHeightPx * BoardConstants.STORE_HEIGHT_PERC;
+  private initSize(): void {
+    const boardShouldBeRotated = window.innerWidth < 768;
+    if (boardShouldBeRotated) {
+      this.boardWidthPx = window.innerHeight * BoardConstants.BOARD_WIDTH_PERC;
+      // if (this.boardWidthPx > BoardConstants.MAX_BOARD_WIDTH_PX) {
+      //   this.boardWidthPx = BoardConstants.MAX_BOARD_WIDTH_PX;
+      // }
+      this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 2);
+
+      this.boardHeightPx = window.innerWidth * 0.8;
+      // this.boardHeightPx = window.innerWidth * BoardConstants.BOARD_HEIGHT_PERC;
+      // if (this.boardHeightPx < BoardConstants.MIN_BOARD_HEIGHT_PX) {
+      //   this.boardHeightPx = BoardConstants.MIN_BOARD_HEIGHT_PX;
+      // }
+
+      this.storeHeightPx =
+        this.boardHeightPx * BoardConstants.STORE_HEIGHT_PERC;
+    } else {
+      this.boardWidthPx = window.innerWidth * BoardConstants.BOARD_WIDTH_PERC;
+      if (this.boardWidthPx > BoardConstants.MAX_BOARD_WIDTH_PX) {
+        this.boardWidthPx = BoardConstants.MAX_BOARD_WIDTH_PX;
+      }
+      this.binSizePx = this.boardWidthPx / (this.gameLogic.binsQtyInRow + 2);
+
+      this.boardHeightPx =
+        window.innerHeight * BoardConstants.BOARD_HEIGHT_PERC;
+      if (this.boardHeightPx < BoardConstants.MIN_BOARD_HEIGHT_PX) {
+        this.boardHeightPx = BoardConstants.MIN_BOARD_HEIGHT_PX;
+      }
+
+      this.storeHeightPx =
+        this.boardHeightPx * BoardConstants.STORE_HEIGHT_PERC;
+    }
   }
 
   private initBinNumbers(): void {

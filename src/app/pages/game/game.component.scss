@@ -23,6 +23,36 @@ $menu-btn-translate-X: -100px;
   }
 }
 
+/* ------------------------------------------- Media ------------------------------------------- */
+
+// @media screen and (min-height: map-get(variables.$breakpoints, xs)) {
+// }
+// @media screen and (min-height: map-get(variables.$breakpoints, sm)) {
+// }
+
+@media screen and (min-width: map-get(variables.$breakpoints, xs)) {
+  .header-md {
+    display: none;
+  }
+}
+
+@media screen and (min-width: map-get(variables.$breakpoints, sm)) {
+}
+
+@media screen and (min-width: map-get(variables.$breakpoints, md)) {
+  .header-md {
+    display: block;
+  }
+}
+
+@media screen and (min-width: map-get(variables.$breakpoints,lg)) {
+}
+
+@media screen and (min-width: map-get(variables.$breakpoints,xxl)) {
+}
+
+/* ------------------------------------------- Keyframes ------------------------------------------- */
+
 @keyframes slide-right {
   0% {
     transform: translateX($menu-btn-translate-X);

@@ -1,12 +1,28 @@
 <!-- ------------------------------------------- Home Button ------------------------------------------- -->
 <h3
-  class="menu-btn btn-with-slide fixed-top my-2 btn-orange py-1 game-text-shadow"
+  class="
+    menu-btn
+    btn-with-slide
+    fixed-top
+    my-2
+    btn-orange
+    py-1
+    game-text-shadow
+  "
+  style="display: none"
   routerLink="/home"
   (click)="backToHome()"
 >
   <div class="d-flex flex-row">
     <span
-      class="px-2 d-flex flex-fill justify-content-center align-items-center d-flex"
+      class="
+        px-2
+        d-flex
+        flex-fill
+        justify-content-center
+        align-items-center
+        d-flex
+      "
       >HOME</span
     >
     <span class="me-3">
@@ -22,10 +38,18 @@
   [disabled]="resetBtnDisabled"
   [ngClass]="{ 'btn-with-slide': !resetBtnDisabled }"
   (click)="onRestartGameBtnClick()"
+  style="display: none"
 >
   <div class="d-flex flex-row">
     <span
-      class="px-2 d-flex flex-fill justify-content-center align-items-center d-flex"
+      class="
+        px-2
+        d-flex
+        flex-fill
+        justify-content-center
+        align-items-center
+        d-flex
+      "
       >RESTART</span
     >
     <span class="d-flex flex-fill justify-content-end me-3">
@@ -35,13 +59,21 @@
 </button>
 <div
   id="main-container"
-  class="d-flex flex-column align-items-center bg-light text-light max-viewport fade-in-default"
+  class="
+    d-flex
+    flex-column
+    align-items-center
+    bg-light
+    text-light
+    max-viewport
+    fade-in-default
+  "
 >
   <!-- ------------------------------------------- Header ------------------------------------------- -->
   <div class="d-flex flex-column py-5 w-100">
     <div class="d-flex flex-row">
       <h2 class="flex-fill text-center player-info">Player A</h2>
-      <h1 class="w-15 text-center text-light game-text-shadow">
+      <h1 class="header-md w-15 text-center text-light game-text-shadow">
         {{ headerText }}
       </h1>
       <h2 class="flex-fill text-center player-info">Player B</h2>
