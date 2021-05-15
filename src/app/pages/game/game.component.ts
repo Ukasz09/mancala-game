@@ -165,7 +165,10 @@ export class GameComponent implements OnInit {
 
   /* ------------------------------------------- Getters / setters ------------------------------------------- */
   get headerText(): string {
-    return this.gameOver ? 'Game over' : 'Mancala Game';
+    if (!this.gameOver) {
+      return 'Mancala Game';
+    }
+    return `Game over. ${this.winnerInfoText}`;
   }
 
   get winnerInfoText(): string {

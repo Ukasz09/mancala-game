@@ -63,7 +63,6 @@
     d-flex
     flex-column
     align-items-center
-    bg-light
     text-light
     max-viewport
     fade-in-default
@@ -73,29 +72,18 @@
   <div class="header-landscape flex-column py-5 w-100">
     <div class="d-flex flex-row">
       <h2 class="player-info player-info-landscape">Player A</h2>
-      <!-- <h1 class="w-15 text-center text-light game-text-shadow">
+      <h1 class="flex-fill text-center text-light game-text-shadow">
         {{ headerText }}
-      </h1> -->
+      </h1>
       <h2 class="player-info player-info-landscape">Player B</h2>
     </div>
-    <!-- <ng-container *ngIf="gameOver">
-      <h3 class="mt-1 text-center text-orange game-text-shadow">
-        {{ winnerInfoText }}
-      </h3>
-      <button
-        class="btn-orange py-2 w-25 mx-auto"
-        style="font-size: 1.25rem"
-        (click)="onRestartGameBtnClick()"
-      >
-        Play again
-      </button>
-    </ng-container> -->
   </div>
   <!-- ------------------------------------------- Board ------------------------------------------- -->
   <h2 class="player-info player-info-portrait">Player A</h2>
   <div class="d-flex h-75 align-items-center">
     <app-board
       #gameBoard
+      [boardText]="headerText"
       [gameLogic]="gameLogic"
       (binClick)="onBinClick($event)"
       [gameMode]="gameMode"

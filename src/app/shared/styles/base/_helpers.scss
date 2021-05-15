@@ -38,6 +38,7 @@ $colours: (
   "cyan": variables.$bootstrap-cyan,
   "light": variables.$bootstrap-light,
   "dark": variables.$bootstrap-dark,
+  "gray-brown": variables.$gray-brown,
 );
 
 @each $bgColor, $i in $colours {

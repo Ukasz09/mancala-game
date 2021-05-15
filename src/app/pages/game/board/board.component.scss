@@ -29,6 +29,16 @@
   position: absolute;
 }
 
+$board-text-color: rgba(245, 222, 179, 0.85);
+
+.board-text {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  align-items: center;
+  color: $board-text-color;
+}
+
 /* ------------------------------------------- Media ------------------------------------------- */
 
 // @media screen and (min-height: map-get(variables.$breakpoints, xs)) {
@@ -39,39 +49,47 @@
 @media screen and (min-width: map-get(variables.$breakpoints, xs)) {
   .board {
     transform: rotate(90deg);
-    border: 3px solid rgb(0, 255, 76);
+    // border: 3px solid rgb(0, 255, 76);
     border-radius: 50px;
+  }
+
+  .board-text {
+    display: flex;
   }
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints, sm)) {
   .board {
-    border: 3px solid red;
+    // border: 3px solid red;
   }
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints, md)) {
   .board {
     transform: rotate(0deg);
-    border: 3px solid rgb(225, 0, 255);
+    // border: 3px solid rgb(225, 0, 255);
+  }
+
+  .board-text {
+    display: none;
   }
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints,lg)) {
   .board {
-    border: 3px solid orange;
+    // border: 3px solid orange;
   }
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints,xl)) {
   .board {
     border-radius: 100px;
-    border: 3px solid rgb(0, 26, 255);
+    // border: 3px solid rgb(0, 26, 255);
   }
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints,xxl)) {
   #game-board {
-    border: 3px solid mediumslateblue;
+    // border: 3px solid mediumslateblue;
   }
 }

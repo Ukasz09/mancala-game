@@ -26,6 +26,7 @@ export class BoardComponent implements OnInit {
   @Input() gameLogic: Game;
   @Input() gameMode: GameMode;
   @Input() stoneTransitionTimeSec: number;
+  @Input() boardText: string = '';
 
   @Output() binClick: EventEmitter<number> = new EventEmitter();
 
