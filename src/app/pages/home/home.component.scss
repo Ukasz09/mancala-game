@@ -3,11 +3,6 @@
 @use "/src/app/shared/styles/utilities/functions";
 @use "/src/app/shared/styles/components/game";
 
-.home-btn {
-  box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.85);
-  border: transparent;
-}
-
 .bg-down {
   @include mixins.bg-fill();
   background-image: functions.image("bg-down.png");
@@ -16,6 +11,70 @@
 .bg-colors {
   animation: bg-colors-pulse 45s ease infinite;
 }
+
+/* ------------------------------------------- Media ------------------------------------------- */
+
+@media screen and (min-width: map-get(variables.$breakpoints, xs)) {
+  .home-board {
+    @include mixins.py(1.5rem);
+    font-size: 1.25rem;
+    justify-content: space-evenly;
+    height: 50%;
+    width: 85%;
+    // border: 3px solid blue;
+  }
+
+  .home-btn {
+    box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.85);
+    border: transparent;
+    width: 70%;
+    @include mixins.py(1rem);
+  }
+
+  .game-title {
+    @include mixins.py(1rem);
+  }
+}
+
+@media screen and (min-width: map-get(variables.$breakpoints, sm)) {
+  .home-board {
+    @include mixins.py(3rem);
+    width: 60%;
+    font-size: 1.35rem;
+    border: 3px solid red;
+  }
+
+  .home-btn {
+    width: 65%;
+  }
+
+  .game-title {
+    @include mixins.py(1.5rem);
+  }
+}
+
+@media screen and (min-width: map-get(variables.$breakpoints, md)) {
+  .home-board {
+    width: 50%;
+    font-size: 1.5rem;
+    border: 3px solid greenyellow;
+  }
+}
+
+@media screen and (min-width: map-get(variables.$breakpoints,lg)) {
+  .home-board {
+    width: 40%;
+    border: 3px solid orange;
+  }
+}
+
+@media screen and (min-width: map-get(variables.$breakpoints,xxl)) {
+  .home-board {
+    width: 30%;
+    border: 3px solid mediumslateblue;
+  }
+}
+/* ------------------------------------------- Keyframes ------------------------------------------- */
 
 @keyframes bg-colors-pulse {
   0% {

@@ -26,3 +26,8 @@
 @mixin mask($color, $opacity: 0.65) {
   background: rgba($color, $opacity);
 }
+
+@mixin py($size) {
+  padding-top: $size;
+  padding-bottom: $size;
+}

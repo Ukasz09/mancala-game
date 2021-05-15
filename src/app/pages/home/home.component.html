@@ -1,33 +1,43 @@
 <div class="angle"></div>
 <div class="vh-100 d-flex flex-column bg-colors">
-  <h1 class="w-50 mx-auto my-4 text-center text-light game-text-shadow">
+  <h1
+    class="game-title w-50 mx-auto my-4 text-center text-light game-text-shadow"
+  >
     Mancala Game
   </h1>
   <div
-    class="mt-5 d-flex flex-column board h-50 w-30 mx-auto rounded-100 text-center game-text-shadow align-items-center py-5 fade-in-default"
-    style="font-size: 1.5rem; justify-content: space-evenly"
+    class="
+      rounded-100
+      d-flex
+      flex-column
+      board
+      home-board
+      mx-auto
+      text-center
+      game-text-shadow
+      align-items-center
+      fade-in-default
+    "
   >
-    <div
-      class="btn-gray-brown w-60 py-3 mb-2 home-btn"
+    <button
+      class="btn-gray-brown home-btn"
       [routerLink]="getGameModeUrl(GameMode.PLAYER_VS_PLAYER)"
     >
       Player vs Player
-    </div>
-    <div
-      class="btn-gray-brown w-60 py-3 mb-2 home-btn"
+    </button>
+    <button
+      class="btn-gray-brown home-btn"
       [routerLink]="getGameModeUrl(GameMode.PLAYER_VS_BOT)"
     >
       Player vs Bot
-    </div>
-    <div
-      class="btn-gray-brown w-60 py-3 mb-2 home-btn"
+    </button>
+    <button
+      class="btn-gray-brown home-btn"
       [routerLink]="getGameModeUrl(GameMode.BOT_VS_BOT)"
     >
       Bot vs Bot
-    </div>
-    <button disabled="true" class="btn-gray-brown w-60 py-3 home-btn">
-      Instruction
     </button>
+    <button disabled="true" class="btn-gray-brown home-btn">Instruction</button>
   </div>
   <div class="bg-down w-100 flex-fill mt-4"></div>
 </div>
