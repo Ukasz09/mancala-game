@@ -2,14 +2,13 @@
 <h3
   class="
     menu-btn
-    btn-with-slide
+    home-btn home-btn-slide
     fixed-top
     my-2
     btn-orange
     py-1
     game-text-shadow
   "
-  style="display: none"
   routerLink="/home"
   (click)="backToHome()"
 >
@@ -32,13 +31,11 @@
 </h3>
 <!-- ------------------------------------------- Restart Game Button ------------------------------------------- -->
 <button
-  class="menu-btn fixed-top my-2 btn-orange py-1 game-text-shadow"
-  style="top: 60px"
+  class="menu-btn reset-btn my-2 btn-orange py-1 game-text-shadow"
   routerLink="/home"
   [disabled]="resetBtnDisabled"
-  [ngClass]="{ 'btn-with-slide': !resetBtnDisabled }"
+  [ngClass]="{ 'reset-btn-slide': !resetBtnDisabled }"
   (click)="onRestartGameBtnClick()"
-  style="display: none"
 >
   <div class="d-flex flex-row">
     <span

@@ -20,13 +20,19 @@ $menu-btn-translate-X: -100px;
 .menu-btn {
   width: 160px;
   border-radius: 0px 50px 50px 0px;
+}
+
+.home-btn {
   transform: translateX($menu-btn-translate-X);
 }
 
-.btn-with-slide {
-  &:hover {
-    animation: slide-right 0.25s linear both;
-  }
+.reset-btn {
+  position: fixed;
+  z-index: variables.$zindex-fixed;
+}
+
+@function slide-animation($keyframeName) {
+  @return $keyframeName 0.25s linear both;
 }
 
 /* ------------------------------------------- Media ------------------------------------------- */
@@ -44,6 +50,13 @@ $menu-btn-translate-X: -100px;
   .player-info-portrait {
     display: block;
   }
+
+  .reset-btn {
+    top: 0px;
+    right: 0;
+    transition: 0s;
+    transform: rotateY(180deg) translateX($menu-btn-translate-X);
+  }
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints, sm)) {
@@ -56,6 +69,24 @@ $menu-btn-translate-X: -100px;
 
   .player-info-portrait {
     display: none;
+  }
+
+  .reset-btn {
+    transform: translateX($menu-btn-translate-X);
+    top: 60px;
+    left: 0;
+  }
+
+  .reset-btn-slide {
+    &:hover {
+      animation: slide-animation(slide-right);
+    }
+  }
+
+  .home-btn-slide {
+    &:hover {
+      animation: slide-animation(slide-right);
+    }
   }
 }
 
