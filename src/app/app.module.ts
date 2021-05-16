@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GameModule } from './pages/game/game.module';
+import { HomeModule } from './pages/home/home.module';
 import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { HomeComponent } from './pages/home/home.component';
 
     // Custom modules
     GameModule,
+    HomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

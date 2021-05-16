@@ -5,14 +5,14 @@ import { Game } from './game';
 export class Bot {
   private static MAX_DEPTH = 4;
 
-  public static move(game: Game, botType: Player): number {
+  public static move(
+    game: Game,
+    botType: Player,
+    maxDepth = this.MAX_DEPTH
+  ): number {
     const clonedGame = game.clone();
     const startTimeMs = new Date().getTime();
-    const newMove: BotMoveValue = this.maxAction(
-      clonedGame,
-      Bot.MAX_DEPTH,
-      botType
-    );
+    const newMove: BotMoveValue = this.maxAction(clonedGame, maxDepth, botType);
     const endTimeMs = new Date().getTime();
     const elapsedTime = endTimeMs - startTimeMs;
     SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime}`);

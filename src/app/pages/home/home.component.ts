@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ReportMaker } from 'src/app/game-logic/report-maker';
 import { GameMode } from 'src/app/shared/models';
 
 @Component({
@@ -9,11 +10,25 @@ import { GameMode } from 'src/app/shared/models';
 export class HomeComponent implements OnInit {
   GameMode = GameMode;
 
+  reportMaker: ReportMaker; // For performace reports purpose
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.reportMaker = new ReportMaker();
+  }
 
   public getGameModeUrl(mode: string): string {
     return `/game/${mode}`;
+  }
+
+  public makeReport() {
+    console.clear();
+    // this.reportMaker.makeReport(3, 15);
+    // this.reportMaker.makeReport(4, 15);
+    // this.reportMaker.makeReport(5, 15);
+    // this.reportMaker.makeReport(6, 15);
+    // this.reportMaker.makeReport(7, 15);
+    this.reportMaker.makeReport(8, 1);
   }
 }

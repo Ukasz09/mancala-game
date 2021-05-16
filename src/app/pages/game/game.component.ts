@@ -74,7 +74,7 @@ export class GameComponent implements OnInit, OnDestroy {
       // Bot vs bot
       case GameMode.BOT_VS_BOT: {
         const botPlayer = Player.B;
-        const randomBinNumber = this.getRandomInt(
+        const randomBinNumber = SharedUtils.getRandomInt(
           this.gameLogic.fstBinNumberForPlayerB,
           this.gameLogic.lastBinNumberForPlayerB
         );
@@ -90,19 +90,6 @@ export class GameComponent implements OnInit, OnDestroy {
     }
 
     // If Player vs Player than do nothing
-  }
-
-  /**
-   * Returns a random integer between min (inclusive) and max (inclusive).
-   * The value is no lower than min (or the next integer greater than min
-   * if min isn't an integer) and no greater than max (or the next integer
-   * lower than max if max isn't an integer).
-   * Using Math.round() will give you a non-uniform distribution!
-   */
-  private getRandomInt(min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   public onRestartGameBtnClick() {
@@ -132,30 +119,8 @@ export class GameComponent implements OnInit, OnDestroy {
     const [gameResult, gameOver] = this.gameLogic.makeMove(binNumber);
     this.gameOver = gameOver;
     this.actualGameResult = gameResult;
-    // if (gameOver) {
-    this.logResultOnGameOver();
-    // }
     this.boardComponent.lastClickedBinNumer = binNumber;
     this.boardComponent.onMoveHasBeenDone();
-  }
-
-  private logResultOnGameOver() {
-    const winner = this.getWinner();
-    if (winner != -1) {
-      const movesQty = this.gameLogic.movesQty.get(winner);
-      SharedUtils.logWithoutLineNumber(`WINNER,${movesQty}`);
-    } else {
-      SharedUtils.logWithoutLineNumber(`WINNER,${-1}`); // It's a tie
-    }
-  }
-
-  private getWinner(): Player {
-    if (this.actualGameResult === GameResult.WINNER_A) {
-      return Player.A;
-    } else if (this.actualGameResult === GameResult.WINNER_B) {
-      return Player.B;
-    }
-    return -1;
   }
 
   public backToHome(): void {
