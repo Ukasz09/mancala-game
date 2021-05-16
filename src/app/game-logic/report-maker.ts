@@ -10,7 +10,11 @@ export class ReportMaker {
     this.game = new Game();
   }
 
-  public makeReport(maxDepth: number, gameRepeatsQty: number) {
+  public makeReport(
+    maxDepth: number,
+    gameRepeatsQty: number,
+    withAlphaBetaPruning: boolean
+  ) {
     for (let i = 0; i < gameRepeatsQty; i++) {
       SharedUtils.logWithoutLineNumber(
         `--------------- Started game (depth=${maxDepth}, repeatNo=${
@@ -18,7 +22,7 @@ export class ReportMaker {
         }/${gameRepeatsQty}) ---------------`
       );
       const startBinNumber = this.initGame();
-      this.playGame(startBinNumber, maxDepth);
+      this.playGame(startBinNumber, maxDepth, withAlphaBetaPruning);
     }
   }
 
@@ -35,17 +39,30 @@ export class ReportMaker {
     return randomBinNumber;
   }
 
-  private playGame(binNumber: number, maxDepth: number) {
+  private playGame(
+    binNumber: number,
+    maxDepth: number,
+    withAlphaBetaPruning: boolean
+  ) {
     const [gameResult, gameIsFinished] = this.game.makeMove(binNumber);
     if (gameIsFinished) {
       this.logResultOnGameOver(gameResult);
     } else {
-      const chosenBinByBot = Bot.move(
-        this.game,
-        this.game.actualPlayer,
-        maxDepth
-      );
-      this.playGame(chosenBinByBot, maxDepth);
+      if (withAlphaBetaPruning) {
+        const chosenBinByBot = Bot.moveWithAlphaBeta(
+          this.game,
+          this.game.actualPlayer,
+          maxDepth
+        );
+        this.playGame(chosenBinByBot, maxDepth, withAlphaBetaPruning);
+      } else {
+        const chosenBinByBot = Bot.move(
+          this.game,
+          this.game.actualPlayer,
+          maxDepth
+        );
+        this.playGame(chosenBinByBot, maxDepth, withAlphaBetaPruning);
+      }
     }
   }
 
