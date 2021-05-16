@@ -45,6 +45,7 @@
     height: 100%;
   }
 }
+
 @media screen and (min-height: map-get(variables.$breakpoints, sm)) {
   .content-wraper {
     display: flex;
@@ -70,7 +71,6 @@
     font-size: 1.25rem;
     justify-content: space-evenly;
     width: 85%;
-    // border: 3px solid blue;
     display: flex;
     flex-direction: column;
   }
@@ -92,7 +92,6 @@
     @include mixins.py(3rem);
     width: 60%;
     font-size: 1.35rem;
-    // border: 3px solid red;
   }
 
   .home-btn {
@@ -108,21 +107,18 @@
   .home-board {
     width: 50%;
     font-size: 1.5rem;
-    // border: 3px solid greenyellow;
   }
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints,lg)) {
   .home-board {
     width: 40%;
-    // border: 3px solid orange;
   }
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints,xxl)) {
   .home-board {
     width: 550px;
-    // border: 3px solid mediumslateblue;
   }
 }
 /* ------------------------------------------- Keyframes ------------------------------------------- */
@@ -143,7 +139,6 @@
   75% {
     background-color: #6963b4;
   }
-
   85% {
     background-color: #7fb6ee;
   }

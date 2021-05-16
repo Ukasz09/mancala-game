@@ -236,7 +236,7 @@ export class BoardComponent implements OnInit {
 
   private getStoneImageUrl(stoneImageNumber: number): string {
     const paddedStrStoneNumb = stoneImageNumber.toString().padStart(3, '0');
-    const imagePath = BoardConstants.stonesImagePathPrefix.replace(
+    const imagePath = BoardConstants.STONES_IMAGE_PATH_PREFIX.replace(
       '{stoneNumber}',
       paddedStrStoneNumb
     );

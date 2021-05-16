@@ -5,6 +5,7 @@
     width: boardWidthWithPadding + 'px'
   }"
 >
+  <!-- ------------------------------------------- Stones ------------------------------------------- -->
   <div
     class="stones-placeholder"
     [ngStyle]="{
@@ -20,6 +21,7 @@
       [transitionTimeSec]="stoneTransitionTimeSec"
     ></app-stone>
   </div>
+  <!-- ------------------------------------------- Board ------------------------------------------- -->
   <div
     class="d-flex flex-row"
     [ngStyle]="{
@@ -42,6 +44,7 @@
       >
         <div class="store rounded-75 h-100 w-100"></div>
       </div>
+      <!-- ----------------------- Store A label ---------------------- -->
       <div class="text-center text-gray-300 fw-600 pt-3 stones-qty-label">
         {{ gameLogic.stonesQtyInStoreA }}
       </div>
@@ -61,6 +64,7 @@
                   height: binSizePx + 'px'
                 }"
               ></div>
+              <!-- ----------------------- Bin A label ---------------------- -->
               <div
                 class="text-center text-gray-300 fw-600 pt-3 stones-qty-label"
               >
@@ -74,6 +78,7 @@
       <div class="h-50 d-flex flex-row" style="width: fit-content">
         <ng-container *ngFor="let binNumber of binNumbersPlayerB">
           <div class="d-flex flex-column justify-content-end">
+            <!-- ----------------------- Bin B label ---------------------- -->
             <div class="text-center text-gray-300 fw-600 pb-3 stones-qty-label">
               {{ gameLogic.getStonesQty(binNumber) }}
             </div>
@@ -95,6 +100,7 @@
       class="w-100 d-flex flex-column justify-content-end"
       [ngStyle]="{ width: binSizePx + 'px' }"
     >
+      <!-- ----------------------- Store B label ---------------------- -->
       <div class="text-center text-gray-300 fw-600 stones-qty-label">
         {{ gameLogic.stonesQtyInStoreB }}
       </div>

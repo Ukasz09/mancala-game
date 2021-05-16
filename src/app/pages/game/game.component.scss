@@ -37,11 +37,6 @@ $menu-btn-translate-X: -100px;
 
 /* ------------------------------------------- Media ------------------------------------------- */
 
-// @media screen and (min-height: map-get(variables.$breakpoints, xs)) {
-// }
-// @media screen and (min-height: map-get(variables.$breakpoints, sm)) {
-// }
-
 @media screen and (min-width: map-get(variables.$breakpoints, xs)) {
   .header-landscape {
     display: none;
@@ -57,9 +52,6 @@ $menu-btn-translate-X: -100px;
     transition: 0s;
     transform: rotateY(180deg) translateX($menu-btn-translate-X);
   }
-}
-
-@media screen and (min-width: map-get(variables.$breakpoints, sm)) {
 }
 
 @media screen and (min-width: map-get(variables.$breakpoints, md)) {
@@ -88,12 +80,6 @@ $menu-btn-translate-X: -100px;
       animation: slide-animation(slide-right);
     }
   }
-}
-
-@media screen and (min-width: map-get(variables.$breakpoints,lg)) {
-}
-
-@media screen and (min-width: map-get(variables.$breakpoints,xxl)) {
 }
 
 /* ------------------------------------------- Keyframes ------------------------------------------- */

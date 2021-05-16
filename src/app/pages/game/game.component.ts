@@ -48,7 +48,7 @@ export class GameComponent implements OnInit {
       }
       default: {
         console.warn(
-          `Incorrect game mode - running in mode: ${this.gameMode} `
+          `Incorrect game mode: ${gameModeText} - running in mode: ${this.gameMode} `
         );
         this.gameMode = GameMode.PLAYER_VS_PLAYER;
         break;

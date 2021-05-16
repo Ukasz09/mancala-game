@@ -7,7 +7,6 @@ export class BoardConstants {
   public static readonly BOARD_HEIGHT_PERC_MOBILE_LANDSCAPE = 0.75;
   public static readonly STORE_HEIGHT_PERC = 0.75;
   public static readonly MAX_BOARD_WIDTH_PX = 1400;
-
-  public static stonesImagePathPrefix =
+  public static readonly STONES_IMAGE_PATH_PREFIX =
     '/assets/images/stone-{stoneNumber}.png';
 }
