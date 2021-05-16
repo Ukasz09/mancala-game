@@ -1,3 +1,4 @@
+import { SharedUtils } from '../shared/logic/utils';
 import { Player } from '../shared/models';
 import { Game } from './game';
 
@@ -13,7 +14,8 @@ export class Bot {
       botType
     );
     const endTimeMs = new Date().getTime();
-    console.log(endTimeMs - startTimeMs);
+    const elapsedTime = endTimeMs - startTimeMs;
+    SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime}`);
     return newMove.binNumber;
   }
 

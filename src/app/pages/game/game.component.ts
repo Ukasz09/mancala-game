@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { Bot } from 'src/app/game-logic/bot';
 import { Game } from 'src/app/game-logic/game';
+import { SharedUtils } from 'src/app/shared/logic/utils';
 import { GameMode, GameResult, Player } from 'src/app/shared/models';
 import { BoardComponent } from './board/board.component';
 
@@ -131,8 +132,30 @@ export class GameComponent implements OnInit, OnDestroy {
     const [gameResult, gameOver] = this.gameLogic.makeMove(binNumber);
     this.gameOver = gameOver;
     this.actualGameResult = gameResult;
+    // if (gameOver) {
+    this.logResultOnGameOver();
+    // }
     this.boardComponent.lastClickedBinNumer = binNumber;
     this.boardComponent.onMoveHasBeenDone();
+  }
+
+  private logResultOnGameOver() {
+    const winner = this.getWinner();
+    if (winner != -1) {
+      const movesQty = this.gameLogic.movesQty.get(winner);
+      SharedUtils.logWithoutLineNumber(`WINNER,${movesQty}`);
+    } else {
+      SharedUtils.logWithoutLineNumber(`WINNER,${-1}`); // It's a tie
+    }
+  }
+
+  private getWinner(): Player {
+    if (this.actualGameResult === GameResult.WINNER_A) {
+      return Player.A;
+    } else if (this.actualGameResult === GameResult.WINNER_B) {
+      return Player.B;
+    }
+    return -1;
   }
 
   public backToHome(): void {

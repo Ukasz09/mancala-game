@@ -7,11 +7,18 @@ export class Game {
   public actualPlayer: Player = Player.B;
   public gameIsOver = false;
   public bins: Map<number, number[]> = new Map(); // <bin number, array of stone's id>
+  public movesQty: Map<Player, number> = new Map();
 
   constructor() {}
 
   public initGame() {
     this.initBins();
+    this.resetMovesQty();
+  }
+
+  private resetMovesQty(): void {
+    this.movesQty.set(Player.A, 0);
+    this.movesQty.set(Player.B, 0);
   }
 
   public clone(): Game {
@@ -67,10 +74,12 @@ export class Game {
    * @returns [Actual game result, Is game finished]
    */
   public makeMove(binNumber: number): [GameResult, boolean] {
+    const movesQtyBefore = this.movesQty.get(this.actualPlayer);
+    this.movesQty.set(this.actualPlayer, movesQtyBefore + 1);
+
     const lastUsedBinNumber = this.distributeStones(binNumber);
-    const playerHasAdditionalMove = this.playerHasAdditionalMove(
-      lastUsedBinNumber
-    );
+    const playerHasAdditionalMove =
+      this.playerHasAdditionalMove(lastUsedBinNumber);
     if (!playerHasAdditionalMove) {
       // Check wheter need to steal stones
       const stonesQtyInBin = this.getStonesQty(lastUsedBinNumber);
@@ -303,6 +312,7 @@ export class Game {
   public resetGame(): void {
     this.initBins();
     this.gameIsOver = false;
+    this.resetMovesQty();
   }
 
   public illegalMove(binNumber: number): boolean {
