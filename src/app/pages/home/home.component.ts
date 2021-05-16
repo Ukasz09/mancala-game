@@ -22,13 +22,13 @@ export class HomeComponent implements OnInit {
     return `/game/${mode}`;
   }
 
-  public makeReport(withAlphaBetaPruning: boolean) {
+  public makeReport() {
     console.clear();
-    this.reportMaker.makeReport(3, 10, withAlphaBetaPruning);
-    this.reportMaker.makeReport(4, 10, withAlphaBetaPruning);
-    this.reportMaker.makeReport(5, 10, withAlphaBetaPruning);
-    this.reportMaker.makeReport(6, 10, withAlphaBetaPruning);
-    this.reportMaker.makeReport(7, 10, withAlphaBetaPruning);
-    this.reportMaker.makeReport(8, 10, withAlphaBetaPruning);
+    this.reportMaker.makeReport(3, 10);
+    this.reportMaker.makeReport(4, 10);
+    this.reportMaker.makeReport(5, 10);
+    this.reportMaker.makeReport(6, 10);
+    this.reportMaker.makeReport(7, 10);
+    this.reportMaker.makeReport(8, 10);
   }
 }

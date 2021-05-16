@@ -15,7 +15,7 @@ export class Bot {
     const newMove: BotMoveValue = this.maxAction(clonedGame, maxDepth, botType);
     const endTimeMs = new Date().getTime();
     const elapsedTime = endTimeMs - startTimeMs;
-    SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime}`);
+    SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime},false`);
     return newMove.binNumber;
   }
 
@@ -140,7 +140,7 @@ export class Bot {
     );
     const endTimeMs = new Date().getTime();
     const elapsedTime = endTimeMs - startTimeMs;
-    SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime}`);
+    SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime},true`);
     return newMove.binNumber;
   }
 
