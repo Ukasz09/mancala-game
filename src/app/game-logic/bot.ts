@@ -6,11 +6,14 @@ export class Bot {
 
   public static move(game: Game, botType: Player): number {
     const clonedGame = game.clone();
+    const startTimeMs = new Date().getTime();
     const newMove: BotMoveValue = this.maxAction(
       clonedGame,
       Bot.MAX_DEPTH,
       botType
     );
+    const endTimeMs = new Date().getTime();
+    console.log(endTimeMs - startTimeMs);
     return newMove.binNumber;
   }
 

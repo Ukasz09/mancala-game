@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { Bot } from 'src/app/game-logic/bot';
 import { Game } from 'src/app/game-logic/game';
 import { GameMode, GameResult, Player } from 'src/app/shared/models';
@@ -11,7 +11,7 @@ import { BoardComponent } from './board/board.component';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   @ViewChild('gameBoard') boardComponent: BoardComponent;
 
   public readonly stoneTransitionTimeSec = 1.5;
@@ -21,8 +21,13 @@ export class GameComponent implements OnInit {
   public gameMode: GameMode;
 
   private actualGameResult: GameResult;
+  private moveSubscription: Subscription;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
+
+  ngOnDestroy(): void {
+    this.moveSubscription?.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.initActualGameMode();
@@ -73,7 +78,7 @@ export class GameComponent implements OnInit {
           this.gameLogic.lastBinNumberForPlayerB
         );
         const delayTime = 1000; // Delay time for the fst move
-        timer(delayTime).subscribe(() => {
+        this.moveSubscription = timer(delayTime).subscribe(() => {
           this.makeMove(randomBinNumber);
           if (!this.gameOver) {
             this.makeMoveWithCorrectBot(botPlayer);
@@ -137,7 +142,7 @@ export class GameComponent implements OnInit {
   private makeMoveByBot(botPlayer: Player): void {
     const chosenBinByBot = Bot.move(this.gameLogic, botPlayer);
     const delayTime = this.stoneTransitionTimeSec * 1000;
-    timer(delayTime).subscribe(() => {
+    this.moveSubscription = timer(delayTime).subscribe(() => {
       this.makeMove(chosenBinByBot);
       // Player vs bot
       if (this.gameMode === GameMode.PLAYER_VS_BOT) {
