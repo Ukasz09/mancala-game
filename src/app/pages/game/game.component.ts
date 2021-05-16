@@ -128,7 +128,8 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   private makeMoveByBot(botPlayer: Player): void {
-    const chosenBinByBot = Bot.move(this.gameLogic, botPlayer);
+    const chosenBinByBot = Bot.moveWithAlphaBeta(this.gameLogic, botPlayer);
+    // const chosenBinByBot = Bot.move(this.gameLogic, botPlayer);
     const delayTime = this.stoneTransitionTimeSec * 1000;
     this.moveSubscription = timer(delayTime).subscribe(() => {
       this.makeMove(chosenBinByBot);
