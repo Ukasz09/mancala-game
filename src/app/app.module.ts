@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GameModule } from './pages/game/game.module';
@@ -13,6 +13,7 @@ import { HomeComponent } from './pages/home/home.component';
     // Angular modules
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
 
     // Custom modules
     GameModule,
