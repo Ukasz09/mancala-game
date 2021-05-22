@@ -51,16 +51,17 @@ export class Bot {
         const extraTurn = playerBefore === playerAfter;
         const fintessValueBefore = fitnessValue;
 
-        if (!extraTurn)
+        if (!extraTurn) {
           fitnessValue = Math.max(
             fitnessValue,
             this.minAction(clonedGame, currentDepth - 1, botType).fitnessValue
           );
-        else
+        } else {
           fitnessValue = Math.max(
             fitnessValue,
             this.maxAction(clonedGame, currentDepth - 1, botType).fitnessValue
           );
+        }
 
         if (fintessValueBefore < fitnessValue) {
           newMove.fitnessValue = fitnessValue;
@@ -103,16 +104,17 @@ export class Bot {
         const extraTurn = playerBefore === playerAfter;
         const fintessValueBefore = fitnessValue;
 
-        if (!extraTurn)
+        if (!extraTurn) {
           fitnessValue = Math.min(
             fitnessValue,
             this.maxAction(clonedGame, currentDepth - 1, botType).fitnessValue
           );
-        else
+        } else {
           fitnessValue = Math.min(
             fitnessValue,
             this.minAction(clonedGame, currentDepth - 1, botType).fitnessValue
           );
+        }
 
         if (fintessValueBefore > fitnessValue) {
           newMove.fitnessValue = fitnessValue;
@@ -178,7 +180,7 @@ export class Bot {
         const extraTurn = playerBefore === playerAfter;
         const fintessValueBefore = fitnessValue;
 
-        if (!extraTurn)
+        if (!extraTurn) {
           fitnessValue = Math.max(
             fitnessValue,
             this.minActionAlphaBeta(
@@ -189,7 +191,7 @@ export class Bot {
               beta
             ).fitnessValue
           );
-        else
+        } else {
           fitnessValue = Math.max(
             fitnessValue,
             this.maxActionAlphaBeta(
@@ -200,6 +202,7 @@ export class Bot {
               beta
             ).fitnessValue
           );
+        }
 
         if (fintessValueBefore < fitnessValue) {
           newMove.fitnessValue = fitnessValue;
@@ -250,7 +253,7 @@ export class Bot {
         const extraTurn = playerBefore === playerAfter;
         const fintessValueBefore = fitnessValue;
 
-        if (!extraTurn)
+        if (!extraTurn) {
           fitnessValue = Math.min(
             fitnessValue,
             this.maxActionAlphaBeta(
@@ -261,7 +264,7 @@ export class Bot {
               beta
             ).fitnessValue
           );
-        else
+        } else {
           fitnessValue = Math.min(
             fitnessValue,
             this.minActionAlphaBeta(
@@ -272,6 +275,7 @@ export class Bot {
               beta
             ).fitnessValue
           );
+        }
 
         if (fintessValueBefore > fitnessValue) {
           newMove.fitnessValue = fitnessValue;
