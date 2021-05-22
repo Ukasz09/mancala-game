@@ -1,6 +1,7 @@
 import { SharedUtils } from '../shared/logic/utils';
 import { Player } from '../shared/models';
 import { Game } from './game';
+import { Heuristics } from './heuristics';
 
 export class Bot {
   private static MAX_DEPTH = 4;
@@ -8,27 +9,34 @@ export class Bot {
   public static move(
     game: Game,
     botType: Player,
-    maxDepth = this.MAX_DEPTH
-  ): number {
+    maxDepth = this.MAX_DEPTH,
+    heuristic: Heuristics
+  ): [number, number] {
     const clonedGame = game.clone();
     const startTimeMs = new Date().getTime();
-    const newMove: BotMoveValue = this.maxAction(clonedGame, maxDepth, botType);
+    const newMove: BotMoveValue = this.maxAction(
+      clonedGame,
+      maxDepth,
+      botType,
+      heuristic
+    );
     const endTimeMs = new Date().getTime();
     const elapsedTime = endTimeMs - startTimeMs;
-    SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime},false`);
-    return newMove.binNumber;
+    // SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime},false`);
+    return [newMove.binNumber, elapsedTime];
   }
 
   private static maxAction(
     game: Game,
     currentDepth: number,
-    botType: Player
+    botType: Player,
+    heuristic: Heuristics
   ): BotMoveValue {
     const newMove = new BotMoveValue(Number.MIN_SAFE_INTEGER, 1);
 
     if (game.gameIsOver || currentDepth === 0) {
       newMove.binNumber = -1;
-      newMove.fitnessValue = FitnessValue.calcFitness(game, botType);
+      newMove.fitnessValue = this.calcFitness(game, botType, heuristic);
       return newMove;
     }
     let fitnessValue = Number.MIN_SAFE_INTEGER;
@@ -54,12 +62,14 @@ export class Bot {
         if (!extraTurn) {
           fitnessValue = Math.max(
             fitnessValue,
-            this.minAction(clonedGame, currentDepth - 1, botType).fitnessValue
+            this.minAction(clonedGame, currentDepth - 1, botType, heuristic)
+              .fitnessValue
           );
         } else {
           fitnessValue = Math.max(
             fitnessValue,
-            this.maxAction(clonedGame, currentDepth - 1, botType).fitnessValue
+            this.maxAction(clonedGame, currentDepth - 1, botType, heuristic)
+              .fitnessValue
           );
         }
 
@@ -75,13 +85,14 @@ export class Bot {
   private static minAction(
     game: Game,
     currentDepth: number,
-    botType: Player
+    botType: Player,
+    heuristic: Heuristics
   ): BotMoveValue {
     const newMove = new BotMoveValue(Number.MAX_SAFE_INTEGER, 1);
 
     if (game.gameIsOver || currentDepth === 0) {
       newMove.binNumber = -1;
-      newMove.fitnessValue = FitnessValue.calcFitness(game, botType);
+      newMove.fitnessValue = this.calcFitness(game, botType, heuristic);
       return newMove;
     }
     let fitnessValue = Number.MAX_SAFE_INTEGER;
@@ -107,12 +118,14 @@ export class Bot {
         if (!extraTurn) {
           fitnessValue = Math.min(
             fitnessValue,
-            this.maxAction(clonedGame, currentDepth - 1, botType).fitnessValue
+            this.maxAction(clonedGame, currentDepth - 1, botType, heuristic)
+              .fitnessValue
           );
         } else {
           fitnessValue = Math.min(
             fitnessValue,
-            this.minAction(clonedGame, currentDepth - 1, botType).fitnessValue
+            this.minAction(clonedGame, currentDepth - 1, botType, heuristic)
+              .fitnessValue
           );
         }
 
@@ -129,8 +142,9 @@ export class Bot {
   public static moveWithAlphaBeta(
     game: Game,
     botType: Player,
-    maxDepth = this.MAX_DEPTH
-  ): number {
+    maxDepth = this.MAX_DEPTH,
+    heuristic: Heuristics
+  ): [number, number] {
     const clonedGame = game.clone();
     const startTimeMs = new Date().getTime();
     const newMove: BotMoveValue = this.maxActionAlphaBeta(
@@ -138,12 +152,13 @@ export class Bot {
       maxDepth,
       botType,
       Number.MIN_SAFE_INTEGER,
-      Number.MAX_SAFE_INTEGER
+      Number.MAX_SAFE_INTEGER,
+      heuristic
     );
     const endTimeMs = new Date().getTime();
     const elapsedTime = endTimeMs - startTimeMs;
-    SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime},true`);
-    return newMove.binNumber;
+    // SharedUtils.logWithoutLineNumber(`${Player[botType]},${elapsedTime},true`);
+    return [newMove.binNumber, elapsedTime];
   }
 
   private static maxActionAlphaBeta(
@@ -151,13 +166,14 @@ export class Bot {
     currentDepth: number,
     botType: Player,
     alpha: number,
-    beta: number
+    beta: number,
+    heuristic: Heuristics
   ): BotMoveValue {
     const newMove = new BotMoveValue(Number.MIN_SAFE_INTEGER, 1);
 
     if (game.gameIsOver || currentDepth === 0) {
       newMove.binNumber = -1;
-      newMove.fitnessValue = FitnessValue.calcFitness(game, botType);
+      newMove.fitnessValue = this.calcFitness(game, botType, heuristic);
       return newMove;
     }
     let fitnessValue = Number.MIN_SAFE_INTEGER;
@@ -188,7 +204,8 @@ export class Bot {
               currentDepth - 1,
               botType,
               alpha,
-              beta
+              beta,
+              heuristic
             ).fitnessValue
           );
         } else {
@@ -199,7 +216,8 @@ export class Bot {
               currentDepth - 1,
               botType,
               alpha,
-              beta
+              beta,
+              heuristic
             ).fitnessValue
           );
         }
@@ -224,13 +242,14 @@ export class Bot {
     currentDepth: number,
     botType: Player,
     alpha: number,
-    beta: number
+    beta: number,
+    heuristic: Heuristics
   ): BotMoveValue {
     const newMove = new BotMoveValue(Number.MAX_SAFE_INTEGER, 1);
 
     if (game.gameIsOver || currentDepth === 0) {
       newMove.binNumber = -1;
-      newMove.fitnessValue = FitnessValue.calcFitness(game, botType);
+      newMove.fitnessValue = this.calcFitness(game, botType, heuristic);
       return newMove;
     }
     let fitnessValue = Number.MAX_SAFE_INTEGER;
@@ -261,7 +280,8 @@ export class Bot {
               currentDepth - 1,
               botType,
               alpha,
-              beta
+              beta,
+              heuristic
             ).fitnessValue
           );
         } else {
@@ -272,7 +292,8 @@ export class Bot {
               currentDepth - 1,
               botType,
               alpha,
-              beta
+              beta,
+              heuristic
             ).fitnessValue
           );
         }
@@ -291,17 +312,87 @@ export class Bot {
     }
     return newMove;
   }
+
+  public static calcFitness(
+    game: Game,
+    botType: Player,
+    heuristic: Heuristics
+  ): number {
+    switch (heuristic) {
+      case Heuristics.SIMPLE: {
+        return SimpleHeuristic.calcFitness(game, botType);
+      }
+      case Heuristics.RANDOM: {
+        return RandomHeuristic.calcFitness(game, botType);
+      }
+      case Heuristics.SIMPLE_EXTENDED: {
+        return ExtendendSimple.calcFitness(game, botType);
+      }
+    }
+  }
 }
 
 export class BotMoveValue {
   constructor(public fitnessValue: number, public binNumber: number) {}
 }
 
-export class FitnessValue {
+export class SimpleHeuristic {
   public static calcFitness(game: Game, botType: Player): number {
     if (botType === Player.A) {
       return game.stonesQtyInStoreA - game.stonesQtyInStoreB;
     }
     return game.stonesQtyInStoreB - game.stonesQtyInStoreA;
+  }
+}
+
+export class ExtendendSimple {
+  public static calcFitness(game: Game, botType: Player): number {
+    const stonesQtyInBinsA = ExtendendSimple.getStonesQtyInBinsA(game);
+    const stonesQtyInBinsB = ExtendendSimple.getStonesQtyInBinsB(game);
+
+    if (botType === Player.A) {
+      return (
+        game.stonesQtyInStoreA +
+        stonesQtyInBinsA -
+        (game.stonesQtyInStoreB + stonesQtyInBinsB)
+      );
+    }
+    return (
+      game.stonesQtyInStoreB +
+      stonesQtyInBinsB -
+      (game.stonesQtyInStoreA + stonesQtyInBinsA)
+    );
+  }
+
+  public static getStonesQtyInBinsA(game: Game): number {
+    let stonesInBin = 0;
+    for (
+      let i = game.fstBinNumberForPlayerA;
+      i <= game.lastBinNumberForPlayerA;
+      i++
+    ) {
+      stonesInBin += game.getStonesQty(i);
+    }
+    return stonesInBin;
+  }
+
+  public static getStonesQtyInBinsB(game: Game): number {
+    let stonesInBin = 0;
+    for (
+      let i = game.fstBinNumberForPlayerB;
+      i <= game.lastBinNumberForPlayerB;
+      i++
+    ) {
+      stonesInBin += game.getStonesQty(i);
+    }
+    return stonesInBin;
+  }
+}
+
+export class RandomHeuristic {
+  public static calcFitness(game: Game, botType: Player): number {
+    const allStonesQty = game.binsQtyInRow * 2 * 4;
+    const randomNumber = SharedUtils.getRandomInt(-allStonesQty, allStonesQty);
+    return randomNumber;
   }
 }

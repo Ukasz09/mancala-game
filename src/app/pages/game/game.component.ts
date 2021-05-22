@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { Bot } from 'src/app/game-logic/bot';
 import { Game } from 'src/app/game-logic/game';
+import { Heuristics } from 'src/app/game-logic/heuristics';
 import { SharedUtils } from 'src/app/shared/logic/utils';
 import { GameMode, GameResult, Player } from 'src/app/shared/models';
 import { BoardComponent } from './board/board.component';
@@ -128,7 +129,12 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   private makeMoveByBot(botPlayer: Player): void {
-    const chosenBinByBot = Bot.moveWithAlphaBeta(this.gameLogic, botPlayer);
+    const [chosenBinByBot, moveTime] = Bot.moveWithAlphaBeta(
+      this.gameLogic,
+      botPlayer,
+      4,
+      Heuristics.SIMPLE
+    );
     // const chosenBinByBot = Bot.move(this.gameLogic, botPlayer);
     const delayTime = this.stoneTransitionTimeSec * 1000;
     this.moveSubscription = timer(delayTime).subscribe(() => {

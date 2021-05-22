@@ -1,16 +1,22 @@
+import { LoggerService } from '../services/logger.service';
 import { SharedUtils } from '../shared/logic/utils';
 import { GameResult, Player } from '../shared/models';
 import { Bot } from './bot';
 import { Game } from './game';
+import { Heuristics } from './heuristics';
 
 export class ReportMaker {
   private game: Game;
 
-  constructor() {
+  constructor(private logger: LoggerService) {
     this.game = new Game();
   }
 
-  public makeReport(maxDepth: number, gameRepeatsQty: number) {
+  public makeReport(
+    maxDepth: number,
+    gameRepeatsQty: number,
+    heuristic: Heuristics
+  ) {
     for (let i = 0; i < gameRepeatsQty; i++) {
       SharedUtils.logWithoutLineNumber(
         `--------------- Started game (depth=${maxDepth}, repeatNo=${
@@ -18,9 +24,9 @@ export class ReportMaker {
         }/${gameRepeatsQty}) ---------------`
       );
       const startBinNumber = this.initGame();
-      this.playGame(startBinNumber, maxDepth, true);
+      this.playGame(startBinNumber, maxDepth, true, heuristic);
       this.initGame();
-      this.playGame(startBinNumber, maxDepth, false);
+      this.playGame(startBinNumber, maxDepth, false, heuristic);
     }
   }
 
@@ -40,39 +46,82 @@ export class ReportMaker {
   private playGame(
     binNumber: number,
     maxDepth: number,
-    withAlphaBetaPruning: boolean
+    withAlphaBetaPruning: boolean,
+    heuristic: Heuristics
   ) {
     const [gameResult, gameIsFinished] = this.game.makeMove(binNumber);
+    const algType = withAlphaBetaPruning ? 'alphaBeta' : 'minimax';
     if (gameIsFinished) {
-      this.logResultOnGameOver(gameResult, withAlphaBetaPruning);
+      this.logResultOnGameOver(
+        gameResult,
+        withAlphaBetaPruning,
+        maxDepth,
+        algType,
+        heuristic
+      );
     } else {
       if (withAlphaBetaPruning) {
-        const chosenBinByBot = Bot.moveWithAlphaBeta(
+        const [chosenBinByBot, moveTime] = Bot.moveWithAlphaBeta(
           this.game,
           this.game.actualPlayer,
-          maxDepth
+          maxDepth,
+          heuristic
         );
-        this.playGame(chosenBinByBot, maxDepth, withAlphaBetaPruning);
+        const algType = withAlphaBetaPruning ? 'alphaBeta' : 'minimax';
+        this.logger.logTimeMeasure(
+          moveTime,
+          maxDepth,
+          algType,
+          Heuristics[heuristic]
+        );
+        this.playGame(
+          chosenBinByBot,
+          maxDepth,
+          withAlphaBetaPruning,
+          heuristic
+        );
       } else {
-        const chosenBinByBot = Bot.move(
+        const [chosenBinByBot, moveTime] = Bot.move(
           this.game,
           this.game.actualPlayer,
-          maxDepth
+          maxDepth,
+          heuristic
         );
-        this.playGame(chosenBinByBot, maxDepth, withAlphaBetaPruning);
+        this.logger.logTimeMeasure(
+          moveTime,
+          maxDepth,
+          algType,
+          Heuristics[heuristic]
+        );
+        this.playGame(
+          chosenBinByBot,
+          maxDepth,
+          withAlphaBetaPruning,
+          heuristic
+        );
       }
     }
   }
 
-  private logResultOnGameOver(gameResult: GameResult, withPruning: boolean) {
+  private logResultOnGameOver(
+    gameResult: GameResult,
+    withPruning: boolean,
+    depth: number,
+    algType: string,
+    heuristic: Heuristics
+  ) {
     const winner = this.getWinner(gameResult);
     if (winner !== -1) {
       const movesQty = this.game.movesQty.get(winner);
-      SharedUtils.logWithoutLineNumber(
-        `WINNER,${movesQty},${withPruning}`
+      this.logger.logMovesMeasure(
+        movesQty,
+        depth,
+        algType,
+        Heuristics[heuristic]
       );
+      // SharedUtils.logWithoutLineNumber(`WINNER,${movesQty},${withPruning}`);
     } else {
-      SharedUtils.logWithoutLineNumber(`WINNER,${-1},${withPruning}`); // It's a tie
+      this.logger.logMovesMeasure(-1, depth, algType, Heuristics[heuristic]);
     }
   }
 
