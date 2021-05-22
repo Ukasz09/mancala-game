@@ -26,25 +26,38 @@ export class HomeComponent implements OnInit {
 
   public makeReport() {
     console.clear();
+
     this.reportMaker.makeReport(3, 5, Heuristics.SIMPLE);
     this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(4, 5, Heuristics.SIMPLE);
+    this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(5, 5, Heuristics.SIMPLE);
+    this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(6, 5, Heuristics.SIMPLE);
+    this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(7, 5, Heuristics.SIMPLE);
+    this.logger.requestLogMeasures();
 
-    // this.reportMaker.makeReport(4, 5, Heuristics.SIMPLE);
-    // this.reportMaker.makeReport(5, 5, Heuristics.SIMPLE);
-    // this.reportMaker.makeReport(6, 5, Heuristics.SIMPLE);
-    // this.reportMaker.makeReport(7, 5, Heuristics.SIMPLE);
     this.reportMaker.makeReport(3, 5, Heuristics.RANDOM);
     this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(4, 5, Heuristics.RANDOM);
+    this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(5, 5, Heuristics.RANDOM);
+    this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(6, 5, Heuristics.RANDOM);
+    this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(7, 5, Heuristics.RANDOM);
+    this.logger.requestLogMeasures();
 
-    // this.reportMaker.makeReport(4, 5, Heuristics.RANDOM);
-    // this.reportMaker.makeReport(5, 5, Heuristics.RANDOM);
-    // this.reportMaker.makeReport(6, 5, Heuristics.RANDOM);
-    // this.reportMaker.makeReport(7, 5, Heuristics.RANDOM);
     this.reportMaker.makeReport(3, 5, Heuristics.SIMPLE_EXTENDED);
     this.logger.requestLogMeasures();
-    // this.reportMaker.makeReport(4, 5, Heuristics.SIMPLE_EXTENDED);
-    // this.reportMaker.makeReport(5, 5, Heuristics.SIMPLE_EXTENDED);
-    // this.reportMaker.makeReport(6, 5, Heuristics.SIMPLE_EXTENDED);
-    // this.reportMaker.makeReport(7, 5, Heuristics.SIMPLE_EXTENDED);
+    this.reportMaker.makeReport(4, 5, Heuristics.SIMPLE_EXTENDED);
+    this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(5, 5, Heuristics.SIMPLE_EXTENDED);
+    this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(6, 5, Heuristics.SIMPLE_EXTENDED);
+    this.logger.requestLogMeasures();
+    this.reportMaker.makeReport(7, 5, Heuristics.SIMPLE_EXTENDED);
+    this.logger.requestLogMeasures();
   }
 }
