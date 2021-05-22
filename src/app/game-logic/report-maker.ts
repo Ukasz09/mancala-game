@@ -10,11 +10,7 @@ export class ReportMaker {
     this.game = new Game();
   }
 
-  public makeReport(
-    maxDepth: number,
-    gameRepeatsQty: number,
-    withAlphaBetaPruning: boolean
-  ) {
+  public makeReport(maxDepth: number, gameRepeatsQty: number) {
     for (let i = 0; i < gameRepeatsQty; i++) {
       SharedUtils.logWithoutLineNumber(
         `--------------- Started game (depth=${maxDepth}, repeatNo=${
@@ -22,7 +18,9 @@ export class ReportMaker {
         }/${gameRepeatsQty}) ---------------`
       );
       const startBinNumber = this.initGame();
-      this.playGame(startBinNumber, maxDepth, withAlphaBetaPruning);
+      this.playGame(startBinNumber, maxDepth, true);
+      this.initGame();
+      this.playGame(startBinNumber, maxDepth, false);
     }
   }
 
@@ -46,7 +44,7 @@ export class ReportMaker {
   ) {
     const [gameResult, gameIsFinished] = this.game.makeMove(binNumber);
     if (gameIsFinished) {
-      this.logResultOnGameOver(gameResult);
+      this.logResultOnGameOver(gameResult, withAlphaBetaPruning);
     } else {
       if (withAlphaBetaPruning) {
         const chosenBinByBot = Bot.moveWithAlphaBeta(
@@ -66,13 +64,15 @@ export class ReportMaker {
     }
   }
 
-  private logResultOnGameOver(gameResult: GameResult) {
+  private logResultOnGameOver(gameResult: GameResult, withPruning: boolean) {
     const winner = this.getWinner(gameResult);
-    if (winner != -1) {
+    if (winner !== -1) {
       const movesQty = this.game.movesQty.get(winner);
-      SharedUtils.logWithoutLineNumber(`WINNER,${movesQty}`);
+      SharedUtils.logWithoutLineNumber(
+        `WINNER,${movesQty},${withPruning}`
+      );
     } else {
-      SharedUtils.logWithoutLineNumber(`WINNER,${-1}`); // It's a tie
+      SharedUtils.logWithoutLineNumber(`WINNER,${-1},${withPruning}`); // It's a tie
     }
   }
 
