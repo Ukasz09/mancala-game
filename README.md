@@ -6,7 +6,7 @@ Just hit the button :sunglasses:
 
 <div align="center">
 
-[<img src="https://github.com/Ukasz09/mancala-game/master/readme/play_btn.png" width="250"/>](https://ukasz09.github.io/mancala-game)
+[<img src="https://raw.githubusercontent.com/Ukasz09/mancala-game/master/readme/play_btn.png" width="250"/>](https://ukasz09.github.io/mancala-game)
 
 </div>
 
