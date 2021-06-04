@@ -6,8 +6,10 @@ import { Injectable } from '@angular/core';
 })
 export class LoggerService {
   private readonly logApi = 'http://localhost:3000';
-  private timeMeasures = [];
-  private movesMeasures = [];
+  private timeMeasuresMinimax = [];
+  private timeMeasuresAlfabeta = [];
+  private movesMeasuresMinimax = [];
+  private movesMeasuresAlfabeta = [];
 
   constructor(private http: HttpClient) {}
 
@@ -23,13 +25,17 @@ export class LoggerService {
       algType,
       heuristic,
     };
-    this.timeMeasures.push(measure);
+    if (algType === 'minimax') {
+      this.timeMeasuresMinimax.push(measure);
+    } else {
+      this.timeMeasuresAlfabeta.push(measure);
+    }
   }
 
   public requestLogTimeMeasure(): void {
     const url = `${this.logApi}/log/all/timeMeasure`;
-    const measures = this.timeMeasures;
-    this.http.post<void>(url, measures).subscribe();
+    this.http.post<void>(url, this.timeMeasuresAlfabeta).subscribe();
+    this.http.post<void>(url, this.timeMeasuresMinimax).subscribe();
   }
 
   public logMovesMeasure(
@@ -44,13 +50,17 @@ export class LoggerService {
       algType,
       heuristic,
     };
-    this.movesMeasures.push(measure);
+    if (algType === 'minimax') {
+      this.movesMeasuresMinimax.push(measure);
+    } else {
+      this.movesMeasuresAlfabeta.push(measure);
+    }
   }
 
   public requestLogMovesMeasure(): void {
     const url = `${this.logApi}/log/all/movesMeasure`;
-    const measures = this.movesMeasures;
-    this.http.post<void>(url, measures).subscribe();
+    this.http.post<void>(url, this.movesMeasuresMinimax).subscribe();
+    this.http.post<void>(url, this.movesMeasuresAlfabeta).subscribe();
   }
 
   public requestLogMeasures(): void {
@@ -60,7 +70,9 @@ export class LoggerService {
   }
 
   public clearMeasures(): void {
-    this.movesMeasures = [];
-    this.timeMeasures = [];
+    this.movesMeasuresAlfabeta = [];
+    this.movesMeasuresMinimax = [];
+    this.timeMeasuresAlfabeta = [];
+    this.timeMeasuresMinimax = [];
   }
 }
